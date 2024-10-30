@@ -11,6 +11,7 @@
     - Each user has a list of blocked
     - Each friend (User object) can be added, blocked, or removed
     - Store Username and password in a hash map
+    - User database : username;pw;friends;blocked;pfp(link)
 - Requirements:
   - User profiles.
   - New user account creation.
