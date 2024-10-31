@@ -3,7 +3,6 @@ import java.util.ArrayList;
 public class MessageDatabase implements MessageInterface {
 
     public void sendMessage(User sender, User receiver, String content, String messageFile) {
-        Message message = new Message(sender, receiver, content);
         
         try (PrintWriter pw = new PrintWriter(messageFile)) {
             pw.println(sender.getUsername() + ";" + receiver.getUsername() + ";" + content);

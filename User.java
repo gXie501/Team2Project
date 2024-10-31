@@ -8,8 +8,8 @@ public class User {
     ArrayList <String> blocked = new ArrayList();
   
 
-    public User (String user, String password, String pfp, Boolean restrictMessages, ArrayList <String> friends, ArrayList <String> blocked){
-        this.user = user;
+    public User (String username, String password, String pfp, Boolean restrictMessages, ArrayList <String> friends, ArrayList <String> blocked){
+        this.username = username;
         this.password = password;
         this.pfp = pfp;
         this.restrictMessages=restrictMessages;
