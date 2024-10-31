@@ -31,6 +31,7 @@ public class RunLocalTest {
 
     public static class TestCase {
 
+        //Test case to make sure that MessageDatabase class is declared correctly
         @Test(timeout = 1000)
         public void MessageDatabaseDeclarationTest() {
             Class<?> clazz;
@@ -57,6 +58,7 @@ public class RunLocalTest {
         }
     }
 
+    //Test case to make sure UserDatabase class is declared correctly
     @Test(timeout = 1000)
     public void UserDatabaseDeclarationTest() {
         Class<?> clazz;
@@ -80,6 +82,7 @@ public class RunLocalTest {
                 1, superinterfaces.length);
     }
 
+    //Test case for the User class (Constructor and Methods(Getters and Setters))
     @Test
     public void testUserConstructorAndMethod() {
         //Tests the constructor exist
