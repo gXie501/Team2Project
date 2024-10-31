@@ -33,6 +33,8 @@ public class RunLocalTest {
     
 
     public static class TestCase {
-        
+        public void testUserDatabase() {
+            
+        }
     }
 }
