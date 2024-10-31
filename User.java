@@ -1,12 +1,14 @@
 import java.util.*;
 public class User {
     private String username;
+    private String pfp;
     private String password;
     private Boolean restrictMessages; //indicates whether or not the user will allow messages from users who aren't their friend
     ArrayList <String> friends = new ArrayList();
     ArrayList <String> blocked = new ArrayList();
-    private String pfp;
+  
 
+    public (String user, String password, String pfp, Boolean restrictMessages, ArrayList <String> friends, ArrayList <String> blocked)
     public void setUsername(String username) {
         this.username = username;
     }
@@ -43,6 +45,10 @@ public class User {
     public String getPfp() {
         return pfp;
     }
+
+
+
+}
 
 
 
