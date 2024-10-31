@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class MessageDatabase implements MessageInterface {
 
     public void sendMessage(User sender, User receiver, String content, String messageFile) {
-        
+        //if the content is an image, it will be stored as the image location (ex: "dog.txt")
         try (PrintWriter pw = new PrintWriter(messageFile)) {
             pw.println(sender.getUsername() + ";" + receiver.getUsername() + ";" + content);
         } catch (IOException e) {
