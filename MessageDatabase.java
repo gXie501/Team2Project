@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.ArrayList;
 public class MessageDatabase implements MessageInterface {
 
     public void sendMessage(User sender, User receiver, String content, String messageFile) {
@@ -45,9 +46,19 @@ public class MessageDatabase implements MessageInterface {
 
     }
 
-    public Message[] retreiveMessages(User user1, User user2) {
+    public ArrayList<Message> retreiveMessages(User user1, User user2, String messageFile) {
+        ArrayList<Message> messages = new ArrayList<>();
+        try (BufferedReader bfr = new BufferedReader(new FileReader(messageFile))) {
+
+            while (bfr.readLine() != null) {
+                
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         
-        
+        return messages;
 
     }
     
