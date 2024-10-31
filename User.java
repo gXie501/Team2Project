@@ -8,7 +8,16 @@ public class User {
     ArrayList <String> blocked = new ArrayList();
   
 
-    public (String user, String password, String pfp, Boolean restrictMessages, ArrayList <String> friends, ArrayList <String> blocked)
+    public void (String user, String password, String pfp, Boolean restrictMessages, ArrayList <String> friends, ArrayList <String> blocked){
+        this.user = user;
+        this.password = password;
+        this.pfp = pfp;
+        this.restrictMessages=restrictMessages;
+        this.friends=friends;
+        this.blocked=blocked;
+    }
+    
+        
     public void setUsername(String username) {
         this.username = username;
     }
@@ -45,10 +54,6 @@ public class User {
     public String getPfp() {
         return pfp;
     }
-
-
-
-}
 
 
 
