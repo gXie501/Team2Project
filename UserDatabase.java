@@ -4,7 +4,7 @@ import java.io.*;
 public class UserDatabase implements UserInterface {
 
    public void createUser(String username, String password, boolean restrictMessage) {
-      User user = new User(username, password);
+      User user = new User(username, password, restricMessage, new ArrayList<String>(), new ArrayList<String>());
       try (PrintWriter pw = new PrintWriter(new FileWriter("userFile.txt", true))) {
          pw.println(user.getUsername() + ";" + user.getPassword() + ";" + "" + ";" + "" + ";");
       } catch (IOException e) {
