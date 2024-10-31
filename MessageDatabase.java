@@ -49,10 +49,10 @@ public class MessageDatabase implements MessageInterface {
         ArrayList<String> messages = new ArrayList<>();
         String userOneUsername = user1.getUsername();
         String userTwoUsername = user2.getUsername();
-
+        
         try (BufferedReader bfr = new BufferedReader(new FileReader(messageFile))) {
-            
-            while (bfr.readLine() != null) {
+            String line = bfr.readLine();
+            while (line != null) {
                 String currentMessage = bfr.readLine();
                 String firstUser = currentMessage.substring(0, currentMessage.indexOf(";"));
                 String newMessage = currentMessage.substring(currentMessage.indexOf(";") + 1);
@@ -61,6 +61,8 @@ public class MessageDatabase implements MessageInterface {
                 if ((firstUser.equals(userOneUsername) || firstUser.equals(userTwoUsername)) && (secondUser.equals(userOneUsername) || secondUser.equals(userTwoUsername))) {
                     messages.add(currentMessage);
                 }
+
+                line = bfr.readLine();
                 
                 
             }
