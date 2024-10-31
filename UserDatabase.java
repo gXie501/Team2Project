@@ -3,10 +3,10 @@ import java.io.*;
 
 public class UserDatabase implements UserInterface {
 
-   public void createUser(String username, String password, boolean restrictMessage) {
-      User user = new User(username, password, restricMessage, new ArrayList<String>(), new ArrayList<String>());
+   public void createUser(String username, String password, String pfp, boolean restrictMessage) {
+      User u = new User(username, password, pfp, restrictMessage, new ArrayList<String>(), new ArrayList<String>());
       try (PrintWriter pw = new PrintWriter(new FileWriter("userFile.txt", true))) {
-         pw.println(user.getUsername() + ";" + user.getPassword() + ";" + "" + ";" + "" + ";");
+         pw.println(u.getUsername() + ";" + u.getPassword() + ";" + "" + ";" + "" + ";");
       } catch (IOException e) {
          e.printStackTrace();
       }
@@ -33,7 +33,7 @@ public class UserDatabase implements UserInterface {
    }
 
 
-public boolean blockUser(User user, String blockUser) {
+public boolean blockUser(User user, User blockUser) {
     if (searchUser(user.getUsername())) { 
         try {
             List<String> lines = new ArrayList<>();
@@ -48,7 +48,10 @@ public boolean blockUser(User user, String blockUser) {
                 String[] parts = lines.get(i).split(";");
                 if (parts[0].equals(user.getUsername())) {
                     String blocked = parts[3];
-                    blocked += blockUser + ",";
+                    blocked += blockUser.getUsername() + ",";
+                    ArrayList<String> block = user.getBlocked();
+                    block.add(blockUser.getUsername());
+                    user.setBlocked(block);
                     lines.set(i, parts[0] + ";" + parts[1] + ";" + parts[2] + ";" + blocked + ";" + parts[4]);
                     break;
                 }
@@ -70,7 +73,7 @@ public boolean blockUser(User user, String blockUser) {
 
 
 
-   public boolean friendUser(User user, String friendUser) {
+   public boolean friendUser(User user, User friendUser) {
     if (searchUser(user.getUsername())) { 
         try {
             List<String> lines = new ArrayList<>();
@@ -85,7 +88,10 @@ public boolean blockUser(User user, String blockUser) {
                 String[] parts = lines.get(i).split(";");
                 if (parts[0].equals(user.getUsername())) {
                     String friend = parts[2];
-                    friend += friendUser + ",";
+                    friend += friendUser.getUsername() + ",";
+                    ArrayList<String> f = user.getFriends();
+                    f.add(friendUser.getUsername());
+                    user.setFriends(f);
                     lines.set(i, parts[0] + ";" + parts[1] + ";" + friend + ";" + parts[3] + ";" + parts[4]);
                     break;
                 }
