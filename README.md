@@ -1,17 +1,4 @@
 # Team2Project
-- Direct messaging
-- Modeled after Facebook/Instagram
-- Database for all users (search)
-- 2 users share one message file
-- Classes:
-  - User interface
-  - GUI
-  - User
-    - Each user has a list of friends
-    - Each user has a list of blocked
-    - Each friend (User object) can be added, blocked, or removed
-    - Store Username and password in a hash map
-    - User database : username;pw;friends;blocked;pfp(link)
 - Requirements:
   - User profiles.
   - New user account creation.
@@ -27,4 +14,40 @@
   - Extra credit opportunity – Add photo messaging.
 
   Things to discuss next meeting/things to add:
+  1. User class
+    Variables:
+      - String username
+      - String password
+      - ArrayList friends
+      - ArrayList blocked
+      - (?) profilePicture
+      - boolean restrictMessages
+        - indicates whether or not the user will allow messages from users who aren't their friend
+    Methods:
+      - getters and setters
+  2. User database
+    methods (return types?):
+      - public void createUser(username, pw, restrictMessage)
+      - public boolean login(username, pw)
+      - public boolean blockUser(User user, User blockUser)
+      - public boolean friendUser(User user, User friendUser)
+      - public boolean searchUser(Strnig userName)
+  
+  3. Message class
+    Variables:
+      - User sender
+      - User receiver
+      - String messageContents
+    Methods:
+      - getters and setters
+  4. Message database
+    Methods (return types?):
+      - public void sendMessage(User sender, User receiver, String content)
+      - public void deleteMessage(User sender, User receiver, String content)
+      - public message retreiveMessages(User sender, User receiver) (?)
+
+
+  Userfile format: username;password;friends;blocked;profilePicture
+  messageFile format: sender;receiver; message
+
 
