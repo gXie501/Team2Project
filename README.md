@@ -27,11 +27,11 @@
       - getters and setters
   2. User database
     methods (return types?):
-      - createUser(username, pw, restrictMessage)
-      - login(username, pw)
-      - blockUser(User user, User blockUser)
-      - friendUser(User user, User blockUser)
-      - public boolean searchUser(User user)
+      - public void createUser(username, pw, restrictMessage)
+      - public boolean login(username, pw)
+      - public boolean blockUser(User user, User blockUser)
+      - public boolean friendUser(User user, User friendUser)
+      - public boolean searchUser(Strnig userName)
   
   3. Message class
     Variables:
@@ -42,9 +42,9 @@
       - getters and setters
   4. Message database
     Methods (return types?):
-      - sendMessage(User sender, User receiver, String content)
-      - deleteMessage(User sender, User receiver, String content)
-      - retreiveMessages(User sender, User receiver)
+      - public void sendMessage(User sender, User receiver, String content)
+      - public void deleteMessage(User sender, User receiver, String content)
+      - public message retreiveMessages(User sender, User receiver) (?)
 
 
   Userfile format: username;password;friends;blocked;profilePicture
