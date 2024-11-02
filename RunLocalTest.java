@@ -120,7 +120,7 @@ public class RunLocalTest {
             Assert.assertEquals("Ensure that `User` implements 1 interfaces!",
                     1, superinterfaces.length);
 
-            // Checks that the User class implements the ___ Interface ---- To be
+            // Checks that the User class implements the UserObjectInterface
             User check = new User("temp", "temp", "temp", false, null, null);
             Assert.assertTrue("The User class does not implement the UserObjectInterface", check instanceof UserObjectInterface);
         }
@@ -193,11 +193,11 @@ public class RunLocalTest {
             User receiver = new User("Receiver", "receiverPassword", "dog.png", false, null, null);
             MessageDatabase tester = new MessageDatabase();
 
-            tester.sendMessage(sender, receiver, "Good Morning", "tempFile.txt");
+            tester.sendMessage(sender, receiver, "Good Morning", "someFile.txt");
             String written = "SendTester;Receiver;Good Morning";
             boolean found = false;
             try {
-                BufferedReader br = new BufferedReader(new FileReader("tempFile.txt"));
+                BufferedReader br = new BufferedReader(new FileReader("someFile.txt"));
                 String line = br.readLine();
                 while (line != null) {
                     if (line.equals(written)) {
@@ -215,17 +215,17 @@ public class RunLocalTest {
             }
 
             //Populate the File
-            tester.sendMessage(sender, receiver, "Good Morning1", "tempFile.txt");
-            tester.sendMessage(sender, receiver, "Good Morning2", "tempFile.txt");
-            tester.sendMessage(sender, receiver, "Good Morning3", "tempFile.txt");
-            tester.sendMessage(sender, receiver, "Good Morning4", "tempFile.txt");
-            tester.sendMessage(sender, receiver, "Good Morning5", "tempFile.txt");
+            tester.sendMessage(sender, receiver, "Good Morning1", "someFile.txt");
+            tester.sendMessage(sender, receiver, "Good Morning2", "someFile.txt");
+            tester.sendMessage(sender, receiver, "Good Morning3", "someFile.txt");
+            tester.sendMessage(sender, receiver, "Good Morning4", "someFile.txt");
+            tester.sendMessage(sender, receiver, "Good Morning5", "someFile.txt");
 
             // Test the delete message method
-            tester.deleteMessage(sender, receiver, "Good Morning", "tempFile.txt");
+            tester.deleteMessage(sender, receiver, "Good Morning", "someFile.txt");
             found = false;
             try {
-                BufferedReader br = new BufferedReader(new FileReader("tempFile.txt"));
+                BufferedReader br = new BufferedReader(new FileReader("someFile.txt"));
                 String line = br.readLine();
                 while (line != null) {
                     if (line.equals(written)) {
