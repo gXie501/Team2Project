@@ -1,5 +1,5 @@
 import java.util.*;
-public class User {
+public class User implements UserObjectInterface{
     private String username; //username of the users account
     private String pfp; //profile picture of the users account
     private String password; //password of the users account

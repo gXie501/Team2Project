@@ -94,7 +94,7 @@ public class RunLocalTest {
 
             // Checks that the UserDatabase implements the UserInterface
             UserDatabase check = new UserDatabase();
-            Assert.assertTrue(check instanceof UserInterface);
+            Assert.assertTrue("The UserDatabase class does not implement the UserInterface", check instanceof UserInterface);
         }
 
         // Test Case to make sure that User class is declared correctly
@@ -121,7 +121,8 @@ public class RunLocalTest {
                     1, superinterfaces.length);
 
             // Checks that the User class implements the ___ Interface ---- To be
-            // implemented
+            User check = new User("temp", "temp", "temp", false, null, null);
+            Assert.assertTrue("The User class does not implement the UserObjectInterface", check instanceof UserObjectInterface);
         }
 
         // Test case for the User class (Constructor and Methods(Getters and Setters))
