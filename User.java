@@ -1,11 +1,11 @@
 import java.util.*;
-public class User {
-    private String username;
-    private String pfp;
-    private String password;
+public class User implements UserObjectInterface{
+    private String username; //username of the users account
+    private String pfp; //profile picture of the users account
+    private String password; //password of the users account
     private Boolean restrictMessages; //indicates whether or not the user will allow messages from users who aren't their friend
-    ArrayList <String> friends = new ArrayList<>();
-    ArrayList <String> blocked = new ArrayList<>();
+    ArrayList <String> friends = new ArrayList<>(); //a list of mutual acoounts to this users account
+    ArrayList <String> blocked = new ArrayList<>(); //a list of blocked acoounts to this users account
   
 
     public User (String username, String password, String pfp, Boolean restrictMessages, ArrayList <String> friends, ArrayList <String> blocked){
