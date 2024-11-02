@@ -236,10 +236,8 @@ public class RunLocalTest {
             // Create the actual outcome ArrayList
             ArrayList<String> actualOutcome = md.retreiveMessages(user1, user2, "someFile.txt");
             // Compare
-            Assert.assertTrue("The message retreived does not match the expected message",
+            Assert.assertTrue("The message retreived does not match the expected message: Expected: " + expectedOutcome.toString() + " Actual: " + actualOutcome.toString(),
                     expectedOutcome.equals(actualOutcome));
-            Assert.assertTrue("Expected: " + expectedOutcome.toString(), false);
-            Assert.assertTrue("Actual: " + actualOutcome.toString(), false);
         }
 
         // Test case to make sure UserDatabase class is declared correctly
