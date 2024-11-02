@@ -4,8 +4,8 @@ public class User {
     private String pfp;
     private String password;
     private Boolean restrictMessages; //indicates whether or not the user will allow messages from users who aren't their friend
-    ArrayList <String> friends = new ArrayList();
-    ArrayList <String> blocked = new ArrayList();
+    ArrayList <String> friends = new ArrayList<>();
+    ArrayList <String> blocked = new ArrayList<>();
   
 
     public User (String username, String password, String pfp, Boolean restrictMessages, ArrayList <String> friends, ArrayList <String> blocked){
@@ -37,24 +37,21 @@ public class User {
         this.pfp = pfp;
     }
     public String getUsername() {
-        return username;
+        return this.username;
     }
     public String getPassword() {
-        return password;
+        return this.password;
     }
-    public Boolean getRestrictMessages() {
-        return restrictMessages;
+    public boolean getRestrictMessages() {
+        return this.restrictMessages;
     }
     public ArrayList<String> getFriends() {
-        return friends;
+        return this.friends;
     }
     public ArrayList<String> getBlocked() {
-        return blocked;
+        return this.blocked;
     }
     public String getPfp() {
-        return pfp;
+        return this.pfp;
     }
-
-
-
 }
