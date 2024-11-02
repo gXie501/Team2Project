@@ -24,7 +24,7 @@ import static org.junit.Assert.*;
  * 
  * @author Gengjie Xie, Lab 19
  * 
- * @version Nov. __, 2024
+ * @version Nov. 3, 2024
  * 
  */
 public class RunLocalTest {
@@ -41,65 +41,9 @@ public class RunLocalTest {
 
     public static class TestCase {
 
-        // Test case to make sure that MessageDatabase class is declared correctly
-        @Test(timeout = 1000)
-        public void MessageDatabaseDeclarationTest() {
-            Class<?> clazz;
-            int modifiers;
-            Class<?> superclass;
-            Class<?>[] superinterfaces;
-
-            clazz = MessageDatabase.class;
-
-            modifiers = clazz.getModifiers();
-
-            superclass = clazz.getSuperclass();
-
-            superinterfaces = clazz.getInterfaces();
-
-            Assert.assertTrue("Ensure that `MessageDatabase` is `public`!",
-                    Modifier.isPublic(modifiers));
-            Assert.assertFalse("Ensure that `MessageDatabase` is NOT `abstract`!",
-                    Modifier.isAbstract(modifiers));
-            Assert.assertEquals("Ensure that `MessageDatabase` implements 1 interfaces!",
-                    1, superinterfaces.length);
-
-            // Checks that the MessageDatabase implements the Message Interface
-            MessageDatabase check = new MessageDatabase();
-            Assert.assertTrue(check instanceof MessageInterface);
-        }
-
-        // Test case to make sure UserDatabase class is declared correctly
-        @Test(timeout = 1000)
-        public void UserDatabaseDeclarationTest() {
-            Class<?> clazz;
-            int modifiers;
-            Class<?> superclass;
-            Class<?>[] superinterfaces;
-
-            clazz = UserDatabase.class;
-
-            modifiers = clazz.getModifiers();
-
-            superclass = clazz.getSuperclass();
-
-            superinterfaces = clazz.getInterfaces();
-
-            Assert.assertTrue("Ensure that `UserDatabase` is `public`!",
-                    Modifier.isPublic(modifiers));
-            Assert.assertFalse("Ensure that `UserDatabase` is NOT `abstract`!",
-                    Modifier.isAbstract(modifiers));
-            Assert.assertEquals("Ensure that `UserDatabase` implements 1 interfaces!",
-                    1, superinterfaces.length);
-
-            // Checks that the UserDatabase implements the UserInterface
-            UserDatabase check = new UserDatabase();
-            Assert.assertTrue("The UserDatabase class does not implement the UserInterface", check instanceof UserInterface);
-        }
-
         // Test Case to make sure that User class is declared correctly
         @Test(timeout = 1000)
-        public void UserDeclarationTest() {
+        public void runUserDeclarationTest() {
             Class<?> clazz;
             int modifiers;
             Class<?> superclass;
@@ -122,12 +66,13 @@ public class RunLocalTest {
 
             // Checks that the User class implements the UserObjectInterface
             User check = new User("temp", "temp", "temp", false, null, null);
-            Assert.assertTrue("The User class does not implement the UserObjectInterface", check instanceof UserObjectInterface);
+            Assert.assertTrue("The User class does not implement the UserObjectInterface",
+                    check instanceof UserObjectInterface);
         }
 
         // Test case for the User class (Constructor and Methods(Getters and Setters))
         @Test
-        public void testUserConstructorAndMethod() {
+        public void runUserConstructorAndMethodTest() {
             // Tests the constructor exist
             try {
                 Class<?> clazz = User.class;
@@ -177,9 +122,37 @@ public class RunLocalTest {
             Assert.assertEquals("Ensure setUsername changes the correct attribute", "ChangedPFP", user.getPfp());
         }
 
+        // Test case to make sure that MessageDatabase class is declared correctly
+        @Test(timeout = 1000)
+        public void runMessageDatabaseDeclarationTest() {
+            Class<?> clazz;
+            int modifiers;
+            Class<?> superclass;
+            Class<?>[] superinterfaces;
+
+            clazz = MessageDatabase.class;
+
+            modifiers = clazz.getModifiers();
+
+            superclass = clazz.getSuperclass();
+
+            superinterfaces = clazz.getInterfaces();
+
+            Assert.assertTrue("Ensure that `MessageDatabase` is `public`!",
+                    Modifier.isPublic(modifiers));
+            Assert.assertFalse("Ensure that `MessageDatabase` is NOT `abstract`!",
+                    Modifier.isAbstract(modifiers));
+            Assert.assertEquals("Ensure that `MessageDatabase` implements 1 interfaces!",
+                    1, superinterfaces.length);
+
+            // Checks that the MessageDatabase implements the Message Interface
+            MessageDatabase check = new MessageDatabase();
+            Assert.assertTrue(check instanceof MessageInterface);
+        }
+
         // Test cases for the Message class (Constructor and Methods)
         @Test
-        public void MessageDatabaseTest() {
+        public void runMessageDatabaseTest() {
             // Tests that there is a constructor
             try {
                 Class<?> clazz = MessageDatabase.class;
@@ -214,7 +187,7 @@ public class RunLocalTest {
                 Assert.assertTrue("An exception was encountered when reading the file.", false);
             }
 
-            //Populate the File
+            // Populate the File
             tester.sendMessage(sender, receiver, "Good Morning1", "someFile.txt");
             tester.sendMessage(sender, receiver, "Good Morning2", "someFile.txt");
             tester.sendMessage(sender, receiver, "Good Morning3", "someFile.txt");
@@ -243,29 +216,99 @@ public class RunLocalTest {
                 Assert.assertTrue("An exception was encountered when reading the file.", false);
             }
 
-            //Test for the retreive message method
+            // Test for the retreive message method
             User user1 = new User("user1", "user1Password", "user1.png", false, null, null);
             User user2 = new User("user2", "user2Password", "user2.png", false, null, null);
             MessageDatabase md = new MessageDatabase();
-            //Send some message
+            // Send some message
             md.sendMessage(user1, user2, "Hello", "someFile.txt");
             md.sendMessage(user2, user1, "Hello", "someFile.txt");
             md.sendMessage(user1, user2, "How are you doing?", "someFile.txt");
             md.sendMessage(user2, user1, "I'm doing well, how about you?", "someFile.txt");
             md.sendMessage(user1, user2, "I'm doing well, I'll talk to you later", "someFile.txt");
-            //Populate the expectedOutcome ArrayList
+            // Populate the expectedOutcome ArrayList
             ArrayList<String> expectedOutcome = new ArrayList<String>();
             expectedOutcome.add("user1;user2;Hello");
             expectedOutcome.add("user2;user1;Hello");
             expectedOutcome.add("user1;user2;How are you doing?");
             expectedOutcome.add("user2;user1;I'm doing well, how about you?");
             expectedOutcome.add("user1;user2;I'm doing well, I'll talk to you later");
-            //Create the actual outcome ArrayList
+            // Create the actual outcome ArrayList
             ArrayList<String> actualOutcome = md.retreiveMessages(user1, user2, "someFile.txt");
-            //Compare
-            Assert.assertTrue("The message retreived does not match the expected message", expectedOutcome.equals(actualOutcome));
+            // Compare
+            Assert.assertTrue("The message retreived does not match the expected message",
+                    expectedOutcome.equals(actualOutcome));
             Assert.assertTrue("Expected: " + expectedOutcome.toString(), false);
             Assert.assertTrue("Actual: " + actualOutcome.toString(), false);
+        }
+
+        // Test case to make sure UserDatabase class is declared correctly
+        @Test(timeout = 1000)
+        public void runUserDatabaseDeclarationTest() {
+            Class<?> clazz;
+            int modifiers;
+            Class<?> superclass;
+            Class<?>[] superinterfaces;
+
+            clazz = UserDatabase.class;
+
+            modifiers = clazz.getModifiers();
+
+            superclass = clazz.getSuperclass();
+
+            superinterfaces = clazz.getInterfaces();
+
+            Assert.assertTrue("Ensure that `UserDatabase` is `public`!",
+                    Modifier.isPublic(modifiers));
+            Assert.assertFalse("Ensure that `UserDatabase` is NOT `abstract`!",
+                    Modifier.isAbstract(modifiers));
+            Assert.assertEquals("Ensure that `UserDatabase` implements 1 interfaces!",
+                    1, superinterfaces.length);
+
+            // Checks that the UserDatabase implements the UserInterface
+            UserDatabase check = new UserDatabase();
+            Assert.assertTrue("The UserDatabase class does not implement the UserInterface",
+                    check instanceof UserInterface);
+        }
+
+        @Test
+        public void runUserDatabaseTest() {
+
+            //Create UserDatabase and call it to create an user
+            UserDatabase ud = new UserDatabase();
+            ud.createUser("userDatabase", "12345", "database.png", false);
+
+            //Read the file to check if the user is created successfully
+            try {
+                BufferedReader br = new BufferedReader(new FileReader("userFile.txt"));
+                String line = br.readLine();
+                boolean created = false;
+                while (line != null) {
+                    if (line.substring(0,line.indexOf(";")).equals("userDatabase")) {
+                        created = true;
+                        break;
+                    }
+                    line = br.readLine();
+                }
+                br.close();
+
+                Assert.assertTrue("The User was not successfully created.", created);
+            } catch (IOException e) {
+                Assert.assertTrue("An Exception was encountered when reading the file.", false);
+            }
+
+            //Checks the login method
+            Assert.assertTrue("User Failed to Login", ud.login("userDatabase", "12345"));
+
+            //Checks the block user method
+            Assert.assertTrue("Database and User class need to match calls for block and friend user", false);
+
+            //Checks the friend user method
+
+            //Checks the search User method
+            ud.createUser("search", "666666", "search.png", false);
+            Assert.assertTrue("User was not found, when it existed", ud.searchUser("search"));
+            Assert.assertFalse("User was found when it did not existed", ud.searchUser("doesNotExist"));
         }
     }
 }
