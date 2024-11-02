@@ -42,7 +42,7 @@ public class User implements UserObjectInterface{
     public String getPassword() {
         return this.password;
     }
-    public boolean getRestrictMessages() {
+    public Boolean getRestrictMessages() {
         return this.restrictMessages;
     }
     public ArrayList<String> getFriends() {
