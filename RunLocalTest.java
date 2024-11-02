@@ -224,6 +224,7 @@ public class RunLocalTest {
             // Test the delete message method
             tester.deleteMessage(sender, receiver, "Good Morning5", "someFile.txt");
             found = false;
+            written = "Good Morning5";
             try {
                 BufferedReader br = new BufferedReader(new FileReader("someFile.txt"));
                 String line = br.readLine();
@@ -241,6 +242,30 @@ public class RunLocalTest {
             } catch (IOException e) {
                 Assert.assertTrue("An exception was encountered when reading the file.", false);
             }
+
+            //Test for the retreive message method
+            User user1 = new User("user1", "user1Password", "user1.png", false, null, null);
+            User user2 = new User("user2", "user2Password", "user2.png", false, null, null);
+            MessageDatabase md = new MessageDatabase();
+            //Send some message
+            md.sendMessage(user1, user2, "Hello", "someFile.txt");
+            md.sendMessage(user2, user1, "Hello", "someFile.txt");
+            md.sendMessage(user1, user2, "How are you doing?", "someFile.txt");
+            md.sendMessage(user2, user1, "I'm doing well, how about you?", "someFile.txt");
+            md.sendMessage(user1, user2, "I'm doing well, I'll talk to you later", "someFile.txt");
+            //Populate the expectedOutcome ArrayList
+            ArrayList<String> expectedOutcome = new ArrayList<String>();
+            expectedOutcome.add("user1;user2;Hello");
+            expectedOutcome.add("user2;user1;Hello");
+            expectedOutcome.add("user1;user2;How are you doing?");
+            expectedOutcome.add("user2;user1;I'm doing well, how about you?");
+            expectedOutcome.add("user1;user2;I'm doing well, I'll talk to you later");
+            //Create the actual outcome ArrayList
+            ArrayList<String> actualOutcome = md.retreiveMessages(user1, user2, "someFile.txt");
+            //Compare
+            Assert.assertTrue("The message retreived does not match the expected message", expectedOutcome.equals(actualOutcome));
+            Assert.assertTrue("Expected: " + expectedOutcome.toString(), false);
+            Assert.assertTrue("Actual: " + actualOutcome.toString(), false);
         }
     }
 }
