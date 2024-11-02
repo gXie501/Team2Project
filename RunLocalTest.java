@@ -222,7 +222,7 @@ public class RunLocalTest {
             tester.sendMessage(sender, receiver, "Good Morning5", "someFile.txt");
 
             // Test the delete message method
-            tester.deleteMessage(sender, receiver, "Good Morning", "someFile.txt");
+            tester.deleteMessage(sender, receiver, "Good Morning5", "someFile.txt");
             found = false;
             try {
                 BufferedReader br = new BufferedReader(new FileReader("someFile.txt"));
