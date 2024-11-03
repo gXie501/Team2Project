@@ -72,27 +72,29 @@ public class MessageDatabase implements MessageInterface {
     public ArrayList<String> retrieveMessages(String userOneUsername, String userTwoUsername, String messageFile) {
         ArrayList<String> messages = new ArrayList<>();
 
+    
         try (BufferedReader bfr = new BufferedReader(new FileReader(messageFile))) {
             String line = bfr.readLine();
             while (line != null) {
-                String firstUser = line.substring(0, line.indexOf(";"));
-                String newMessage = line.substring(line.indexOf(";") + 1);
-                String secondUser = newMessage.substring(0, newMessage.indexOf(";"));
+                String[] messageParts = line.split(";", 3); // Split line into at most 3 parts
+                // Ensure the line has the correct format
+                if (messageParts.length == 3) {
+                    String firstUser = messageParts[0];
+                    String secondUser = messageParts[1];
+                    
+                    if ((firstUser.equals(userOneUsername) || firstUser.equals(userTwoUsername)) && 
+                        (secondUser.equals(userOneUsername) || secondUser.equals(userTwoUsername))) {
+                        messages.add(line);
+                    }
 
-                if ((firstUser.equals(userOneUsername) || firstUser.equals(userTwoUsername))
-                        && (secondUser.equals(userOneUsername) || secondUser.equals(userTwoUsername))) {
-                    messages.add(line);
                 }
-
                 line = bfr.readLine();
 
             }
-            
         } catch (IOException e) {
             e.printStackTrace();
         }
         return messages;
-
     }
 
 }
