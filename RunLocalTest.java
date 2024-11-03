@@ -1,21 +1,15 @@
 import org.junit.Test;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.rules.Timeout;
+
 
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 
-import javax.swing.*;
-import java.io.*;
+
 import java.lang.reflect.*;
 import java.util.ArrayList;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.UUID;
 
-import static org.junit.Assert.*;
 
 /**
  * Team Project -- Run Local Test for Social Media App
@@ -142,12 +136,14 @@ public class RunLocalTest {
                     Modifier.isPublic(modifiers));
             Assert.assertFalse("Ensure that `MessageDatabase` is NOT `abstract`!",
                     Modifier.isAbstract(modifiers));
-            Assert.assertEquals("Ensure that `MessageDatabase` implements 1 interfaces!",
-                    1, superinterfaces.length);
 
-            // Checks that the MessageDatabase implements the Message Interface
-            MessageDatabase check = new MessageDatabase();
-            Assert.assertTrue(check instanceof MessageInterface);
+            Assert.assertEquals("Ensure that `MessageDatabase` does not extend any class!",
+                    Object.class, superclass); // before we were checking if exception extended messageDatabase 
+            Assert.assertEquals("Ensure that `MessageDatabase` implements 1 interfaces!",
+                    1, superinterfaces.length); 
+            Assert.assertEquals("Ensure that `MessageDatabase` implements `MessageInterface`!",
+                    MessageInterface.class, superinterfaces[0]); // makes sure messageDatabase implements messageInterface
+
         }
 
         // Test cases for the Message class (Constructor and Methods)
