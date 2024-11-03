@@ -14,11 +14,11 @@ java RunLocalTest.java
 ```
 ## Authors
 
-Anika Thapar
-Gengjie Xie
-Neha Pudota 
-Mithun Mahesh
-Leia Lynette Maduakolam
+- Anika Thapar
+- Gengjie Xie
+- Neha Pudota 
+- Mithun Mahesh
+- Leia Lynette Maduakolam
 
 
 ## Version History
