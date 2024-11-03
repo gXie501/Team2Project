@@ -47,26 +47,23 @@ public class MessageDatabase implements MessageInterface {
 
     }
 
-    public ArrayList<String> retreiveMessages(User user1, User user2, String messageFile) {
+    public ArrayList<String> retrieveMessages(String userOneUsername, String userTwoUsername, String messageFile) {
         ArrayList<String> messages = new ArrayList<>();
-        String userOneUsername = user1.getUsername();
-        String userTwoUsername = user2.getUsername();
-
+       
         try (BufferedReader bfr = new BufferedReader(new FileReader(messageFile))) {
             String line = bfr.readLine();
             while (line != null) {
-                String currentMessage = bfr.readLine();
-                String firstUser = currentMessage.substring(0, currentMessage.indexOf(";"));
-                String newMessage = currentMessage.substring(currentMessage.indexOf(";") + 1);
+                String firstUser = line.substring(0, line.indexOf(";"));
+                String newMessage = line.substring(line.indexOf(";") + 1);
                 String secondUser = newMessage.substring(0, newMessage.indexOf(";"));
 
-                if ((firstUser.equals(userOneUsername) || firstUser.equals(userTwoUsername))
-                        && (secondUser.equals(userOneUsername) || secondUser.equals(userTwoUsername))) {
-                    messages.add(currentMessage);
+                if ((firstUser.equals(userOneUsername) || firstUser.equals(userTwoUsername)) && (secondUser.equals(userOneUsername) || secondUser.equals(userTwoUsername))) {
+                    messages.add(line);
                 }
 
                 line = bfr.readLine();
-
+               
+               
             }
         } catch (IOException e) {
             e.printStackTrace();

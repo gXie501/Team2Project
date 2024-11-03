@@ -1,21 +1,14 @@
 import org.junit.Test;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.rules.Timeout;
+import java.io.*;
 
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 
-import javax.swing.*;
-import java.io.*;
 import java.lang.reflect.*;
 import java.util.ArrayList;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.UUID;
-
-import static org.junit.Assert.*;
+import java.io.*;
 
 /**
  * Team Project -- Run Local Test for Social Media App
@@ -142,12 +135,15 @@ public class RunLocalTest {
                     Modifier.isPublic(modifiers));
             Assert.assertFalse("Ensure that `MessageDatabase` is NOT `abstract`!",
                     Modifier.isAbstract(modifiers));
+
+            Assert.assertEquals("Ensure that `MessageDatabase` does not extend any class!",
+                    Object.class, superclass); // before we were checking if exception extended messageDatabase
             Assert.assertEquals("Ensure that `MessageDatabase` implements 1 interfaces!",
                     1, superinterfaces.length);
+            Assert.assertEquals("Ensure that `MessageDatabase` implements `MessageInterface`!",
+                    MessageInterface.class, superinterfaces[0]); // makes sure messageDatabase implements
+                                                                 // messageInterface
 
-            // Checks that the MessageDatabase implements the Message Interface
-            MessageDatabase check = new MessageDatabase();
-            Assert.assertTrue(check instanceof MessageInterface);
         }
 
         // Test cases for the Message class (Constructor and Methods)
@@ -185,7 +181,7 @@ public class RunLocalTest {
                 }
             } catch (IOException e) {
                 Assert.assertTrue("An exception was encountered when reading the file.", false);
-            }
+            } 
 
             // Populate the File
             tester.sendMessage(sender, receiver, "Good Morning1", "someFile.txt");
@@ -234,12 +230,12 @@ public class RunLocalTest {
             expectedOutcome.add("user2;user1;I'm doing well, how about you?");
             expectedOutcome.add("user1;user2;I'm doing well, I'll talk to you later");
             // Create the actual outcome ArrayList
-            ArrayList<String> actualOutcome = md.retreiveMessages(user1, user2, "someFile.txt");
+            ArrayList<String> actualOutcome = md.retrieveMessages("user1", "user2", "someFile.txt");
             // Compare
-            Assert.assertTrue("The message retreived does not match the expected message",
+            Assert.assertTrue(
+                    "The message retreived does not match the expected message: Expected: " + expectedOutcome.toString()
+                            + " Actual: " + actualOutcome.toString(),
                     expectedOutcome.equals(actualOutcome));
-            Assert.assertTrue("Expected: " + expectedOutcome.toString(), false);
-            Assert.assertTrue("Actual: " + actualOutcome.toString(), false);
         }
 
         // Test case to make sure UserDatabase class is declared correctly
@@ -274,17 +270,17 @@ public class RunLocalTest {
         @Test
         public void runUserDatabaseTest() {
 
-            //Create UserDatabase and call it to create an user
+            // Create UserDatabase and call it to create an user
             UserDatabase ud = new UserDatabase();
             ud.createUser("userDatabase", "12345", "database.png", false);
 
-            //Read the file to check if the user is created successfully
+            // Read the file to check if the user is created successfully
             try {
                 BufferedReader br = new BufferedReader(new FileReader("userFile.txt"));
                 String line = br.readLine();
                 boolean created = false;
                 while (line != null) {
-                    if (line.substring(0,line.indexOf(";")).equals("userDatabase")) {
+                    if (line.substring(0, line.indexOf(";")).equals("userDatabase")) {
                         created = true;
                         break;
                     }
@@ -297,18 +293,79 @@ public class RunLocalTest {
                 Assert.assertTrue("An Exception was encountered when reading the file.", false);
             }
 
-            //Checks the login method
+            // Checks the login method
             Assert.assertTrue("User Failed to Login", ud.login("userDatabase", "12345"));
 
-            //Checks the block user method
-            Assert.assertTrue("Database and User class need to match calls for block and friend user", false);
+            // Correctly saves photos, using ImageIO. Create User needs to be a bit better
 
-            //Checks the friend user method
+            // Checks the friend user method
+            User friender = new User("friender", "1234567890", "friender.png", true, null, null);
+            User friend = new User("friend", "0987654321", "friend.png", false, null, null);
+            ud.friendUser(friender, friend);
+            ArrayList<String> expectedArrList = new ArrayList<>();
+            expectedArrList.add(friend.getUsername());
+            Assert.assertEquals("User has not been added to the friend ArrayList", expectedArrList,
+                    friender.getFriends());
 
-            //Checks the search User method
+            try {
+                BufferedReader br = new BufferedReader(new FileReader("userFile.txt"));
+                String line = br.readLine();
+                boolean correct = false;
+
+                while (line != null) {
+                    if (line.substring(0, line.indexOf(";")).equals(friender.getUsername())) {
+                        String[] parts = line.split(";");
+                        if (parts[2].equals(friend.getUsername())) {
+                            correct = true;
+                            break;
+                        }
+                    }
+                    line = br.readLine();
+                }
+                br.close();
+                Assert.assertTrue("User being friended was not correctly added to the file.", correct);
+            } catch (IOException e) {
+                Assert.assertTrue("Error was encountered while reading the file.", false);
+            }
+            // Checks the search User method
             ud.createUser("search", "666666", "search.png", false);
             Assert.assertTrue("User was not found, when it existed", ud.searchUser("search"));
             Assert.assertFalse("User was found when it did not existed", ud.searchUser("doesNotExist"));
+        }
+
+        @Test
+        public void runBlockedUserTest() {
+            UserDatabase ud = new UserDatabase();
+            User blocker = new User("blocker", "1234567890", "blocker.png", true, null, null);
+            User blocked = new User("blocked", "0987654321", "blocked.png", false, null, null);
+            ud.blockUser(blocker, blocked);
+            ArrayList<String> expectedArrayList = new ArrayList<>();
+            expectedArrayList.add(blocked.getUsername());
+            Assert.assertEquals("User has not been added to the blocked ArrayList", expectedArrayList,
+                    blocker.getBlocked());
+
+            try {
+                BufferedReader br = new BufferedReader(new FileReader("userFile.txt"));
+                String line = br.readLine();
+                boolean correct = false;
+
+                while (line != null) {
+                    if (line.substring(0, line.indexOf(";")).equals(blocker.getUsername())) {
+                        String[] parts = line.split(";");
+                        if (parts[3].equals(blocked.getUsername())) {
+                            correct = true;
+                            break;
+                        }
+                    }
+                    line = br.readLine();
+                }
+                br.close();
+                Assert.assertTrue("User being blocked was not correctly added to the file.", correct);
+            } catch (IOException e) {
+                Assert.assertTrue("Error was encountered while reading the file.", false);
+            }
+            Assert.assertTrue("Database and User class need to match calls for block and friend user", false);
+
         }
     }
 }
