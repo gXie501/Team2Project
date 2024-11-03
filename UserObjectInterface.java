@@ -1,4 +1,14 @@
 import java.util.ArrayList;
+/**
+ * Team Project -- Run Local Test for Social Media App
+ * 
+ * Contains User Object methods
+ * 
+ * @author Team 2, Lab 19
+ * 
+ * @version Nov. 3, 2024
+ * 
+ */
 public interface UserObjectInterface {
     String getUsername();
     String getPassword();
