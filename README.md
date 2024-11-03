@@ -20,7 +20,7 @@
       - String password
       - ArrayList friends
       - ArrayList blocked
-      - (?) profilePicture
+      - String profile picture file path
       - boolean restrictMessages
         - indicates whether or not the user will allow messages from users who aren't their friend
     Methods:

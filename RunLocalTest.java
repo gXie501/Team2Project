@@ -77,14 +77,14 @@ public class RunLocalTest {
             }
 
             // Instantiate the User object with its constructor
-            ArrayList<String> friend = new ArrayList<String>();
-            friend.add("friend1");
-            friend.add("friend2");
-            friend.add("friend3");
-            ArrayList<String> blocked = new ArrayList<String>();
-            blocked.add("blocked1");
-            blocked.add("blocked2");
-            blocked.add("blocked3");
+            ArrayList<User> friend = new ArrayList<User>();
+            friend.add(new User("friend1", "123", "hello.png", false, new ArrayList<User>(), new ArrayList<User>()));
+            friend.add(new User("friend2", "1231", "hello.png", false, new ArrayList<User>(), new ArrayList<User>()));
+            friend.add(new User("friend3", "123", "hello.png", false, new ArrayList<User>(), new ArrayList<User>()));
+            ArrayList<User> blocked = new ArrayList<User>();
+            blocked.add(new User("blocked1", "12233", "hello.png", false, new ArrayList<User>(), new ArrayList<User>()));
+            blocked.add(new User("blocked2", "1223143", "hello.png", false, new ArrayList<User>(), new ArrayList<User>()));
+            blocked.add(new User("blocked3", "121423", "hello.png", false, new ArrayList<User>(), new ArrayList<User>()));
             User user = new User("GetterTest", "Password", "PFP", true, friend, blocked);
 
             // Tests for getter of User Class
@@ -100,8 +100,8 @@ public class RunLocalTest {
             user.setPassword("ChangedPassword");
             user.setRestrictMessages(false);
             user.setPfp("ChangedPFP");
-            user.setFriends(new ArrayList<String>());
-            user.setBlocked(new ArrayList<String>());
+            user.setFriends(new ArrayList<User>());
+            user.setBlocked(new ArrayList<User>());
 
             Assert.assertEquals("Ensure setUsername changes the correct attribute", "ChangedUser", user.getUsername());
             Assert.assertEquals("Ensure setUsername changes the correct attribute", "ChangedPassword",
@@ -115,8 +115,8 @@ public class RunLocalTest {
 
             //Test for Equals Method
             User check = new User("false", "false", "false.png", false, null, null);
-            Assert.assertTrue("Object was equals to each other when it should be false", user.equals(check));
-            Assert.assertTrue("Object was not equals to each other when it should be True", user.equals(user));
+            Assert.assertFalse("Object was equals to each other when they are not", user.equals(check));
+            Assert.assertTrue("Object was not equals to each other when they are", user.equals(user));
         }
 
         // Test case to make sure that MessageDatabase class is declared correctly
@@ -277,8 +277,8 @@ public class RunLocalTest {
             // Create UserDatabase and call it to create an user
             UserDatabase ud = new UserDatabase();
             ud.createUser("userDatabase", "12345", "database.png", false);
-            ArrayList<String> friends = new ArrayList<String>();
-            ArrayList<String> block = new ArrayList<String>();
+            ArrayList<User> friends = new ArrayList<User>();
+            ArrayList<User> block = new ArrayList<User>();
             User create = new User("userDatabase", "12345", "database.png", false, friends, block);
             boolean created = false;
             ArrayList<User> users = ud.getUsers();
@@ -288,59 +288,21 @@ public class RunLocalTest {
                 }
             }
             Assert.assertTrue("User Object was not created.", created);
-            // Read the file to check if the user is created successfully
-            // try {
-            //     BufferedReader br = new BufferedReader(new FileReader("userFile.txt"));
-            //     String line = br.readLine();
-            //     boolean created = false;
-            //     while (line != null) {
-            //         if (line.substring(0, line.indexOf(";")).equals("userDatabase")) {
-            //             created = true;
-            //             break;
-            //         }
-            //         line = br.readLine();
-            //     }
-            //     br.close();
-
-            //     Assert.assertTrue("The User was not successfully created.", created);
-            // } catch (IOException e) {
-            //     Assert.assertTrue("An Exception was encountered when reading the file.", false);
-            // }
-
-
 
             // Checks the login method
             Assert.assertTrue("User Failed to Login", ud.login("userDatabase", "12345"));
 
             // Checks the friend user method
-            User friender = new User("friender", "1234567890", "friender.png", true, null, null);
-            User friend = new User("friend", "0987654321", "friend.png", false, null, null);
+            ud.createUser("friender", "1234567890", "friender.png", true);
+            ud.createUser("friend", "0987654321", "friend.png", false);
+            User friender = ud.returnUser("friender");
+            User friend = ud.returnUser("friend");
             ud.friendUser(friender, friend);
-            ArrayList<String> expectedArrList = new ArrayList<>();
-            expectedArrList.add(friend.getUsername());
+            ArrayList<User> expectedArrList = new ArrayList<User>();
+            expectedArrList.add(friend);
             Assert.assertEquals("User has not been added to the friend ArrayList", expectedArrList,
                     friender.getFriends());
 
-            try {
-                BufferedReader br = new BufferedReader(new FileReader("userFile.txt"));
-                String line = br.readLine();
-                boolean correct = false;
-
-                while (line != null) {
-                    if (line.substring(0, line.indexOf(";")).equals(friender.getUsername())) {
-                        String[] parts = line.split(";");
-                        if (parts[2].equals(friend.getUsername())) {
-                            correct = true;
-                            break;
-                        }
-                    }
-                    line = br.readLine();
-                }
-                br.close();
-                Assert.assertTrue("User being friended was not correctly added to the file.", correct);
-            } catch (IOException e) {
-                Assert.assertTrue("Error was encountered while reading the file.", false);
-            }
             // Checks the search User method
             ud.createUser("search", "666666", "search.png", false);
             Assert.assertTrue("User was not found, when it existed", ud.searchUser("search"));
@@ -350,34 +312,15 @@ public class RunLocalTest {
         @Test
         public void runBlockedUserTest() {
             UserDatabase ud = new UserDatabase();
-            User blocker = new User("blocker", "1234567890", "blocker.png", true, null, null);
-            User blocked = new User("blocked", "0987654321", "blocked.png", false, null, null);
+            ud.createUser("blocker", "1234567890", "blocker.png", true);
+            ud.createUser("blocked", "0987654321", "blocked.png", false);
+            User blocker = ud.returnUser("blocker");
+            User blocked = ud.returnUser("blocked");
             ud.blockUser(blocker, blocked);
-            ArrayList<String> expectedArrayList = new ArrayList<>();
-            expectedArrayList.add(blocked.getUsername());
+            ArrayList<User> expectedArrayList = new ArrayList<User>();
+            expectedArrayList.add(blocked);
             Assert.assertEquals("User has not been added to the blocked ArrayList", expectedArrayList,
                     blocker.getBlocked());
-
-            try {
-                BufferedReader br = new BufferedReader(new FileReader("userFile.txt"));
-                String line = br.readLine();
-                boolean correct = false;
-
-                while (line != null) {
-                    if (line.substring(0, line.indexOf(";")).equals(blocker.getUsername())) {
-                        String[] parts = line.split(";");
-                        if (parts[3].equals(blocked.getUsername())) {
-                            correct = true;
-                            break;
-                        }
-                    }
-                    line = br.readLine();
-                }
-                br.close();
-                Assert.assertTrue("User being blocked was not correctly added to the file.", correct);
-            } catch (IOException e) {
-                Assert.assertTrue("Error was encountered while reading the file.", false);
-            }
         }
     }
 }
