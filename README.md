@@ -1,6 +1,4 @@
-# Project Title
-
-Messaging App
+# Messaging App
 
 ## Description
 
@@ -9,6 +7,7 @@ The goal is to build a fully functioning messaging social media app. With this a
 ## Getting Started
 ### Executing program
 
+* delete testFile.txt (if exists). 
 * compile all classes and interfaces
 * run the RunLocalTest.java file
 ```
@@ -16,11 +15,11 @@ java RunLocalTest.java
 ```
 ## Authors
 
-Anika Thapar
-Gengjie Xie
-Neha Pudota 
-Mithun Mahesh
-Leia Lynette Maduakolam
+- Anika Thapar
+- Gengjie Xie
+- Neha Pudota 
+- Mithun Mahesh
+- Leia Lynette Maduakolam
 
 
 ## Version History
@@ -93,8 +92,9 @@ Leia Lynette Maduakolam
 
   // Delete a message
   MessageDatabase.deleteMessage(sender, receiver, content, messageFile);
+```
 
-    # User Class
+   # User Class
 
   The `User` class represents a user in a social media application. Each user has attributes such as a username, profile picture, password, and lists of friends and blocked users. This class includes methods to get and set user details and manage account preferences, including message restrictions.
 
@@ -164,90 +164,91 @@ Leia Lynette Maduakolam
 
   // Checking equality
   boolean isEqual = user.equals(friend); // false
+```
 
-    # UserDatabase
+# UserDatabase
 
-  The `UserDatabase` class is a component of a social media application that manages all `User` objects. It supports creating new users, managing user login, and updating the friends and blocked lists for each user. User data is stored in a file (`userFile.txt`) for persistence.
+The `UserDatabase` class is a component of a social media application that manages all `User` objects. It supports creating new users, managing user login, and updating the friends and blocked lists for each user. User data is stored in a file (`userFile.txt`) for persistence.
 
-  ## Features
+## Features
 
-  1. **Create User** - Adds new users to the application and stores them in a file.
-  2. **Login** - Authenticates users by verifying credentials.
-  3. **Block User** - Adds a user to another user's blocked list.
-  4. **Friend User** - Adds a user to another user's friends list.
-  5. **Retrieve User** - Finds a user by username from the in-memory list of users.
+1. **Create User** - Adds new users to the application and stores them in a file.
+2. **Login** - Authenticates users by verifying credentials.
+3. **Block User** - Adds a user to another user's blocked list.
+4. **Friend User** - Adds a user to another user's friends list.
+5. **Retrieve User** - Finds a user by username from the in-memory list of users.
 
-  ## Class Details
+## Class Details
 
-  ### Attributes
+### Attributes
 
-  - `users`: An `ArrayList<User>` containing all user objects in the application.
+- `users`: An `ArrayList<User>` containing all user objects in the application.
 
-  ### Methods
+### Methods
 
-  #### `ArrayList<User> getUsers()`
+#### `ArrayList<User> getUsers()`
 
-  - **Description**: Returns the list of all users.
-  - **Returns**: An `ArrayList<User>` containing all `User` objects.
+- **Description**: Returns the list of all users.
+- **Returns**: An `ArrayList<User>` containing all `User` objects.
 
-  #### `void createUser(String username, String password, String pfp, boolean restrictMessage)`
+#### `void createUser(String username, String password, String pfp, boolean restrictMessage)`
 
-  - **Description**: Creates a new user and adds them to the `users` list and `userFile.txt` for persistent storage.
-  - **Parameters**:
-    - `username`: The username of the new user.
-    - `password`: The password for the new user.
-    - `pfp`: Profile picture identifier for the user.
-    - `restrictMessage`: Boolean to restrict messages from non-friends.
+- **Description**: Creates a new user and adds them to the `users` list and `userFile.txt` for persistent storage.
+- **Parameters**:
+  - `username`: The username of the new user.
+  - `password`: The password for the new user.
+  - `pfp`: Profile picture identifier for the user.
+  - `restrictMessage`: Boolean to restrict messages from non-friends.
 
-  #### `boolean login(String username, String password)`
+#### `boolean login(String username, String password)`
 
-  - **Description**: Validates user login by checking the credentials in `userFile.txt`.
-  - **Parameters**:
-    - `username`: The username for the login attempt.
-    - `password`: The password for the login attempt.
-  - **Returns**: `true` if login is successful; `false` otherwise.
+- **Description**: Validates user login by checking the credentials in `userFile.txt`.
+- **Parameters**:
+  - `username`: The username for the login attempt.
+  - `password`: The password for the login attempt.
+- **Returns**: `true` if login is successful; `false` otherwise.
 
-  #### `boolean blockUser(User user, User blockUser)`
+#### `boolean blockUser(User user, User blockUser)`
 
-  - **Description**: Adds `blockUser` to the blocked list of `user`.
-  - **Parameters**:
-    - `user`: The user who wants to block another user.
-    - `blockUser`: The user to be blocked.
-  - **Returns**: `true` if the user was successfully blocked; `false` otherwise.
+- **Description**: Adds `blockUser` to the blocked list of `user`.
+- **Parameters**:
+  - `user`: The user who wants to block another user.
+  - `blockUser`: The user to be blocked.
+- **Returns**: `true` if the user was successfully blocked; `false` otherwise.
 
-  #### `boolean friendUser(User user, User friendUser)`
+#### `boolean friendUser(User user, User friendUser)`
 
-  - **Description**: Adds `friendUser` to the friends list of `user`.
-  - **Parameters**:
-    - `user`: The user who wants to add a friend.
-    - `friendUser`: The user to be added as a friend.
-  - **Returns**: `true` if the user was successfully added as a friend; `false` otherwise.
+- **Description**: Adds `friendUser` to the friends list of `user`.
+- **Parameters**:
+  - `user`: The user who wants to add a friend.
+  - `friendUser`: The user to be added as a friend.
+- **Returns**: `true` if the user was successfully added as a friend; `false` otherwise.
 
-  #### `User returnUser(String username)`
+#### `User returnUser(String username)`
 
-  - **Description**: Finds and returns a user by their username.
-  - **Parameters**:
-    - `username`: The username of the user to find.
-  - **Returns**: A `User` object if found; `null` otherwise.
+- **Description**: Finds and returns a user by their username.
+- **Parameters**:
+  - `username`: The username of the user to find.
+- **Returns**: A `User` object if found; `null` otherwise.
 
-  ## Usage Example
+## Usage Example
 
-  ```java
-  UserDatabase userDatabase = new UserDatabase();
+```java
+UserDatabase userDatabase = new UserDatabase();
 
-  // Create a new user
-  userDatabase.createUser("john_doe", "password123", "profile.jpg", true);
+// Create a new user
+userDatabase.createUser("john_doe", "password123", "profile.jpg", true);
 
-  // Login
-  boolean isLoggedIn = userDatabase.login("john_doe", "password123");
+// Login
+boolean isLoggedIn = userDatabase.login("john_doe", "password123");
 
-  // Block another user
-  User john = userDatabase.returnUser("john_doe");
-  User jane = new User("jane_doe", "password789", "jane.jpg", true, new ArrayList<>(), new ArrayList<>());
-  userDatabase.createUser(jane.getUsername(), jane.getPassword(), jane.getPfp(), jane.getRestrictMessages());
-  boolean isBlocked = userDatabase.blockUser(john, jane);
+// Block another user
+User john = userDatabase.returnUser("john_doe");
+User jane = new User("jane_doe", "password789", "jane.jpg", true, new ArrayList<>(), new ArrayList<>());
+userDatabase.createUser(jane.getUsername(), jane.getPassword(), jane.getPfp(), jane.getRestrictMessages());
+boolean isBlocked = userDatabase.blockUser(john, jane);
 
-  // Add a friend
-  boolean isFriended = userDatabase.friendUser(john, jane);
+// Add a friend
+boolean isFriended = userDatabase.friendUser(john, jane);
 
 
