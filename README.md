@@ -73,27 +73,6 @@ java RunLocalTest.java
     - `messageFile`: The file where the messages are stored.
   - **Returns**: An `ArrayList<String>` containing all messages exchanged between the two users.
 
-  ## Usage Example
-
-  ```java
-  // Create instances of User for sender and receiver
-  User sender = new User("alice");
-  User receiver = new User("bob");
-
-  // Specify the message content and the file where messages are stored
-  String content = "Hello, Bob!";
-  String messageFile = "messages.txt";
-
-  // Send a message
-  MessageDatabase.sendMessage(sender, receiver, content, messageFile);
-
-  // Retrieve messages between Alice and Bob
-  ArrayList<String> messages = MessageDatabase.retrieveMessages("alice", "bob", messageFile);
-
-  // Delete a message
-  MessageDatabase.deleteMessage(sender, receiver, content, messageFile);
-```
-
    # User Class
 
   The `User` class represents a user in a social media application. Each user has attributes such as a username, profile picture, password, and lists of friends and blocked users. This class includes methods to get and set user details and manage account preferences, including message restrictions.
@@ -145,26 +124,6 @@ java RunLocalTest.java
   - **Parameters**:
     - `user`: Another `User` object to compare with.
   - **Returns**: `true` if the username and password match, otherwise `false`.
-
-  ## Usage Example
-
-  ```java
-  // Creating a new user
-  ArrayList<User> friends = new ArrayList<>();
-  ArrayList<User> blocked = new ArrayList<>();
-  User user = new User("john_doe", "securePassword123", "profile.jpg", true, friends, blocked);
-
-  // Setting user details
-  user.setUsername("john_doe_updated");
-  user.setPassword("newPassword456");
-
-  // Adding a friend
-  User friend = new User("jane_doe", "password789", "jane.jpg", true, new ArrayList<>(), new ArrayList<>());
-  user.getFriends().add(friend);
-
-  // Checking equality
-  boolean isEqual = user.equals(friend); // false
-```
 
 # UserDatabase
 
@@ -231,24 +190,5 @@ The `UserDatabase` class is a component of a social media application that manag
   - `username`: The username of the user to find.
 - **Returns**: A `User` object if found; `null` otherwise.
 
-## Usage Example
-
-```java
-UserDatabase userDatabase = new UserDatabase();
-
-// Create a new user
-userDatabase.createUser("john_doe", "password123", "profile.jpg", true);
-
-// Login
-boolean isLoggedIn = userDatabase.login("john_doe", "password123");
-
-// Block another user
-User john = userDatabase.returnUser("john_doe");
-User jane = new User("jane_doe", "password789", "jane.jpg", true, new ArrayList<>(), new ArrayList<>());
-userDatabase.createUser(jane.getUsername(), jane.getPassword(), jane.getPfp(), jane.getRestrictMessages());
-boolean isBlocked = userDatabase.blockUser(john, jane);
-
-// Add a friend
-boolean isFriended = userDatabase.friendUser(john, jane);
 
 
