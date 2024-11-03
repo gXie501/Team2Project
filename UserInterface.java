@@ -3,5 +3,4 @@ public interface UserInterface {
     public boolean login(String username, String password);
     public boolean blockUser(User user, User blockUser);
     public boolean friendUser(User user, User friendUser);
-    public boolean searchUser(String userName);
 }

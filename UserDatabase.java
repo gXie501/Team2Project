@@ -18,7 +18,7 @@ public class UserDatabase implements UserInterface {
    }
 
    public boolean login(String username, String password) {
-      if (searchUser(username)) {
+      if (returnUser(username) != null) {
          try (BufferedReader br = new BufferedReader(new FileReader("userFile.txt"))) {
             String line = br.readLine();
             while (line != null) {
@@ -64,7 +64,7 @@ public class UserDatabase implements UserInterface {
         if (users.get(i).equals(user)) {
             // get the user from the user array
             User updatedUser = users.get(i);
-            //update the blocked users
+            //update the friend users
             ArrayList <User> updatedFriends  = users.get(i).getFriends();
             updatedFriends.add(friendUser);          
             updatedUser.setBlocked(updatedFriends);
@@ -75,24 +75,6 @@ public class UserDatabase implements UserInterface {
     }
     return false;   
     }
-
-
-
-   public boolean searchUser(String username) {
-      try (BufferedReader br = new BufferedReader(new FileReader("userFile.txt"))) {
-         String line = br.readLine();
-         while (line != null) {
-            String[] parts = line.split(";");
-            if (parts[0].equals(username)) {
-               return true; 
-            }
-            line = br.readLine(); 
-         }
-      } catch (IOException e) {
-         return false;
-      }
-      return false; 
-   }
 
    //return a use object with the giver username
    public User returnUser(String username) {
