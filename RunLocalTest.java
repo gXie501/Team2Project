@@ -175,11 +175,11 @@ public class RunLocalTest {
             User receiver = ud.returnUser("Receiver");
             MessageDatabase tester = new MessageDatabase();
 
-            tester.sendMessage(sender, receiver, "Good Morning", "someFile.txt");
+            tester.sendMessage(sender, receiver, "Good Morning", "testFile.txt");
             String written = "SendTester;Receiver;Good Morning";
             boolean found = false;
             try {
-                BufferedReader br = new BufferedReader(new FileReader("someFile.txt"));
+                BufferedReader br = new BufferedReader(new FileReader("testFile.txt"));
                 String line = br.readLine();
                 while (line != null) {
                     if (line.equals(written)) {
@@ -197,18 +197,18 @@ public class RunLocalTest {
             }
 
             // Populate the File
-            tester.sendMessage(sender, receiver, "Good Morning1", "someFile.txt");
-            tester.sendMessage(sender, receiver, "Good Morning2", "someFile.txt");
-            tester.sendMessage(sender, receiver, "Good Morning3", "someFile.txt");
-            tester.sendMessage(sender, receiver, "Good Morning4", "someFile.txt");
-            tester.sendMessage(sender, receiver, "Good Morning5", "someFile.txt");
+            tester.sendMessage(sender, receiver, "Good Morning1", "testFile.txt");
+            tester.sendMessage(sender, receiver, "Good Morning2", "testFile.txt");
+            tester.sendMessage(sender, receiver, "Good Morning3", "testFile.txt");
+            tester.sendMessage(sender, receiver, "Good Morning4", "testFile.txt");
+            tester.sendMessage(sender, receiver, "Good Morning5", "testFile.txt");
 
             // Test the delete message method
-            tester.deleteMessage(sender, receiver, "Good Morning5", "someFile.txt");
+            tester.deleteMessage(sender, receiver, "Good Morning5", "testFile.txt");
             found = false;
             written = "Good Morning5";
             try {
-                BufferedReader br = new BufferedReader(new FileReader("someFile.txt"));
+                BufferedReader br = new BufferedReader(new FileReader("testFile.txt"));
                 String line = br.readLine();
                 while (line != null) {
                     if (line.equals(written)) {
@@ -232,11 +232,11 @@ public class RunLocalTest {
             User user2 = ud.returnUser("user2");
             MessageDatabase md = new MessageDatabase();
             // Send some message
-            md.sendMessage(user1, user2, "Hello", "someFile.txt");
-            md.sendMessage(user2, user1, "Hello", "someFile.txt");
-            md.sendMessage(user1, user2, "How are you doing?", "someFile.txt");
-            md.sendMessage(user2, user1, "I'm doing well, how about you?", "someFile.txt");
-            md.sendMessage(user1, user2, "I'm doing well, I'll talk to you later", "someFile.txt");
+            md.sendMessage(user1, user2, "Hello", "testFile.txt");
+            md.sendMessage(user2, user1, "Hello", "testFile.txt");
+            md.sendMessage(user1, user2, "How are you doing?", "testFile.txt");
+            md.sendMessage(user2, user1, "I'm doing well, how about you?", "testFile.txt");
+            md.sendMessage(user1, user2, "I'm doing well, I'll talk to you later", "testFile.txt");
             // Populate the expectedOutcome ArrayList
             ArrayList<String> expectedOutcome = new ArrayList<String>();
             expectedOutcome.add("user1;user2;Hello");
@@ -245,7 +245,7 @@ public class RunLocalTest {
             expectedOutcome.add("user2;user1;I'm doing well, how about you?");
             expectedOutcome.add("user1;user2;I'm doing well, I'll talk to you later");
             // Create the actual outcome ArrayList
-            ArrayList<String> actualOutcome = md.retrieveMessages("user1", "user2", "someFile.txt");
+            ArrayList<String> actualOutcome = md.retrieveMessages("user1", "user2", "testFile.txt");
             // Compare
             Assert.assertTrue(
                     "The message retreived does not match the expected message: Expected: " + expectedOutcome.toString()
