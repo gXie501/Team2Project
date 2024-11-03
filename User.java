@@ -24,7 +24,7 @@ public class User implements UserObjectInterface{
     public User (String username, String password, String pfp, Boolean restrictMessages, ArrayList <User> friends, ArrayList <User> blocked){
         this.username = username;
         this.password = password;
-        this.pfp = pfp;
+        setPfp(pfp);
         this.restrictMessages=restrictMessages;
         this.friends=friends;
         this.blocked=blocked;
