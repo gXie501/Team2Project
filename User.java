@@ -56,8 +56,11 @@ public class User implements UserObjectInterface {
     public void setPfp(String pfp) {
         try {
             BufferedImage image = ImageIO.read(new File(pfp)); // Read the image from the specified path
-            String profilePicturePath = "profile_pictures" + "/" + username + "_pfp.png"; // Save as PNG
-            ImageIO.write(image, "png", new File(profilePicturePath)); // Write the image to the file
+            if(image == null){
+                throw new IOException("Image file could not be found!");
+            }
+            String profilePicturePath = "profile_pictures" + "/" + username + ".jpg"; // Save as PNG
+            ImageIO.write(image, "jpg", new File(profilePicturePath)); // Write the image to the file
 
             this.pfp = profilePicturePath;
         } catch (IOException e) {

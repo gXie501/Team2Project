@@ -42,7 +42,7 @@ public class MessageDatabase implements MessageInterface {
                 BufferedWriter bw = new BufferedWriter(new FileWriter(tempfile))) {
             String line = br.readLine();
             while (line != null) {
-                String[] messageInfo = line.split(";", 3); // split line into sender, receiver, and content
+                String[] messageInfo = line.split(";"); // split line into sender, receiver, and content
                 // if the lines are different, write the line into the temp file
                 if (!(messageInfo[0].equals(sender.getUsername()) &&
                         messageInfo[1].equals(receiver.getUsername()) &&
