@@ -14,9 +14,10 @@ import java.util.ArrayList;
 
 public class MessageDatabase implements MessageInterface {
 
-
-    // Given two users, the sender, receiver, content, and messageFile in that order,
-    // sendMessage will add a message in the messageFile using the sender,receiver,content format
+    // Given two users, the sender, receiver, content, and messageFile in that
+    // order,
+    // sendMessage will add a message in the messageFile using the
+    // sender,receiver,content format
     public void sendMessage(User sender, User receiver, String content, String messageFile) {
         // if the content is an image, it will be stored as the image location (ex:
         // "dog.txt")
@@ -29,9 +30,11 @@ public class MessageDatabase implements MessageInterface {
     }
 
     // Given the sender, receiver, and the content of the message,
-    // deleteMessage will parse through the messageFile and delete the message with the specified
+    // deleteMessage will parse through the messageFile and delete the message with
+    // the specified
     // sender, receiver, and content
     public void deleteMessage(User sender, User receiver, String content, String messageFile) {
+
         File tempfile = new File("tempFile.txt");
         File originalFile = new File(messageFile);
 
@@ -39,7 +42,7 @@ public class MessageDatabase implements MessageInterface {
                 BufferedWriter bw = new BufferedWriter(new FileWriter(tempfile))) {
             String line = br.readLine();
             while (line != null) {
-                String[] messageInfo = line.split(";", 3); // split line into sender, receiver, and content
+                String[] messageInfo = line.split(";"); // split line into sender, receiver, and content
                 // if the lines are different, write the line into the temp file
                 if (!(messageInfo[0].equals(sender.getUsername()) &&
                         messageInfo[1].equals(receiver.getUsername()) &&
@@ -64,30 +67,34 @@ public class MessageDatabase implements MessageInterface {
 
     }
 
-    // given two users, retrieveMessages will retrieve all messages between those users in a given messageFiles
+    // given two users, retrieveMessages will retrieve all messages between those
+    // users in a given messageFiles
     public ArrayList<String> retrieveMessages(String userOneUsername, String userTwoUsername, String messageFile) {
         ArrayList<String> messages = new ArrayList<>();
-       
+
+    
         try (BufferedReader bfr = new BufferedReader(new FileReader(messageFile))) {
             String line = bfr.readLine();
             while (line != null) {
-                String firstUser = line.substring(0, line.indexOf(";"));
-                String newMessage = line.substring(line.indexOf(";") + 1);
-                String secondUser = newMessage.substring(0, newMessage.indexOf(";"));
+                String[] messageParts = line.split(";", 3); // Split line into at most 3 parts
+                // Ensure the line has the correct format
+                if (messageParts.length == 3) {
+                    String firstUser = messageParts[0];
+                    String secondUser = messageParts[1];
+                    
+                    if ((firstUser.equals(userOneUsername) || firstUser.equals(userTwoUsername)) && 
+                        (secondUser.equals(userOneUsername) || secondUser.equals(userTwoUsername))) {
+                        messages.add(line);
+                    }
 
-                if ((firstUser.equals(userOneUsername) || firstUser.equals(userTwoUsername)) && (secondUser.equals(userOneUsername) || secondUser.equals(userTwoUsername))) {
-                    messages.add(line);
                 }
-
                 line = bfr.readLine();
-               
-               
+
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return messages;
-
     }
 
 }
