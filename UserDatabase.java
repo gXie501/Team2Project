@@ -4,6 +4,9 @@ import java.io.*;
 public class UserDatabase implements UserInterface {
     ArrayList <User> users = new ArrayList<>();
 
+    public ArrayList<User> getUsers() {
+      return users;
+    }
    public void createUser(String username, String password, String pfp, boolean restrictMessage) {
       //create user
       User u = new User(username, password, pfp, restrictMessage, new ArrayList<User>(), new ArrayList<User>());
@@ -67,7 +70,7 @@ public class UserDatabase implements UserInterface {
             //update the friend users
             ArrayList <User> updatedFriends  = users.get(i).getFriends();
             updatedFriends.add(friendUser);          
-            updatedUser.setBlocked(updatedFriends);
+            updatedUser.setFriends(updatedFriends);
             //set the user in users array to be the updated user
             users.set(i, updatedUser);
             return true;           
