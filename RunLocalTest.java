@@ -112,6 +112,11 @@ public class RunLocalTest {
             Assert.assertEquals("Ensure setUsername changes the correct attribute", new ArrayList<String>(),
                     user.getBlocked());
             Assert.assertEquals("Ensure setUsername changes the correct attribute", "ChangedPFP", user.getPfp());
+
+            //Test for Equals Method
+            User check = new User("false", "false", "false.png", false, null, null);
+            Assert.assertTrue("Object was equals to each other when it should be false", user.equals(check));
+            Assert.assertTrue("Object was not equals to each other when it should be True", user.equals(user));
         }
 
         // Test case to make sure that MessageDatabase class is declared correctly
