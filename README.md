@@ -47,7 +47,7 @@
       - public message retreiveMessages(User sender, User receiver) (?)
 
 
-  Userfile format: username;password;friends;blocked;profilePicture
+  Userfile format: username;password;restrictMessages;friends;blocked;profilePicture
   
   messageFile format: sender;receiver; message
 
