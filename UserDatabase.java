@@ -19,19 +19,20 @@ public class UserDatabase implements UserInterface {
       return users;
    }
 
-   public User createUser(String username, String password, String pfp, boolean restrictMessage) {
+   public boolean createUser(String username, String password, String pfp, boolean restrictMessage) {
       //checks if a user object with this username already exists
-      if (returnUser(username)==username){
-         return null;
+      if (returnUser(username) == null) {
+         return false;
       }
       // create user
       User u = new User(username, password, pfp, restrictMessage, new ArrayList<User>(), new ArrayList<User>());
       // add new user to users arraylist
       users.add(u);
-      return u;
+      return true;
    }
 
    public boolean login(String username, String password) {
+    //check to see if username exists
       if (returnUser(username) != null) {
          try (BufferedReader br = new BufferedReader(new FileReader("userFile.txt"))) {
             String line = br.readLine();
