@@ -48,6 +48,7 @@
 
 
   Userfile format: username;password;friends;blocked;profilePicture
+  
   messageFile format: sender;receiver; message
 
 
