@@ -7,7 +7,7 @@ The goal is to build a fully functioning messaging social media app. With this a
 ## Getting Started
 ### Executing program
 
-* delete testFile.txt
+* delete testFile.txt (if exists). 
 * compile all classes and interfaces
 * run the RunLocalTest.java file
 ```
