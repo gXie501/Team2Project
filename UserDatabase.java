@@ -28,13 +28,6 @@ public class UserDatabase implements UserInterface {
       User u = new User(username, password, pfp, restrictMessage, new ArrayList<User>(), new ArrayList<User>());
       // add new user to users arraylist
       users.add(u);
-      // print user to users file
-      try (PrintWriter pw = new PrintWriter(new FileWriter("userFile.txt", true))) {
-         pw.println(u.getUsername() + ";" + u.getPassword() + ";" + "" + ";" + "" + ";");
-      } catch (IOException e) {
-         e.printStackTrace();
-      }
-      //returns user object
       return u;
    }
 
