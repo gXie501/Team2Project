@@ -79,19 +79,13 @@ public class UserDatabase implements UserInterface {
 
 
    public boolean searchUser(String username) {
-      try (BufferedReader br = new BufferedReader(new FileReader("userFile.txt"))) {
-         String line = br.readLine();
-         while (line != null) {
-            String[] parts = line.split(";");
-            if (parts[0].equals(username)) {
-               return true; 
-            }
-            line = br.readLine(); 
-         }
-      } catch (IOException e) {
-         return false;
-      }
-      return false; 
+    for (User u : users) {
+        if (u.getUsername().equals(username)) {
+            return true;
+        }
+    }
+
+    return false;
    }
 
    //return a use object with the giver username
