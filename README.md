@@ -1,6 +1,4 @@
-# Project Title
-
-Messaging App
+# Messaging App
 
 ## Description
 
@@ -93,8 +91,9 @@ Leia Lynette Maduakolam
 
   // Delete a message
   MessageDatabase.deleteMessage(sender, receiver, content, messageFile);
+```
 
-    # User Class
+   # User Class
 
   The `User` class represents a user in a social media application. Each user has attributes such as a username, profile picture, password, and lists of friends and blocked users. This class includes methods to get and set user details and manage account preferences, including message restrictions.
 
@@ -164,77 +163,7 @@ Leia Lynette Maduakolam
 
   // Checking equality
   boolean isEqual = user.equals(friend); // false
-
-  # User Class
-
-The `User` class represents a user in a social media application. Each user has attributes such as a username, profile picture, password, and lists of friends and blocked users. This class includes methods to get and set user details and manage account preferences, including message restrictions.
-
-## Features
-
-1. **Manage User Information** - Set and retrieve basic user details, including username, password, profile picture, and message restriction settings.
-2. **Friend and Block Management** - Maintain lists of friends and blocked users.
-3. **Equality Check** - Verify if two user accounts match based on username and password.
-
-## Class Details
-
-### Constructor
-
-#### `User(String username, String password, String pfp, Boolean restrictMessages, ArrayList<User> friends, ArrayList<User> blocked)`
-
-- **Description**: Initializes a `User` object with the provided username, password, profile picture, message restrictions, friends list, and blocked list.
-- **Parameters**:
-  - `username`: The username of the user's account.
-  - `password`: The password of the user's account.
-  - `pfp`: The profile picture of the user's account.
-  - `restrictMessages`: A boolean indicating whether to restrict messages from non-friends.
-  - `friends`: An `ArrayList<User>` representing the user's friends.
-  - `blocked`: An `ArrayList<User>` representing the users blocked by this account.
-
-### Methods
-
-#### Setters
-
-- `setUsername(String username)`: Sets the username.
-- `setPassword(String password)`: Sets the password.
-- `setPfp(String pfp)`: Sets the profile picture.
-- `setRestrictMessages(Boolean restrictMessages)`: Sets the message restriction preference.
-- `setFriends(ArrayList<User> friends)`: Sets the user's friends list.
-- `setBlocked(ArrayList<User> blocked)`: Sets the user's blocked list.
-
-#### Getters
-
-- `getUsername()`: Returns the username.
-- `getPassword()`: Returns the password.
-- `getPfp()`: Returns the profile picture.
-- `getRestrictMessages()`: Returns the message restriction setting.
-- `getFriends()`: Returns the friends list.
-- `getBlocked()`: Returns the blocked list.
-
-#### `boolean equals(User user)`
-
-- **Description**: Checks if two `User` objects are equal based on their `username` and `password`.
-- **Parameters**:
-  - `user`: Another `User` object to compare with.
-- **Returns**: `true` if the username and password match, otherwise `false`.
-
-## Usage Example
-
-```java
-// Creating a new user
-ArrayList<User> friends = new ArrayList<>();
-ArrayList<User> blocked = new ArrayList<>();
-User user = new User("john_doe", "securePassword123", "profile.jpg", true, friends, blocked);
-
-// Setting user details
-user.setUsername("john_doe_updated");
-user.setPassword("newPassword456");
-
-// Adding a friend
-User friend = new User("jane_doe", "password789", "jane.jpg", true, new ArrayList<>(), new ArrayList<>());
-user.getFriends().add(friend);
-
-// Checking equality
-boolean isEqual = user.equals(friend); // false
+```
 
 # UserDatabase
 
