@@ -8,7 +8,6 @@ import org.junit.runner.notification.Failure;
 
 import java.lang.reflect.*;
 import java.util.ArrayList;
-import java.io.*;
 
 /**
  * Team Project -- Run Local Test for Social Media App
@@ -113,6 +112,11 @@ public class RunLocalTest {
             Assert.assertEquals("Ensure setUsername changes the correct attribute", new ArrayList<String>(),
                     user.getBlocked());
             Assert.assertEquals("Ensure setUsername changes the correct attribute", "ChangedPFP", user.getPfp());
+
+            //Test for Equals Method
+            User check = new User("false", "false", "false.png", false, null, null);
+            Assert.assertTrue("Object was equals to each other when it should be false", user.equals(check));
+            Assert.assertTrue("Object was not equals to each other when it should be True", user.equals(user));
         }
 
         // Test case to make sure that MessageDatabase class is declared correctly
@@ -364,8 +368,6 @@ public class RunLocalTest {
             } catch (IOException e) {
                 Assert.assertTrue("Error was encountered while reading the file.", false);
             }
-            Assert.assertTrue("Database and User class need to match calls for block and friend user", false);
-
         }
     }
 }

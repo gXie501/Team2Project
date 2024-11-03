@@ -13,4 +13,6 @@ public interface UserObjectInterface {
     void setBlocked(ArrayList<User> blocked);
     void setFriends(ArrayList<User> friends);
     void setRestrictMessages(Boolean restrictMessages);
+    boolean equals(User user);
+   
 }
