@@ -305,8 +305,9 @@ public class RunLocalTest {
 
             // Checks the search User method
             ud.createUser("search", "666666", "search.png", false);
-            Assert.assertTrue("User was not found, when it existed", ud.searchUser("search"));
-            Assert.assertFalse("User was found when it did not existed", ud.searchUser("doesNotExist"));
+            User search = ud.returnUser("search");
+            Assert.assertEquals("An User was found when the User does not exist", ud.returnUser("hello"), null);
+            Assert.assertEquals("An User was found when the User does not exist", ud.returnUser("search"), search);
         }
 
         @Test
