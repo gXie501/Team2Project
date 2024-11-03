@@ -1,5 +1,6 @@
 import org.junit.Test;
 import org.junit.Assert;
+import java.io.*;
 
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
@@ -180,7 +181,7 @@ public class RunLocalTest {
                 }
             } catch (IOException e) {
                 Assert.assertTrue("An exception was encountered when reading the file.", false);
-            }
+            } 
 
             // Populate the File
             tester.sendMessage(sender, receiver, "Good Morning1", "someFile.txt");
@@ -229,7 +230,7 @@ public class RunLocalTest {
             expectedOutcome.add("user2;user1;I'm doing well, how about you?");
             expectedOutcome.add("user1;user2;I'm doing well, I'll talk to you later");
             // Create the actual outcome ArrayList
-            ArrayList<String> actualOutcome = md.retreiveMessages(user1, user2, "someFile.txt");
+            ArrayList<String> actualOutcome = md.retrieveMessages("user1", "user2", "someFile.txt");
             // Compare
             Assert.assertTrue(
                     "The message retreived does not match the expected message: Expected: " + expectedOutcome.toString()
