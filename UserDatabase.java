@@ -2,9 +2,14 @@ import java.util.*;
 import java.io.*;
 
 public class UserDatabase implements UserInterface {
+    ArrayList <User> users = new ArrayList<>();
 
    public void createUser(String username, String password, String pfp, boolean restrictMessage) {
+      //create user
       User u = new User(username, password, pfp, restrictMessage, new ArrayList<String>(), new ArrayList<String>());
+      //add new user to users arraylist
+      users.add(u);
+      //print user to users file
       try (PrintWriter pw = new PrintWriter(new FileWriter("userFile.txt", true))) {
          pw.println(u.getUsername() + ";" + u.getPassword() + ";" + "" + ";" + "" + ";");
       } catch (IOException e) {
@@ -32,51 +37,58 @@ public class UserDatabase implements UserInterface {
       return false; 
    }
 
-
+//username, pfp, pw, restrictMessages, friends, blocked
    public boolean blockUser(User user, User blockUser) {
+    //check to see if the user exists
     if (searchUser(user.getUsername())) {
-        try {
-            List<String> lines = new ArrayList<>();
-            try (BufferedReader br = new BufferedReader(new FileReader("userFile.txt"))) {
-                String line;
-                while ((line = br.readLine()) != null) {
-                    lines.add(line);
-                }
-            }
-
-            for (int i = 0; i < lines.size(); i++) {
-                String[] parts = lines.get(i).split(";");
-                if (parts[0].equals(user.getUsername())) {
-                    String blocked = parts[5];
-                    if (!blocked.contains(blockUser.getUsername())) {
-                        blocked += blockUser.getUsername() + ",";
-                    }
-                    ArrayList<String> block = user.getBlocked();
-                    block.add(blockUser.getUsername());
-                    user.setBlocked(block);
-                    String blockedUsers = "";
-                    //converting block to a string
-                    for(String blockedUser : user.getBlocked()) {
-                        blockedUsers += blockedUser + ",";
-                    }
-                    lines.set(i, parts[0] + ";" + parts[1] + ";" + parts[2] + ";" + blockedUsers.substring(0, blockedUsers.length() - 1) + ";" + parts[4]);
-                    break;
-                }
-            }
-
-            try (PrintWriter pw = new PrintWriter(new FileWriter("userFile.txt"))) {
-                for (String updatedLine : lines) {
-                    pw.println(updatedLine);
-                }
-            }
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
+        
+    } else {
+        return false;
     }
-    return false;
-   }
+//     if (searchUser(user.getUsername())) {
+//         //create an arraylist of all lines in the file
+//         try {
+//             List<String> lines = new ArrayList<>();
+//             try (BufferedReader br = new BufferedReader(new FileReader("userFile.txt"))) {
+//                 String line;
+//                 while ((line = br.readLine()) != null) {
+//                     lines.add(line);
+//                 }
+//             }
+
+//             for (int i = 0; i < lines.size(); i++) {
+//                 String[] parts = lines.get(i).split(";");
+//                 if (parts[0].equals(user.getUsername())) {
+//                     String blocked = parts[5];
+//                     if (!blocked.contains(blockUser.getUsername())) {
+//                         blocked += blockUser.getUsername() + ",";
+//                     }
+//                     ArrayList<String> block = user.getBlocked();
+//                     block.add(blockUser.getUsername());
+//                     user.setBlocked(block);
+//                     String blockedUsers = "";
+//                     //converting block to a string
+//                     for(String blockedUser : user.getBlocked()) {
+//                         blockedUsers += blockedUser + ",";
+//                     }
+//                     lines.set(i, parts[0] + ";" + parts[1] + ";" + parts[2] + ";" + blockedUsers.substring(0, blockedUsers.length() - 1) + ";" + parts[4]);
+//                     break;
+//                 }
+//             }
+
+//             try (PrintWriter pw = new PrintWriter(new FileWriter("userFile.txt"))) {
+//                 for (String updatedLine : lines) {
+//                     pw.println(updatedLine);
+//                 }
+//             }
+//             return true;
+//         } catch (IOException e) {
+//             e.printStackTrace();
+//             return false;
+//         }
+//     }
+//     return false;
+//    }
 
 
 
@@ -135,5 +147,15 @@ public class UserDatabase implements UserInterface {
          return false;
       }
       return false; 
+   }
+
+   //return a use object with the giver username
+   public User returnUser(String username) {
+    for(User u : users) {
+        if(u.getUsername().equals(username)) {
+            return u;
+        }
+    }
+    return null;
    }
 }

@@ -7,7 +7,7 @@ public class User implements UserObjectInterface{
     ArrayList <String> friends = new ArrayList<>(); //a list of mutual acoounts to this users account
     ArrayList <String> blocked = new ArrayList<>(); //a list of blocked acoounts to this users account
   
-
+//username, pfp, pw, restrictMessages, friends, blocked
     public User (String username, String password, String pfp, Boolean restrictMessages, ArrayList <String> friends, ArrayList <String> blocked){
         this.username = username;
         this.password = password;
@@ -53,5 +53,10 @@ public class User implements UserObjectInterface{
     }
     public String getPfp() {
         return this.pfp;
+    }
+    public boolean equals(User user) {
+        return this.username.equals(user.getUsername()) &&
+        this.password.equals(user.getPassword());
+
     }
 }
