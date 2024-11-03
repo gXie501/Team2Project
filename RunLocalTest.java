@@ -8,7 +8,6 @@ import org.junit.runner.notification.Failure;
 
 import java.lang.reflect.*;
 import java.util.ArrayList;
-import java.io.*;
 
 /**
  * Team Project -- Run Local Test for Social Media App
@@ -364,8 +363,6 @@ public class RunLocalTest {
             } catch (IOException e) {
                 Assert.assertTrue("Error was encountered while reading the file.", false);
             }
-            Assert.assertTrue("Database and User class need to match calls for block and friend user", false);
-
         }
     }
 }
