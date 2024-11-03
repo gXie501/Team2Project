@@ -9,7 +9,7 @@
  * 
  */
 public interface UserInterface {
-    public void createUser(String username, String password, String pfp, boolean restrictMessage);
+    public boolean createUser(String username, String password, String pfp, boolean restrictMessage);
 
     public boolean login(String username, String password);
 
