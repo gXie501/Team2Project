@@ -79,19 +79,19 @@ public class RunLocalTest {
             // Instantiate the User object with its constructor
             ArrayList<User> friend = new ArrayList<User>();
             friend.add(
-                    new User("friend1", "123", "/Users/xiu/Team2Project/w28RK.png", false, new ArrayList<User>(), new ArrayList<User>()));
+                    new User("friend1", "123", "w28RK.png", false, new ArrayList<User>(), new ArrayList<User>()));
             friend.add(
-                    new User("friend2", "1231", "/Users/xiu/Team2Project/w28RK.png", false, new ArrayList<User>(), new ArrayList<User>()));
+                    new User("friend2", "1231", "w28RK.png", false, new ArrayList<User>(), new ArrayList<User>()));
             friend.add(
-                    new User("friend3", "123", "/Users/xiu/Team2Project/w28RK.png", false, new ArrayList<User>(), new ArrayList<User>()));
+                    new User("friend3", "123", "w28RK.png", false, new ArrayList<User>(), new ArrayList<User>()));
             ArrayList<User> blocked = new ArrayList<User>();
-            blocked.add(new User("blocked1", "12233", "/Users/xiu/Team2Project/w28RK.png", false, new ArrayList<User>(),
+            blocked.add(new User("blocked1", "12233", "w28RK.png", false, new ArrayList<User>(),
                     new ArrayList<User>()));
-            blocked.add(new User("blocked2", "1223143", "/Users/xiu/Team2Project/w28RK.png", false, new ArrayList<User>(),
+            blocked.add(new User("blocked2", "1223143", "w28RK.png", false, new ArrayList<User>(),
                     new ArrayList<User>()));
-            blocked.add(new User("blocked3", "121423", "/Users/xiu/Team2Project/w28RK.png", false, new ArrayList<User>(),
+            blocked.add(new User("blocked3", "121423", "w28RK.png", false, new ArrayList<User>(),
                     new ArrayList<User>()));
-            User user = new User("GetterTest", "Password", "/Users/xiu/Team2Project/w28RK.png", true, friend,
+            User user = new User("GetterTest", "Password", "w28RK.png", true, friend,
                     blocked);
 
             // Tests for getter of User Class
@@ -120,7 +120,7 @@ public class RunLocalTest {
                     user.getBlocked());
 
             // Test for Equals Method
-            User check = new User("false", "false", "/Users/xiu/Team2Project/w28RK.png", false, null, null);
+            User check = new User("false", "false", "w28RK.png", false, null, null);
             Assert.assertFalse("Object was equals to each other when they are not", user.equals(check));
             Assert.assertTrue("Object was not equals to each other when they are", user.equals(user));
         }
@@ -169,9 +169,9 @@ public class RunLocalTest {
 
             // Checks the sendMessage Method
             UserDatabase ud = new UserDatabase();
-            ud.createUser("SendTester", "senderPassword", "/Users/xiu/Team2Project/w28RK.png", false);
+            ud.createUser("SendTester", "senderPassword", "w28RK.png", false);
             User sender = ud.returnUser("SendTester");
-            ud.createUser("Receiver", "receiverPassword", "/Users/xiu/Team2Project/w28RK.png", false);
+            ud.createUser("Receiver", "receiverPassword", "w28RK.png", false);
             User receiver = ud.returnUser("Receiver");
             MessageDatabase tester = new MessageDatabase();
 
@@ -226,8 +226,8 @@ public class RunLocalTest {
             }
 
             // Test for the retreive message method
-            ud.createUser("user1", "user1Password", "/Users/xiu/Team2Project/w28RK.png", false);
-            ud.createUser("user2", "user2Password", "/Users/xiu/Team2Project/w28RK.png", false);
+            ud.createUser("user1", "user1Password", "w28RK.png", false);
+            ud.createUser("user2", "user2Password", "w28RK.png", false);
             User user1 = ud.returnUser("user1");
             User user2 = ud.returnUser("user2");
             MessageDatabase md = new MessageDatabase();
@@ -287,10 +287,10 @@ public class RunLocalTest {
 
             // Create UserDatabase and call it to create an user
             UserDatabase ud = new UserDatabase();
-            ud.createUser("userDatabase", "12345", "/Users/xiu/Team2Project/w28RK.png", false);
+            ud.createUser("userDatabase", "12345", "w28RK.png", false);
             ArrayList<User> friends = new ArrayList<User>();
             ArrayList<User> block = new ArrayList<User>();
-            User create = new User("userDatabase", "12345", "/Users/xiu/Team2Project/w28RK.png", false, friends, block);
+            User create = new User("userDatabase", "12345", "w28RK.png", false, friends, block);
             boolean created = false;
             ArrayList<User> users = ud.getUsers();
             for (int i = 0; i < users.size(); i++) {
@@ -300,12 +300,15 @@ public class RunLocalTest {
             }
             Assert.assertTrue("User Object was not created.", created);
 
+            //Checks that false is return for existing user
+            Assert.assertFalse("Existing User is created again, when it should not.", ud.createUser("userDatabase", "12345", "w28RK.png", false));
+
             // Checks the login method
             Assert.assertTrue("User Failed to Login", ud.login("userDatabase", "12345"));
 
             // Checks the friend user method
-            ud.createUser("friender", "1234567890", "/Users/xiu/Team2Project/w28RK.png", true);
-            ud.createUser("friend", "0987654321", "/Users/xiu/Team2Project/w28RK.png", false);
+            ud.createUser("friender", "1234567890", "w28RK.png", true);
+            ud.createUser("friend", "0987654321", "w28RK.png", false);
             User friender = ud.returnUser("friender");
             User friend = ud.returnUser("friend");
             ud.friendUser(friender, friend);
@@ -313,9 +316,8 @@ public class RunLocalTest {
             expectedArrList.add(friend);
             Assert.assertEquals("User has not been added to the friend ArrayList", expectedArrList,
                     friender.getFriends());
-
             // Checks the search User method
-            ud.createUser("search", "666666", "/Users/xiu/Team2Project/w28RK.png", false);
+            ud.createUser("search", "666666", "w28RK.png", false);
             User search = ud.returnUser("search");
             Assert.assertEquals("An User was found when the User does not exist", ud.returnUser("hello"), null);
             Assert.assertEquals("An User was found when the User does not exist", ud.returnUser("search"), search);
@@ -324,8 +326,8 @@ public class RunLocalTest {
         @Test
         public void runBlockedUserTest() {
             UserDatabase ud = new UserDatabase();
-            ud.createUser("blocker", "1234567890", "/Users/xiu/Team2Project/w28RK.png", true);
-            ud.createUser("blocked", "0987654321", "/Users/xiu/Team2Project/w28RK.png", false);
+            ud.createUser("blocker", "1234567890", "w28RK.png", true);
+            ud.createUser("blocked", "0987654321", "w28RK.png", false);
             User blocker = ud.returnUser("blocker");
             User blocked = ud.returnUser("blocked");
             ud.blockUser(blocker, blocked);
