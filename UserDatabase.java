@@ -19,7 +19,10 @@ public class UserDatabase implements UserInterface {
       return users;
    }
 
-   public void createUser(String username, String password, String pfp, boolean restrictMessage) {
+   public User createUser(String username, String password, String pfp, boolean restrictMessage) {
+      if (returnUser(username)==username){
+         return null;
+      }
       // create user
       User u = new User(username, password, pfp, restrictMessage, new ArrayList<User>(), new ArrayList<User>());
       // add new user to users arraylist
@@ -30,6 +33,7 @@ public class UserDatabase implements UserInterface {
       } catch (IOException e) {
          e.printStackTrace();
       }
+      return u;
    }
 
    public boolean login(String username, String password) {
