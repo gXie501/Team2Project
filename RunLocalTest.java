@@ -277,30 +277,40 @@ public class RunLocalTest {
             // Create UserDatabase and call it to create an user
             UserDatabase ud = new UserDatabase();
             ud.createUser("userDatabase", "12345", "database.png", false);
-
-            // Read the file to check if the user is created successfully
-            try {
-                BufferedReader br = new BufferedReader(new FileReader("userFile.txt"));
-                String line = br.readLine();
-                boolean created = false;
-                while (line != null) {
-                    if (line.substring(0, line.indexOf(";")).equals("userDatabase")) {
-                        created = true;
-                        break;
-                    }
-                    line = br.readLine();
+            ArrayList<String> friends = new ArrayList<String>();
+            ArrayList<String> block = new ArrayList<String>();
+            User create = new User("userDatabase", "12345", "database.png", false, friends, block);
+            boolean created = false;
+            ArrayList<User> users = ud.getUsers();
+            for (int i = 0; i < users.size(); i++) {
+                if (users.get(i).equals(create)) {
+                    created = true;
                 }
-                br.close();
-
-                Assert.assertTrue("The User was not successfully created.", created);
-            } catch (IOException e) {
-                Assert.assertTrue("An Exception was encountered when reading the file.", false);
             }
+            Assert.assertTrue("User Object was not created.", created);
+            // Read the file to check if the user is created successfully
+            // try {
+            //     BufferedReader br = new BufferedReader(new FileReader("userFile.txt"));
+            //     String line = br.readLine();
+            //     boolean created = false;
+            //     while (line != null) {
+            //         if (line.substring(0, line.indexOf(";")).equals("userDatabase")) {
+            //             created = true;
+            //             break;
+            //         }
+            //         line = br.readLine();
+            //     }
+            //     br.close();
+
+            //     Assert.assertTrue("The User was not successfully created.", created);
+            // } catch (IOException e) {
+            //     Assert.assertTrue("An Exception was encountered when reading the file.", false);
+            // }
+
+
 
             // Checks the login method
             Assert.assertTrue("User Failed to Login", ud.login("userDatabase", "12345"));
-
-            // Correctly saves photos, using ImageIO. Create User needs to be a bit better
 
             // Checks the friend user method
             User friender = new User("friender", "1234567890", "friender.png", true, null, null);
