@@ -20,6 +20,7 @@ public class UserDatabase implements UserInterface {
    }
 
    public User createUser(String username, String password, String pfp, boolean restrictMessage) {
+      //checks if a user object with this username already exists
       if (returnUser(username)==username){
          return null;
       }
@@ -33,6 +34,7 @@ public class UserDatabase implements UserInterface {
       } catch (IOException e) {
          e.printStackTrace();
       }
+      //returns user object
       return u;
    }
 
