@@ -6,7 +6,7 @@ public class UserDatabase implements UserInterface {
 
    public void createUser(String username, String password, String pfp, boolean restrictMessage) {
       //create user
-      User u = new User(username, password, pfp, restrictMessage, new ArrayList<String>(), new ArrayList<String>());
+      User u = new User(username, password, pfp, restrictMessage, new ArrayList<User>(), new ArrayList<User>());
       //add new user to users arraylist
       users.add(u);
       //print user to users file
@@ -39,98 +39,43 @@ public class UserDatabase implements UserInterface {
 
 //username, pfp, pw, restrictMessages, friends, blocked
    public boolean blockUser(User user, User blockUser) {
-    //check to see if the user exists
-    if (searchUser(user.getUsername())) {
-        
-    } else {
+        //go through each user
+        for (int i = 0; i < users.size(); i++) {
+            //check to see if we have the right user
+            if (users.get(i).equals(user)) {
+                // get the user from the user array
+                User updatedUser = users.get(i);
+                //update the blocked users
+                ArrayList <User> updatedBlocked  = users.get(i).getBlocked();
+                updatedBlocked.add(blockUser);          
+                updatedUser.setBlocked(updatedBlocked);
+                //set the user in users array to be the updated user
+                users.set(i, updatedUser);
+                return true;           
+            }
+        }
         return false;
     }
-//     if (searchUser(user.getUsername())) {
-//         //create an arraylist of all lines in the file
-//         try {
-//             List<String> lines = new ArrayList<>();
-//             try (BufferedReader br = new BufferedReader(new FileReader("userFile.txt"))) {
-//                 String line;
-//                 while ((line = br.readLine()) != null) {
-//                     lines.add(line);
-//                 }
-//             }
-
-//             for (int i = 0; i < lines.size(); i++) {
-//                 String[] parts = lines.get(i).split(";");
-//                 if (parts[0].equals(user.getUsername())) {
-//                     String blocked = parts[5];
-//                     if (!blocked.contains(blockUser.getUsername())) {
-//                         blocked += blockUser.getUsername() + ",";
-//                     }
-//                     ArrayList<String> block = user.getBlocked();
-//                     block.add(blockUser.getUsername());
-//                     user.setBlocked(block);
-//                     String blockedUsers = "";
-//                     //converting block to a string
-//                     for(String blockedUser : user.getBlocked()) {
-//                         blockedUsers += blockedUser + ",";
-//                     }
-//                     lines.set(i, parts[0] + ";" + parts[1] + ";" + parts[2] + ";" + blockedUsers.substring(0, blockedUsers.length() - 1) + ";" + parts[4]);
-//                     break;
-//                 }
-//             }
-
-//             try (PrintWriter pw = new PrintWriter(new FileWriter("userFile.txt"))) {
-//                 for (String updatedLine : lines) {
-//                     pw.println(updatedLine);
-//                 }
-//             }
-//             return true;
-//         } catch (IOException e) {
-//             e.printStackTrace();
-//             return false;
-//         }
-//     }
-//     return false;
-//    }
-
-
 
    public boolean friendUser(User user, User friendUser) {
-    if (searchUser(user.getUsername())) {
-        try {
-            List<String> lines = new ArrayList<>();
-            try (BufferedReader br = new BufferedReader(new FileReader("userFile.txt"))) {
-                String line;
-                while ((line = br.readLine()) != null) {
-                    lines.add(line);
-                }
-            }
-
-            for (int i = 0; i < lines.size(); i++) {
-                String[] parts = lines.get(i).split(";");
-                if (parts[0].equals(user.getUsername())) {
-                    String friends = parts[4];
-                    if (!friends.contains(friendUser.getUsername())) { // Prevent duplicate friendships
-                        friends += friendUser.getUsername() + ",";
-                    }
-                    ArrayList<String> f = user.getFriends();
-                    f.add(friendUser.getUsername());
-                    user.setFriends(f);
-                    lines.set(i, parts[0] + ";" + parts[1] + ";" + parts[2] + ";" + parts[3] + ";" + friends);
-                    break;
-                }
-            }
-
-            try (PrintWriter pw = new PrintWriter(new FileWriter("userFile.txt"))) {
-                for (String updatedLine : lines) {
-                    pw.println(updatedLine);
-                }
-            }
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+    //go through each user
+    for (int i = 0; i < users.size(); i++) {
+        //check to see if we have the right user
+        if (users.get(i).equals(user)) {
+            // get the user from the user array
+            User updatedUser = users.get(i);
+            //update the blocked users
+            ArrayList <User> updatedFriends  = users.get(i).getFriends();
+            updatedFriends.add(friendUser);          
+            updatedUser.setBlocked(updatedFriends);
+            //set the user in users array to be the updated user
+            users.set(i, updatedUser);
+            return true;           
         }
     }
-    return false;
-   }
+    return false;   
+    }
+
 
 
    public boolean searchUser(String username) {

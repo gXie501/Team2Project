@@ -4,11 +4,11 @@ public class User implements UserObjectInterface{
     private String pfp; //profile picture of the users account
     private String password; //password of the users account
     private Boolean restrictMessages; //indicates whether or not the user will allow messages from users who aren't their friend
-    ArrayList <String> friends = new ArrayList<>(); //a list of mutual acoounts to this users account
-    ArrayList <String> blocked = new ArrayList<>(); //a list of blocked acoounts to this users account
+    ArrayList <User> friends = new ArrayList<>(); //a list of mutual acoounts to this users account
+    ArrayList <User> blocked = new ArrayList<>(); //a list of blocked acoounts to this users account
   
 //username, pfp, pw, restrictMessages, friends, blocked
-    public User (String username, String password, String pfp, Boolean restrictMessages, ArrayList <String> friends, ArrayList <String> blocked){
+    public User (String username, String password, String pfp, Boolean restrictMessages, ArrayList <User> friends, ArrayList <User> blocked){
         this.username = username;
         this.password = password;
         this.pfp = pfp;
@@ -27,10 +27,10 @@ public class User implements UserObjectInterface{
     public void setRestrictMessages(Boolean restrictMessages) {
         this.restrictMessages = restrictMessages;
     }
-    public void setFriends(ArrayList<String> friends) {
+    public void setFriends(ArrayList<User> friends) {
         this.friends = friends;
     }
-    public void setBlocked(ArrayList<String> blocked) {
+    public void setBlocked(ArrayList<User> blocked) {
         this.blocked = blocked;
     }
     public void setPfp(String pfp) {
@@ -45,10 +45,10 @@ public class User implements UserObjectInterface{
     public Boolean getRestrictMessages() {
         return this.restrictMessages;
     }
-    public ArrayList<String> getFriends() {
+    public ArrayList<User> getFriends() {
         return this.friends;
     }
-    public ArrayList<String> getBlocked() {
+    public ArrayList<User> getBlocked() {
         return this.blocked;
     }
     public String getPfp() {
