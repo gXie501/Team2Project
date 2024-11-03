@@ -15,11 +15,11 @@ java RunLocalTest.java
 ```
 ## Authors
 
-- Anika Thapar
-- Gengjie Xie
-- Neha Pudota 
-- Mithun Mahesh
-- Leia Lynette Maduakolam
+- Anika Thapar: User Database
+- Gengjie Xie: Test cases
+- Neha Pudota: Message Database
+- Mithun Mahesh: Image implementation and debugging
+- Leia Lynette Maduakolam: User class
 
 
 ## Version History
