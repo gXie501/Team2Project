@@ -59,13 +59,12 @@ public class User implements UserObjectInterface {
             if(image == null){
                 throw new IOException("Image file could not be found!");
             }
-            String profilePicturePath = "profile_pictures" + "/" + username + ".jpg"; // Save as PNG
-            ImageIO.write(image, "jpg", new File(profilePicturePath)); // Write the image to the file
+            String profilePicturePath = "profile_pictures" + "/" + username + ".png"; // Save as PNG
+            ImageIO.write(image, "png", new File(profilePicturePath)); // Write the image to the file
 
             this.pfp = profilePicturePath;
         } catch (IOException e) {
-            e.printStackTrace();
-
+            e.getMessage();
         }
     }
 
