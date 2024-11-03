@@ -21,7 +21,7 @@ public class UserDatabase implements UserInterface {
 
    public boolean createUser(String username, String password, String pfp, boolean restrictMessage) {
       //checks if a user object with this username already exists
-      if (returnUser(username) == null) {
+      if (returnUser(username) != null) {
          return false;
       } else {
         // create user
