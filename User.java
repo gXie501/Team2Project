@@ -1,4 +1,14 @@
 import java.util.*;
+/**
+ * Team Project -- Run Local Test for Social Media App
+ * 
+ * Creates User object
+ * 
+ * @author Team 2, Lab 19
+ * 
+ * @version Nov. 3, 2024
+ * 
+ */
 public class User implements UserObjectInterface{
     private String username; //username of the users account
     private String pfp; //profile picture of the users account

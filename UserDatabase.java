@@ -1,6 +1,15 @@
 import java.util.*;
 import java.io.*;
-
+/**
+ * Team Project -- Run Local Test for Social Media App
+ * 
+ * Handles all user objects - stores them, manipulates blockedUser and friendUser arraylist, etc.
+ * 
+ * @author Team 2, Lab 19
+ * 
+ * @version Nov. 3, 2024
+ * 
+ */
 public class UserDatabase implements UserInterface {
     ArrayList <User> users = new ArrayList<>();
 
