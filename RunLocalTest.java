@@ -162,8 +162,11 @@ public class RunLocalTest {
             }
 
             // Checks the sendMessage Method
-            User sender = new User("SendTester", "senderPassword", "cat.png", false, null, null);
-            User receiver = new User("Receiver", "receiverPassword", "dog.png", false, null, null);
+            UserDatabase ud = new UserDatabase();
+            ud.createUser("SendTester", "senderPassword", "cat.png", false);
+            User sender = ud.returnUser("SendTester");
+            ud.createUser("Receiver", "receiverPassword", "dog.png", false);
+            User receiver = ud.returnUser("Receiver");
             MessageDatabase tester = new MessageDatabase();
 
             tester.sendMessage(sender, receiver, "Good Morning", "someFile.txt");
@@ -217,8 +220,10 @@ public class RunLocalTest {
             }
 
             // Test for the retreive message method
-            User user1 = new User("user1", "user1Password", "user1.png", false, null, null);
-            User user2 = new User("user2", "user2Password", "user2.png", false, null, null);
+            ud.createUser("user1", "user1Password", "user1.png", false);
+            ud.createUser("user2", "user2Password", "user2.png", false);
+            User user1 = ud.returnUser("user1");
+            User user2 = ud.returnUser("user2");
             MessageDatabase md = new MessageDatabase();
             // Send some message
             md.sendMessage(user1, user2, "Hello", "someFile.txt");
@@ -305,8 +310,9 @@ public class RunLocalTest {
 
             // Checks the search User method
             ud.createUser("search", "666666", "search.png", false);
-            Assert.assertTrue("User was not found, when it existed", ud.searchUser("search"));
-            Assert.assertFalse("User was found when it did not existed", ud.searchUser("doesNotExist"));
+            User search = ud.returnUser("search");
+            Assert.assertEquals("An User was found when the User does not exist", ud.returnUser("hello"), null);
+            Assert.assertEquals("An User was found when the User does not exist", ud.returnUser("search"), search);
         }
 
         @Test

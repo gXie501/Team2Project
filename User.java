@@ -1,4 +1,7 @@
-import java.util.*;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.util.ArrayList;
 /**
  * Team Project -- Run Local Test for Social Media App
  * 
@@ -21,7 +24,7 @@ public class User implements UserObjectInterface{
     public User (String username, String password, String pfp, Boolean restrictMessages, ArrayList <User> friends, ArrayList <User> blocked){
         this.username = username;
         this.password = password;
-        this.pfp = pfp;
+        setPfp(pfp);
         this.restrictMessages=restrictMessages;
         this.friends=friends;
         this.blocked=blocked;
@@ -44,7 +47,16 @@ public class User implements UserObjectInterface{
         this.blocked = blocked;
     }
     public void setPfp(String pfp) {
-        this.pfp = pfp;
+        try {
+            BufferedImage image = ImageIO.read(new File(pfp)); // Read the image from the specified path
+            String profilePicturePath = "profile_pictures" + "/" + username + "_pfp.png"; // Save as PNG
+            ImageIO.write(image, "png", new File(profilePicturePath)); // Write the image to the file
+
+            this.pfp = profilePicturePath; 
+        } catch (IOException e) {
+            e.printStackTrace(); 
+
+        }
     }
     public String getUsername() {
         return this.username;
