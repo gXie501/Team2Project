@@ -100,7 +100,7 @@ public class RunLocalTest {
             Assert.assertEquals("Ensure getRestrictMessages returns correct value", true, user.getRestrictMessages());
             Assert.assertEquals("Ensure getFriends returns correct value", friend, user.getFriends());
             Assert.assertEquals("Ensure getBlocked returns correct value", blocked, user.getBlocked());
-            Assert.assertEquals("Ensure getPfp returns correct value", "profile_pictures/GetterTest.jpg",
+            Assert.assertEquals("Ensure getPfp returns correct value", "profile_pictures/GetterTest.png",
                     user.getPfp());
 
             // Tests for setters of User class
