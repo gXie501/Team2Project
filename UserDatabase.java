@@ -1,9 +1,21 @@
 import java.util.*;
 import java.io.*;
-
+/**
+ * Team Project -- Run Local Test for Social Media App
+ * 
+ * Handles all user objects - stores them, manipulates blockedUser and friendUser arraylist, etc.
+ * 
+ * @author Team 2, Lab 19
+ * 
+ * @version Nov. 3, 2024
+ * 
+ */
 public class UserDatabase implements UserInterface {
     ArrayList <User> users = new ArrayList<>();
 
+    public ArrayList<User> getUsers() {
+      return users;
+    }
    public void createUser(String username, String password, String pfp, boolean restrictMessage) {
       //create user
       User u = new User(username, password, pfp, restrictMessage, new ArrayList<User>(), new ArrayList<User>());
@@ -18,7 +30,7 @@ public class UserDatabase implements UserInterface {
    }
 
    public boolean login(String username, String password) {
-      if (searchUser(username)) {
+      if (returnUser(username) != null) {
          try (BufferedReader br = new BufferedReader(new FileReader("userFile.txt"))) {
             String line = br.readLine();
             while (line != null) {
@@ -64,10 +76,10 @@ public class UserDatabase implements UserInterface {
         if (users.get(i).equals(user)) {
             // get the user from the user array
             User updatedUser = users.get(i);
-            //update the blocked users
+            //update the friend users
             ArrayList <User> updatedFriends  = users.get(i).getFriends();
             updatedFriends.add(friendUser);          
-            updatedUser.setBlocked(updatedFriends);
+            updatedUser.setFriends(updatedFriends);
             //set the user in users array to be the updated user
             users.set(i, updatedUser);
             return true;           
@@ -75,18 +87,6 @@ public class UserDatabase implements UserInterface {
     }
     return false;   
     }
-
-
-
-   public boolean searchUser(String username) {
-    for (User u : users) {
-        if (u.getUsername().equals(username)) {
-            return true;
-        }
-    }
-
-    return false;
-   }
 
    //return a use object with the giver username
    public User returnUser(String username) {
