@@ -295,7 +295,36 @@ public class RunLocalTest {
             Assert.assertTrue("User Failed to Login", ud.login("userDatabase", "12345"));
 
             //Checks the block user method
+            //Correctly saves photos, using ImageIO. Create User needs to be a bit better
+            User blocker = new User("blocker", "1234567890", "blocker.png", true, null, null);
+            User blocked = new User("blocked", "0987654321", "blocked.png", false, null, null);
+            ud.blockUser(blocker, blocked);
+            ArrayList<String> expectedArrayList = new ArrayList<>();
+            expectedArrayList.add(blocked.getUsername());
+            Assert.assertEquals("User has not been added to the blocked ArrayList", expectedArrayList, blocker.getBlocked());
+
+            try {
+                BufferedReader br = new BufferedReader(new FileReader("userFile.txt"));
+                String line = br.readLine();
+                boolean correct = false;
+
+                while (line != null) {
+                    if (line.substring(0, line.indexOf(";")).equals(blocker.getUsername())) {
+                        String[] parts = line.split(";");
+                        if (parts[3].equals(blocked.getUsername())) {
+                            correct = true;
+                            break;
+                        }
+                    }
+                    line = br.readLine();
+                }
+                br.close();
+                Assert.assertTrue("User being blocked was not correctly added to the file.", correct);
+            } catch (IOException e) {
+                Assert.assertTrue("Error was encountered while reading the file.", false);
+            }
             Assert.assertTrue("Database and User class need to match calls for block and friend user", false);
+            
 
             //Checks the friend user method
 
