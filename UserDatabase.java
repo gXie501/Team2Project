@@ -16,6 +16,7 @@ public class UserDatabase implements UserInterface {
     public ArrayList<User> getUsers() {
       return users;
     }
+    
    public void createUser(String username, String password, String pfp, boolean restrictMessage) {
       //create user
       User u = new User(username, password, pfp, restrictMessage, new ArrayList<User>(), new ArrayList<User>());
