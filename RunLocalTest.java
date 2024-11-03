@@ -301,7 +301,7 @@ public class RunLocalTest {
             Assert.assertTrue("User Object was not created.", created);
 
             //Checks that false is return for existing user
-            Assert.assertFalse(ud.createUser("userDatabase", "12345", "w28RK.png", false));
+            Assert.assertFalse("Existing User is created again, when it should not.", ud.createUser("userDatabase", "12345", "w28RK.png", false));
 
             // Checks the login method
             Assert.assertTrue("User Failed to Login", ud.login("userDatabase", "12345"));
