@@ -32,6 +32,7 @@ public class MessageDatabase implements MessageInterface {
     // deleteMessage will parse through the messageFile and delete the message with the specified
     // sender, receiver, and content
     public void deleteMessage(User sender, User receiver, String content, String messageFile) {
+
         File tempfile = new File("tempFile.txt");
         File originalFile = new File(messageFile);
 
@@ -83,6 +84,7 @@ public class MessageDatabase implements MessageInterface {
                
                
             }
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
