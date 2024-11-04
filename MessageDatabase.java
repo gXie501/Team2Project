@@ -72,7 +72,6 @@ public class MessageDatabase implements MessageInterface {
     public ArrayList<String> retrieveMessages(String userOneUsername, String userTwoUsername, String messageFile) {
         ArrayList<String> messages = new ArrayList<>();
 
-    
         try (BufferedReader bfr = new BufferedReader(new FileReader(messageFile))) {
             String line = bfr.readLine();
             while (line != null) {
@@ -81,9 +80,9 @@ public class MessageDatabase implements MessageInterface {
                 if (messageParts.length == 3) {
                     String firstUser = messageParts[0];
                     String secondUser = messageParts[1];
-                    
-                    if ((firstUser.equals(userOneUsername) || firstUser.equals(userTwoUsername)) && 
-                        (secondUser.equals(userOneUsername) || secondUser.equals(userTwoUsername))) {
+
+                    if ((firstUser.equals(userOneUsername) || firstUser.equals(userTwoUsername)) &&
+                            (secondUser.equals(userOneUsername) || secondUser.equals(userTwoUsername))) {
                         messages.add(line);
                     }
 

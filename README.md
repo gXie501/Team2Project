@@ -15,11 +15,11 @@ java RunLocalTest.java
 ```
 ## Authors
 
-- Anika Thapar
-- Gengjie Xie
-- Neha Pudota 
-- Mithun Mahesh
-- Leia Lynette Maduakolam
+- Anika Thapar: User Database
+- Gengjie Xie: Test cases
+- Neha Pudota: Message Database
+- Mithun Mahesh: Image implementation and debugging
+- Leia Lynette Maduakolam: User class
 
 
 ## Version History
@@ -73,26 +73,15 @@ java RunLocalTest.java
     - `messageFile`: The file where the messages are stored.
   - **Returns**: An `ArrayList<String>` containing all messages exchanged between the two users.
 
-  ## Usage Example
-
-  ```java
-  // Create instances of User for sender and receiver
-  User sender = new User("alice");
-  User receiver = new User("bob");
-
-  // Specify the message content and the file where messages are stored
-  String content = "Hello, Bob!";
-  String messageFile = "messages.txt";
-
-  // Send a message
-  MessageDatabase.sendMessage(sender, receiver, content, messageFile);
-
-  // Retrieve messages between Alice and Bob
-  ArrayList<String> messages = MessageDatabase.retrieveMessages("alice", "bob", messageFile);
-
-  // Delete a message
-  MessageDatabase.deleteMessage(sender, receiver, content, messageFile);
-```
+   ## Test Cases for MessageDatabase Class
+   ### MessageDatabase Class
+   - The MessageDatabase was checked that it implements 1 interface, and that it implements the MessageInterface by checking MessageDatabase is an instanceof MessageInterface.
+   ### Constructor
+   - Since there is no explicit constructor for this class, it was checked that there is an default constructor for the class.
+   ### Methods
+   - Send Message: Send message was checked by first calling the method with 2 users with the contents to a file. Then the file was read to make sure that the message was written correctly with user1;user2;content. If the text was found in the file it was correct else it failed the test.
+   - Delete Message: Delete message was checked by calling the method with its parameters, then the file was read to make sure that the message of user1;user2;content no longer exist in the file, else the test case failed.
+   - retrieveMessage: Retrieve Message was checked by sending a lot of messages and then saving the content of the messages to an ArrayList<String>. Then the method is called which returns an ArrayList<String>. The 2 ArrayList was compared to see whether they are equal to each other. If not the test case failed.
 
    # User Class
 
@@ -145,26 +134,15 @@ java RunLocalTest.java
   - **Parameters**:
     - `user`: Another `User` object to compare with.
   - **Returns**: `true` if the username and password match, otherwise `false`.
-
-  ## Usage Example
-
-  ```java
-  // Creating a new user
-  ArrayList<User> friends = new ArrayList<>();
-  ArrayList<User> blocked = new ArrayList<>();
-  User user = new User("john_doe", "securePassword123", "profile.jpg", true, friends, blocked);
-
-  // Setting user details
-  user.setUsername("john_doe_updated");
-  user.setPassword("newPassword456");
-
-  // Adding a friend
-  User friend = new User("jane_doe", "password789", "jane.jpg", true, new ArrayList<>(), new ArrayList<>());
-  user.getFriends().add(friend);
-
-  // Checking equality
-  boolean isEqual = user.equals(friend); // false
-```
+## Test Cases for User Class
+### User Class
+- The User class was checked by making sure that it implements the UserObject interface by checking that User is an instanceof UserObjectInterface.
+### Constructor
+- The User class constructor was checked with getConstructor method with all of its parameter type. If a NoSuchMethodException was thrown, it was caught and the test failed meaning that the constructor with the parameters did not exist.
+### Methods
+- Getters: All of the getters was tested by creating a User object with parameters, then assertEquals method was used to campare that the getters was returning the correct information.
+- Setters: All of the setters was tested by first calling all the setters, then using the assertEquals method to make sure that the fields are changed correctly.
+- equals: The equals method was tested by using assertTrue and calling User.equals(User), where both the user were equal. Then an assertFalse was used with 2 users that are different. If the wrong boolean was return, the test case failed.
 
 # UserDatabase
 
@@ -231,24 +209,14 @@ The `UserDatabase` class is a component of a social media application that manag
   - `username`: The username of the user to find.
 - **Returns**: A `User` object if found; `null` otherwise.
 
-## Usage Example
-
-```java
-UserDatabase userDatabase = new UserDatabase();
-
-// Create a new user
-userDatabase.createUser("john_doe", "password123", "profile.jpg", true);
-
-// Login
-boolean isLoggedIn = userDatabase.login("john_doe", "password123");
-
-// Block another user
-User john = userDatabase.returnUser("john_doe");
-User jane = new User("jane_doe", "password789", "jane.jpg", true, new ArrayList<>(), new ArrayList<>());
-userDatabase.createUser(jane.getUsername(), jane.getPassword(), jane.getPfp(), jane.getRestrictMessages());
-boolean isBlocked = userDatabase.blockUser(john, jane);
-
-// Add a friend
-boolean isFriended = userDatabase.friendUser(john, jane);
-
-
+## Test Case for UserDatabase Class
+### UserDatabase Class
+- The UserDatabase was checked that it implements 1 interface, and that it implements the UserInterface by checking UserDatabase is an instanceof UserInterface.
+### Constructor
+- Since there is no explicit constructor for this class, it was checked that there is an default constructor for the class.
+### Methods
+- createUser: createUser method was tested by calling the method to create an User, then an User object was created with the same fields. Then the ArrayList of Users in the database was gotten using the getter for the ArrayList. The ArrayList was then iterated through and checked whether there was an User in the ArrayList that was the same as the User Object created using the equals method. Then it was assertTrue on whether the object was created, where created was an boolean variable that was true if the User exist in the ArrayList, and an assertFalse was used to check that the method returned false when the User with same Username and password already existed.
+- login: The login method was checked using an assertTrue with calling the login method with an user that already existed. If login method returned false, the test case failed because the user should exist and can be logged into.
+- blockUser: The blockUser method was checked by first creating 2 User and making one of the user block another user. Then an ArrayList<User> was created with the blocked user as an element, and the method was called, and an assertEquals was used to check that the ArrayList<User> was equal to the first User's (blocker) getBlocked() which was an ArrayList of Users that they have blocked.
+- friendUser: The friendUser method was checked by first creating 2 User and making one of the user friend another user. Then an ArrayList<User> was created with the friend user as an element, and the method was called, and an assertEquals was used to check that the ArrayList<User> was equal to the first User's (friender) getFriends() which was an ArrayList of Users that they have friended.
+- returnUser: The returnUser method was tested by first creating an user in the database, then an assertEquals method was used to check that the user that returnUser returned was equal to the user created. Another assertEquals was used to check that when inputing an user that did not exist it returned null.

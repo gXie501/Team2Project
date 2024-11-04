@@ -49,11 +49,11 @@ public class RunLocalTest {
 
             superinterfaces = clazz.getInterfaces();
 
-            Assert.assertTrue("Ensure that `User` is `public`!",
+            Assert.assertTrue("Ensure that User is public!",
                     Modifier.isPublic(modifiers));
-            Assert.assertFalse("Ensure that `User` is NOT `abstract`!",
+            Assert.assertFalse("Ensure that User is NOT abstract!",
                     Modifier.isAbstract(modifiers));
-            Assert.assertEquals("Ensure that `User` implements 1 interfaces!",
+            Assert.assertEquals("Ensure that User implements 1 interfaces!",
                     1, superinterfaces.length);
 
             // Checks that the User class implements the UserObjectInterface
@@ -141,16 +141,16 @@ public class RunLocalTest {
 
             superinterfaces = clazz.getInterfaces();
 
-            Assert.assertTrue("Ensure that `MessageDatabase` is `public`!",
+            Assert.assertTrue("Ensure that MessageDatabase is public!",
                     Modifier.isPublic(modifiers));
-            Assert.assertFalse("Ensure that `MessageDatabase` is NOT `abstract`!",
+            Assert.assertFalse("Ensure that MessageDatabase is NOT abstract!",
                     Modifier.isAbstract(modifiers));
 
-            Assert.assertEquals("Ensure that `MessageDatabase` does not extend any class!",
+            Assert.assertEquals("Ensure that MessageDatabase does not extend any class!",
                     Object.class, superclass); // before we were checking if exception extended messageDatabase
-            Assert.assertEquals("Ensure that `MessageDatabase` implements 1 interfaces!",
+            Assert.assertEquals("Ensure that MessageDatabase implements 1 interfaces!",
                     1, superinterfaces.length);
-            Assert.assertEquals("Ensure that `MessageDatabase` implements `MessageInterface`!",
+            Assert.assertEquals("Ensure that MessageDatabase implements MessageInterface!",
                     MessageInterface.class, superinterfaces[0]); // makes sure messageDatabase implements
                                                                  // messageInterface
 
@@ -269,11 +269,11 @@ public class RunLocalTest {
 
             superinterfaces = clazz.getInterfaces();
 
-            Assert.assertTrue("Ensure that `UserDatabase` is `public`!",
+            Assert.assertTrue("Ensure that UserDatabase is public!",
                     Modifier.isPublic(modifiers));
-            Assert.assertFalse("Ensure that `UserDatabase` is NOT `abstract`!",
+            Assert.assertFalse("Ensure that UserDatabase is NOT abstract!",
                     Modifier.isAbstract(modifiers));
-            Assert.assertEquals("Ensure that `UserDatabase` implements 1 interfaces!",
+            Assert.assertEquals("Ensure that UserDatabase implements 1 interfaces!",
                     1, superinterfaces.length);
 
             // Checks that the UserDatabase implements the UserInterface
@@ -284,7 +284,13 @@ public class RunLocalTest {
 
         @Test
         public void runUserDatabaseTest() {
-
+            try {
+                Class<?> clazz = UserDatabase.class;
+                Constructor<?> constructor = clazz.getConstructor();
+            } catch (NoSuchMethodException e) {
+                Assert.fail("There is no Constructor in the User Database Class");
+            }
+            
             // Create UserDatabase and call it to create an user
             UserDatabase ud = new UserDatabase();
             ud.createUser("userDatabase", "12345", "w28RK.png", false);
@@ -299,6 +305,10 @@ public class RunLocalTest {
                 }
             }
             Assert.assertTrue("User Object was not created.", created);
+
+            // Checks that false is return for existing user
+            Assert.assertFalse("Existing User is created again, when it should not.",
+                    ud.createUser("userDatabase", "12345", "w28RK.png", false));
 
             // Checks the login method
             Assert.assertTrue("User Failed to Login", ud.login("userDatabase", "12345"));
