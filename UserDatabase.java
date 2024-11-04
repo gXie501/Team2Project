@@ -1,5 +1,5 @@
 import java.util.*;
-import java.io.*;
+
 
 /**
  * Team Project -- Run Local Test for Social Media App
@@ -24,7 +24,7 @@ public class UserDatabase implements UserInterface {
 
     public boolean createUser(String username, String password, String pfp, boolean restrictMessage) {
       // checks if a user object with this username already exists
-      synchronized (gatekeeper) {
+        synchronized (gatekeeper) {
             if (returnUser(username) != null) {
                 return false;
             } else {
@@ -107,3 +107,4 @@ public class UserDatabase implements UserInterface {
         }
     }
 }
+
