@@ -284,7 +284,13 @@ public class RunLocalTest {
 
         @Test
         public void runUserDatabaseTest() {
-
+            try {
+                Class<?> clazz = UserDatabase.class;
+                Constructor<?> constructor = clazz.getConstructor();
+            } catch (NoSuchMethodException e) {
+                Assert.fail("There is no Constructor in the User Database Class");
+            }
+            
             // Create UserDatabase and call it to create an user
             UserDatabase ud = new UserDatabase();
             ud.createUser("userDatabase", "12345", "w28RK.png", false);
