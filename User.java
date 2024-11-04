@@ -4,97 +4,70 @@ import java.io.*;
 import java.util.ArrayList;
 
 /**
- * Team Project -- Run Local Test for Social Media App
- * 
- * Creates User object
- * 
- * @author Team 2, Lab 19
+ * Represents a user in the social media application.
  * 
  * @version Nov. 3, 2024
- * 
  */
 public class User implements UserObjectInterface {
-    private String username; // username of the users account
-    private String pfp; // profile picture of the users account
-    private String password; // password of the users account
-    private Boolean restrictMessages; // indicates whether or not the user will allow messages from users who aren't
-                                      // their friend
-    ArrayList<User> friends = new ArrayList<>(); // a list of mutual acoounts to this users account
-    ArrayList<User> blocked = new ArrayList<>(); // a list of blocked acoounts to this users account
+    private String username;
+    private String profilePicture;
+    private String password;
+    private Boolean restrictMessages;
+    private ArrayList<User> friends;
+    private ArrayList<User> blocked;
 
-    // username, pfp, pw, restrictMessages, friends, blocked
-    public User(String username, String password, String pfp, Boolean restrictMessages, ArrayList<User> friends,
-            ArrayList<User> blocked) {
+    /**
+     * Constructs a User with the specified attributes.
+     * 
+     * @param username the username of the user
+     * @param password the password of the user
+     * @param profilePicture the profile picture path of the user
+     * @param restrictMessages whether the user restricts messages from non-friends
+     * @param friends a list of the user's friends
+     * @param blocked a list of users blocked by the user
+     */
+    public User(String username, String password, String profilePicture, Boolean restrictMessages,
+                ArrayList<User> friends, ArrayList<User> blocked) {
         this.username = username;
         this.password = password;
-        setPfp(pfp);
+        setProfilePicture(profilePicture);
         this.restrictMessages = restrictMessages;
         this.friends = friends;
         this.blocked = blocked;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+    public void setUsername(String username) { this.username = username; }
+    public void setPassword(String password) { this.password = password; }
+    public void setRestrictMessages(Boolean restrictMessages) { this.restrictMessages = restrictMessages; }
+    public void setFriends(ArrayList<User> friends) { this.friends = friends; }
+    public void setBlocked(ArrayList<User> blocked) { this.blocked = blocked; }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setRestrictMessages(Boolean restrictMessages) {
-        this.restrictMessages = restrictMessages;
-    }
-
-    public void setFriends(ArrayList<User> friends) {
-        this.friends = friends;
-    }
-
-    public void setBlocked(ArrayList<User> blocked) {
-        this.blocked = blocked;
-    }
-
-    public void setPfp(String pfp) {
+    /**
+     * Sets the profile picture path and saves the image to the specified directory.
+     * 
+     * @param profilePicture the path to the profile picture file
+     */
+    public void setProfilePicture(String profilePicture) {
         try {
-            BufferedImage image = ImageIO.read(new File(pfp)); // Read the image from the specified path
-            if (image == null) {
-                throw new IOException("Image file could not be found!");
-            }
-            String profilePicturePath = "profile_pictures" + "/" + username + ".png"; // Save as PNG
-            ImageIO.write(image, "png", new File(profilePicturePath)); // Write the image to the file
-
-            this.pfp = profilePicturePath;
+            BufferedImage image = ImageIO.read(new File(profilePicture));
+            if (image == null) throw new IOException("Image file could not be found!");
+            String profilePicturePath = "profile_pictures/" + username + ".png";
+            ImageIO.write(image, "png", new File(profilePicturePath));
+            this.profilePicture = profilePicturePath;
         } catch (IOException e) {
             e.getMessage();
         }
     }
 
-    public String getUsername() {
-        return this.username;
-    }
+    public String getUsername() { return this.username; }
+    public String getPassword() { return this.password; }
+    public Boolean getRestrictMessages() { return this.restrictMessages; }
+    public ArrayList<User> getFriends() { return this.friends; }
+    public ArrayList<User> getBlocked() { return this.blocked; }
+    public String getProfilePicture() { return this.profilePicture; }
 
-    public String getPassword() {
-        return this.password;
-    }
-
-    public Boolean getRestrictMessages() {
-        return this.restrictMessages;
-    }
-
-    public ArrayList<User> getFriends() {
-        return this.friends;
-    }
-
-    public ArrayList<User> getBlocked() {
-        return this.blocked;
-    }
-
-    public String getPfp() {
-        return this.pfp;
-    }
-
+    @Override
     public boolean equals(User user) {
-        return this.username.equals(user.getUsername()) &&
-                this.password.equals(user.getPassword());
-
+        return this.username.equals(user.getUsername()) && this.password.equals(user.getPassword());
     }
 }
