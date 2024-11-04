@@ -30,7 +30,7 @@ java RunLocalTest.java
 ## Classes & interfaces, outline
   # MessageDatabase
 
-  The `MessageDatabase` class provides a simple implementation for handling user messages in a messaging application. It allows sending, deleting, and retrieving messages between users, with messages stored in a specified file. This class uses the `MessageInterface` interface, which should be defined separately.
+  The `MessageDatabase` class provides a simple implementation for handling user messages in a messaging application. It allows sending, deleting, and retrieving messages between users, with messages stored in a specified file. This class uses the `MessageInterface` interface, which should be defined separately. All methods are threadsafe using the gatekeeper object. 
 
   ## Features
 
@@ -146,7 +146,7 @@ java RunLocalTest.java
 
 # UserDatabase
 
-The `UserDatabase` class is a component of a social media application that manages all `User` objects. It supports creating new users, managing user login, and updating the friends and blocked lists for each user. User data is stored in a file (`userFile.txt`) for persistence.
+The `UserDatabase` class is a component of a social media application that manages all `User` objects. It supports creating new users, managing user login, and updating the friends and blocked lists for each user. User data is stored in a file (`userFile.txt`) for persistence. All methods are threadsafe using the gatekeeper object. 
 
 ## Features
 
