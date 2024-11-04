@@ -2,89 +2,98 @@ import java.io.*;
 import java.util.ArrayList;
 
 /**
- * Manages sending, deleting, and retrieving messages between users.
+ * Team Project -- Message Database for Social Media App
+ * 
+ * File that sends, deletes, and retrieves messages from given users
+ * 
+ * @author Team 2, Lab 19
  * 
  * @version Nov. 3, 2024
+ * 
  */
+
 public class MessageDatabase implements MessageInterface {
 
-    /**
-     * Sends a message from sender to receiver with the specified content and saves it to the message file.
-     * 
-     * @param sender the user sending the message
-     * @param receiver the user receiving the message
-     * @param content the content of the message
-     * @param messageFile the file where the message will be saved
-     */
+    // Given two users, the sender, receiver, content, and messageFile in that
+    // order,
+    // sendMessage will add a message in the messageFile using the
+    // sender,receiver,content format
     public void sendMessage(User sender, User receiver, String content, String messageFile) {
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(messageFile, true))) {
-            bufferedWriter.write(sender.getUsername() + ";" + receiver.getUsername() + ";" + content);
-            bufferedWriter.newLine();
+        // if the content is an image, it will be stored as the image location (ex:
+        // "dog.txt")
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(messageFile, true))) {
+            bw.write(sender.getUsername() + ";" + receiver.getUsername() + ";" + content);
+            bw.newLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    /**
-     * Deletes a message from the message file matching the specified sender, receiver, and content.
-     * 
-     * @param sender the user who sent the message
-     * @param receiver the user who received the message
-     * @param content the content of the message to delete
-     * @param messageFile the file where the message is stored
-     */
+    // Given the sender, receiver, and the content of the message,
+    // deleteMessage will parse through the messageFile and delete the message with
+    // the specified
+    // sender, receiver, and content
     public void deleteMessage(User sender, User receiver, String content, String messageFile) {
-        File tempFile = new File("tempFile.txt");
+
+        File tempfile = new File("tempFile.txt");
         File originalFile = new File(messageFile);
 
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(originalFile));
-             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(tempFile))) {
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                String[] messageInfo = line.split(";");
+        try (BufferedReader br = new BufferedReader(new FileReader(originalFile));
+                BufferedWriter bw = new BufferedWriter(new FileWriter(tempfile))) {
+            String line = br.readLine();
+            while (line != null) {
+                String[] messageInfo = line.split(";"); // split line into sender, receiver, and content
+                // if the lines are different, write the line into the temp file
                 if (!(messageInfo[0].equals(sender.getUsername()) &&
                         messageInfo[1].equals(receiver.getUsername()) &&
                         messageInfo[2].equals(content))) {
-                    bufferedWriter.write(line);
-                    bufferedWriter.newLine();
+                    // write line to temp file
+                    bw.write(line);
+                    bw.newLine();
                 }
+                // read next line
+                line = br.readLine();
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        if (!originalFile.delete() || !tempFile.renameTo(originalFile)) {
+        // Delete the original file and rename the temp file to the original filename
+        if (originalFile.delete()) {
+            tempfile.renameTo(originalFile);
+        } else {
             System.out.println("Could not delete the original file.");
         }
+
     }
 
-    /**
-     * Retrieves all messages between the specified users from the message file.
-     * 
-     * @param userOneUsername the username of the first user
-     * @param userTwoUsername the username of the second user
-     * @param messageFile the file where messages are stored
-     * @return an ArrayList of messages between the two users
-     */
+    // given two users, retrieveMessages will retrieve all messages between those
+    // users in a given messageFiles
     public ArrayList<String> retrieveMessages(String userOneUsername, String userTwoUsername, String messageFile) {
         ArrayList<String> messages = new ArrayList<>();
 
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(messageFile))) {
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                String[] messageParts = line.split(";", 3);
+        try (BufferedReader bfr = new BufferedReader(new FileReader(messageFile))) {
+            String line = bfr.readLine();
+            while (line != null) {
+                String[] messageParts = line.split(";", 3); // Split line into at most 3 parts
+                // Ensure the line has the correct format
                 if (messageParts.length == 3) {
                     String firstUser = messageParts[0];
                     String secondUser = messageParts[1];
+
                     if ((firstUser.equals(userOneUsername) || firstUser.equals(userTwoUsername)) &&
                             (secondUser.equals(userOneUsername) || secondUser.equals(userTwoUsername))) {
                         messages.add(line);
                     }
+
                 }
+                line = bfr.readLine();
+
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return messages;
     }
+
 }
