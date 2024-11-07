@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 
 public class MessageDatabase implements MessageInterface {
-    public Object gatekeeper = new Object();
+    public static Object messageGatekeeper = new Object();
     // Given two users, the sender, receiver, content, and messageFile in that
     // order,
     // sendMessage will add a message in the messageFile using the
@@ -21,7 +21,7 @@ public class MessageDatabase implements MessageInterface {
     public void sendMessage(User sender, User receiver, String content, String messageFile) {
         // if the content is an image, it will be stored as the image location (ex:
         // "dog.txt")
-        synchronized (gatekeeper) {
+        synchronized (messageGatekeeper) {
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(messageFile, true))) {
                 bw.write(sender.getUsername() + ";" + receiver.getUsername() + ";" + content);
                 bw.newLine();
@@ -40,7 +40,7 @@ public class MessageDatabase implements MessageInterface {
         File tempfile = new File("tempFile.txt");
         File originalFile = new File(messageFile);
 
-        synchronized (gatekeeper) {
+        synchronized (messageGatekeeper) {
             try (BufferedReader br = new BufferedReader(new FileReader(originalFile));
                     BufferedWriter bw = new BufferedWriter(new FileWriter(tempfile))) {
                 String line = br.readLine();
@@ -76,7 +76,7 @@ public class MessageDatabase implements MessageInterface {
     public ArrayList<String> retrieveMessages(String userOneUsername, String userTwoUsername, String messageFile) {
         ArrayList<String> messages = new ArrayList<>();
 
-        synchronized (gatekeeper) {
+        synchronized (messageGatekeeper) {
             try (BufferedReader bfr = new BufferedReader(new FileReader(messageFile))) {
                 String line = bfr.readLine();
                 while (line != null) {
