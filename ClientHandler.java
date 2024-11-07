@@ -2,6 +2,7 @@ import java.io.*;
 import java.net.*;
 
 
+//server side, processing
 class ClientHandler implements Runnable {
     private Socket clientSocket;
 
@@ -11,24 +12,18 @@ class ClientHandler implements Runnable {
 
     @Override
     public void run() {
-        try (BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+             PrintWriter writer = new PrintWriter(clientSocket.getOutputStream(), true)) {
              
-            //TODO: welcome message
-            out.println("Welcome to the server! Type 'bye' to exit.");
-                
-            //start infinite while loop
-                //have user choose between login and create user
-                    //login cases
-                    //create user cases
-            String message;
-            while ((message = in.readLine()) != null) {
-                System.out.println("Received from client: " + message);
-                out.println("Server received: " + message); // Echo message back to client
 
-                if (message.equalsIgnoreCase("bye")) {
-                    out.println("Goodbye!");
-                    break;
+            String message;
+            while ((message = reader.readLine()) != null) {
+                System.out.println("Received from client: " + message);
+
+                if (message.equals("login")) {
+                    String loginInfo = reader.readLine();
+                    writer.println("Login information: " + loginInfo);
+                    System.out.println(loginInfo);
                 }
             }
 
