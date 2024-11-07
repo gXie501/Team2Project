@@ -3,6 +3,8 @@ import javax.imageio.ImageIO;
 
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.Socket;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
 /**
@@ -56,7 +58,7 @@ public class User implements UserObjectInterface {
     }
 
     public void setPfp(String pfp) {
-        try {
+        /*try {
             BufferedImage image = ImageIO.read(new File(pfp)); // Read the image from the specified path
             if (image == null) {
                 throw new IOException("Image file could not be found!");
@@ -67,6 +69,25 @@ public class User implements UserObjectInterface {
             this.pfp = profilePicturePath;
         } catch (IOException e) {
             e.getMessage();
+        }*/
+        try{
+        Socket socket = new Socket("localhost", 1234);
+        OutputStream os = socket.getOutputStream();
+
+        BufferedImage image = ImageIO.read(new File(pfp));
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ImageIO.write(image, "jpg", bos);
+
+        byte[] size = ByteBuffer.allocate(4).putInt(bos.size()).array();
+        os.write(size);
+        os.write(bos.toByteArray());
+        os.flush();
+        System.out.println("Closing: " + System.currentTimeMillis());
+
+        socket.close();
+        }catch(IOException e){
+            e.printStackTrace();
         }
     }
 
