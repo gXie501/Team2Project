@@ -6,6 +6,13 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 
+import Database.MessageDatabase;
+import Database.MessageInterface;
+import Database.User;
+import Database.UserDatabase;
+import Database.UserInterface;
+import Database.UserObjectInterface;
+
 import java.lang.reflect.*;
 import java.util.ArrayList;
 
