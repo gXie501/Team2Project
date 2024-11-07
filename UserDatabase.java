@@ -14,7 +14,7 @@ import java.util.*;
  */
 public class UserDatabase implements UserInterface {
     public static ArrayList<User> users = new ArrayList<>();
-    public Object gatekeeper = new Object();
+    public static Object gatekeeper = new Object();
 
     public ArrayList<User> getUsers() {
         synchronized (gatekeeper) {
