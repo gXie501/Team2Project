@@ -1,5 +1,5 @@
 import java.util.*;
-import java.io.*;
+
 
 /**
  * Team Project -- Run Local Test for Social Media App
@@ -14,17 +14,17 @@ import java.io.*;
  */
 public class UserDatabase implements UserInterface {
     public static ArrayList<User> users = new ArrayList<>();
-    public Object gatekeeper = new Object();
+    public static Object userGatekeeper = new Object();
 
     public ArrayList<User> getUsers() {
-        synchronized (gatekeeper) {
+        synchronized (userGatekeeper) {
             return users;
         }
     }
 
     public boolean createUser(String username, String password, String pfp, boolean restrictMessage) {
       // checks if a user object with this username already exists
-      synchronized (gatekeeper) {
+        synchronized (userGatekeeper) {
             if (returnUser(username) != null) {
                 return false;
             } else {
@@ -40,7 +40,7 @@ public class UserDatabase implements UserInterface {
 
     public boolean login(String username, String password) {
       // check to see if username exists\
-        synchronized (gatekeeper) {
+        synchronized (userGatekeeper) {
             if (returnUser(username) != null) {
                 for (int i = 0; i < users.size(); i++) {
                     if (users.get(i).getUsername().equals(username) && users.get(i).getPassword().equals(password)) {
@@ -54,7 +54,7 @@ public class UserDatabase implements UserInterface {
 
    // username, pfp, pw, restrictMessages, friends, blocked
     public boolean blockUser(User user, User blockUser) {
-        synchronized (gatekeeper) {
+        synchronized (userGatekeeper) {
         // go through each user
             for (int i = 0; i < users.size(); i++) {
             // check to see if we have the right user
@@ -75,7 +75,7 @@ public class UserDatabase implements UserInterface {
     }
 
     public boolean friendUser(User user, User friendUser) {
-        synchronized (gatekeeper) {
+        synchronized (userGatekeeper) {
         // go through each user
             for (int i = 0; i < users.size(); i++) {
             // check to see if we have the right user
@@ -97,7 +97,7 @@ public class UserDatabase implements UserInterface {
 
    // return a use object with the giver username
     public User returnUser(String username) {
-        synchronized (gatekeeper) {
+        synchronized (userGatekeeper) {
             for (User u : users) {
                 if (u.getUsername().equals(username)) {
                     return u;
@@ -107,3 +107,4 @@ public class UserDatabase implements UserInterface {
         }
     }
 }
+
