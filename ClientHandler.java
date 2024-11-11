@@ -22,8 +22,17 @@ class ClientHandler implements Runnable {
 
                 if (message.equals("login")) {
                     String loginInfo = reader.readLine();
+                    System.out.println("Received login info from client: " + loginInfo);
                     writer.println("Login information: " + loginInfo);
                     System.out.println(loginInfo);
+                    writer.flush();
+                } else if (message.equals("exit")) {
+                    // Break out of the loop and close the connection
+                    System.out.println("Client requested disconnection.");
+                    break;
+                } else {
+                    // Echo or process other types of messages
+                    writer.println("Server received: " + message);
                 }
             }
 

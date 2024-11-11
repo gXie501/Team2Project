@@ -9,7 +9,7 @@ public class MultiClientServer {
     public static void main(String[] args) {
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             System.out.println("Server started on port " + PORT);
-
+            
             while (true) {
                 // Accept incoming client connection
                 Socket clientSocket = serverSocket.accept();
