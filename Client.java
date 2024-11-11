@@ -36,7 +36,7 @@ public class Client {
                 System.out.println("Connected to the server.");
 
                 // Create the login panel
-                createLoginPanel();
+                showMainScreen();
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -138,8 +138,16 @@ public class Client {
         // Show main screen or new panel after successful login
         private void showMainScreen() {
             // Remove the login result panel and show the main screen
-            frame.getContentPane().removeAll();
+            //uncomment this code during integration
+            //frame.getContentPane().removeAll();
 
+            //delete this during integration
+            frame = new JFrame("Messaging App");
+            frame.setSize(600, 400);
+            frame.setLocationRelativeTo(null);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            
             // Create a panel for the main screen
             JPanel mainPanel = new JPanel();
             mainPanel.setLayout(new BorderLayout());
@@ -153,18 +161,22 @@ public class Client {
             logoutButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // Handle logout - reset and go back to the login screen
-                    frame.getContentPane().removeAll();
-                    createLoginPanel();  // Show the login panel again
-                    frame.revalidate();
-                    frame.repaint();
+                    // Handle logout - reset and go back to the login screen. uncomment this during integration
+                    // frame.getContentPane().removeAll();
+                    // createLoginPanel();  // Show the login panel again
+                    // frame.revalidate();
+                    // frame.repaint();
                 }
             });
 
             // Update the frame to show the main screen
-            frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
-            frame.revalidate();
-            frame.repaint();
+            //uncomment these during integration
+            //frame.getContentPane().add(mainPanel, BorderLayout.CENTER); 
+            //frame.revalidate();
+            //frame.repaint();
+
+            frame.add(mainPanel);
+            frame.setVisible(true);
         }
     }
 
