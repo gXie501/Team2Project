@@ -33,6 +33,7 @@ public class Client {
 
                 System.out.println("Connected to the server.");
 
+                //put this in a while loop. if the user successfully logs in, break out of it and go into the main frame
                 // Create the GUI components
                 JFrame frame = new JFrame("Messaging App");
                 frame.setSize(600, 400);
@@ -80,13 +81,32 @@ public class Client {
                             System.out.println("Sent login info to server: " + loginInfo);
 
                             // Wait for and handle the server's response
-                            String serverMessage = reader.readLine();
-                            System.out.println("Server response: " + serverMessage);
+                            String loginStatus = reader.readLine();
+                            System.out.println("Server response: " + loginStatus);
+                            
+                            //create a jpanel for loginresults
+                            JPanel loginResults = new JPanel();
+                            JLabel results = new JLabel();
+                            if (loginStatus.equals("Login successful")) {
+                                results = new JLabel("Login successful");
+                            } else if (loginStatus.equals("Invalid password")) {
+                                results = new JLabel("Invalid password");
+                            } else if (loginStatus.equals("User does not exist")) {
+                                results = new JLabel("User does not exist");
+                            }
+
+                            //add loginResults panel to frame
+                            loginResults.add(results);
+                            frame.getContentPane().add(loginResults, BorderLayout.CENTER);
+                            frame.setVisible(true);
+
+
                             
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }
                     }
+                    
                 });
 
             } catch (IOException e) {

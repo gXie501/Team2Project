@@ -96,7 +96,7 @@ public class UserDatabase implements UserInterface {
         }
     }
 
-   // return a use object with the giver username
+   // return a user object with the given username
     public User returnUser(String username) {
         synchronized (userGatekeeper) {
             for (User u : users) {
