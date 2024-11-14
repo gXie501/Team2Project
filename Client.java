@@ -36,15 +36,54 @@ public class Client {
                 System.out.println("Connected to the server.");
 
                 // Create the login panel
-                showMainScreen();
+                welcomePanel();
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+       
+        //welcome panel
+        private void welcomePanel() {
+            //create buttons
+            JButton loginOption = new JButton("Login");
+            JButton createUserOption = new JButton("Create new user");
 
+            ActionListener welcomeListener = new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    Object source = e.getSource();
+                    if (source == loginOption) {
+                        showLoginPanel();
+                    } else if (source == createUserOption) {
+
+                    }
+                }
+            };
+            loginOption.addActionListener(welcomeListener);
+            createUserOption.addActionListener(welcomeListener);
+
+            frame = new JFrame("Messaging App");
+            frame.setSize(600, 400);
+            frame.setLocationRelativeTo(null);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            JPanel panel = new JPanel();
+            panel.add(loginOption);
+            panel.add(createUserOption);
+
+            JPanel welcomeMessage = new JPanel();
+            welcomeMessage.add(new JLabel("Welcome to the messaging app! Would you like to login or create new user?"));
+
+            //add panels to frame
+            frame.getContentPane().add(welcomeMessage, BorderLayout.NORTH); 
+            frame.getContentPane().add(panel, BorderLayout.CENTER);         
+            frame.setVisible(true);
+
+
+
+        }
         // Creates the login frame
-        private void createLoginPanel() {
+        private void showLoginPanel() {
             // Create the GUI components
             frame = new JFrame("Messaging App");
             frame.setSize(600, 400);
@@ -66,6 +105,8 @@ public class Client {
             // Add panel to frame
             frame.getContentPane().add(panel, BorderLayout.NORTH);
             frame.setVisible(true);
+
+            
 
             // Define button action
             loginButton.addActionListener(new ActionListener() {
@@ -147,7 +188,7 @@ public class Client {
             frame.setLocationRelativeTo(null);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-            
+
             // Create a panel for the main screen
             JPanel mainPanel = new JPanel();
             mainPanel.setLayout(new BorderLayout());
