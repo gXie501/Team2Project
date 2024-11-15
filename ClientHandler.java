@@ -35,14 +35,34 @@ public class ClientHandler implements Runnable {
                         // If the user exists, validate the password
                         if (userDatabase.login(username, password)) {
                             writer.println("Login successful");
+                            writer.flush();
                             System.out.println("Login successful for: " + username);
                         } else {
                             writer.println("Invalid password");
+                            writer.flush();
                             System.out.println("Invalid password for: " + username);
                         }
                     } else {
                         writer.println("User does not exist");
+                        writer.flush();
                         System.out.println("User does not exist: " + username);
+                    }
+                } else if (message.equals("createUser")) {
+                    String login = reader.readLine();
+                    String[] loginInfo = login.split(",");
+                    String username = loginInfo[0];
+                    String password = loginInfo[1];
+
+                    System.out.println("Received new user information from client: " + username + ", " + password);
+
+                    // Check if the user exists in the UserDatabase
+                    if (userDatabase.returnUser(username) != null) {
+                        writer.println("User Already Exists");
+                        writer.flush();
+                    } else {
+                        writer.println("New User Created");
+                        System.out.println("New user created: " + username);
+                        userDatabase.createUser(username, password, "123", false); //INCLUDE PROFILEPIC
                     }
                 } else if (message.equals("exit")) {
                     // Handle client disconnection
