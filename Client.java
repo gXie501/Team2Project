@@ -55,7 +55,7 @@ public class Client implements ClientInterface {
                     if (source == loginOption) {
                         showLoginPanel();
                     } else if (source == createUserOption) {
-
+                        showNewUser();
                     }
                 }
             };
@@ -172,6 +172,87 @@ public class Client implements ClientInterface {
             // Add the results panel and refresh the frame
             loginResults.add(results);
             frame.getContentPane().add(loginResults, BorderLayout.CENTER);
+            frame.revalidate();
+            frame.repaint();
+        }
+        //creates the new user frame
+        private void showNewUser() {
+            // Create the GUI components
+            frame = new JFrame("Messaging App");
+            frame.setSize(600, 400);
+            frame.setLocationRelativeTo(null);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            // Create panel components
+            JTextField usernameTextField = new JTextField(10);
+            JTextField passwordTextField = new JTextField(10);
+            JButton createUserButton = new JButton("Create User");
+
+            JPanel panel = new JPanel();
+            panel.add(new JLabel("Username:"));
+            panel.add(usernameTextField);
+            panel.add(new JLabel("Password:"));
+            panel.add(passwordTextField);
+            panel.add(createUserButton);
+
+            createUserButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    username = usernameTextField.getText();
+                    password = passwordTextField.getText();
+
+                    if (username.isEmpty() || password.isEmpty()) {
+                        JOptionPane.showMessageDialog(frame, "Username or password cannot be empty.");
+                        return;
+                    }
+
+                    String loginInfo = username + "," + password;
+
+                    try {
+                        // Send login command and login info to server
+                        writer.println("createUser");
+                        writer.flush();
+                        System.out.println("Sent create new user command to server.");
+
+                        writer.println(loginInfo);
+                        writer.flush();
+                        System.out.println("Sent new user info to server: " + loginInfo);
+
+                        // Wait for and handle the server's response
+                        String loginStatus = reader.readLine();
+                        System.out.println("Server response: " + loginStatus);
+
+                        // Process the server's response
+                        SwingUtilities.invokeLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                handleNewUserResponse(loginStatus);
+                            }
+                        });
+
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
+
+            // Add panel to frame
+            frame.getContentPane().add(panel, BorderLayout.NORTH);
+            frame.setVisible(true);
+
+            
+        }
+
+        private void handleNewUserResponse(String loginStatus) {
+            if (loginStatus.equals("New User Created")) {
+                JOptionPane.showMessageDialog(frame, "User successfully created", "Success", JOptionPane.INFORMATION_MESSAGE);
+                // Transition to the next screen (e.g., a home panel)
+                // Remove the login panel
+                frame.getContentPane().removeAll();
+                showMainScreen();  // Show the main screen after successful login
+            } else if (loginStatus.equals("User Already Exists")) {
+                JOptionPane.showMessageDialog(frame, "User Already exists", "Error", JOptionPane.ERROR_MESSAGE);
+            }
             frame.revalidate();
             frame.repaint();
         }
