@@ -4,7 +4,7 @@ import java.awt.event.*;
 import java.io.*;
 import java.net.*;
 
-public class Client {
+public class Client implements ClientInterface {
     private static final String SERVER_ADDRESS = "localhost";
     private static final int SERVER_PORT = 1234;
 
