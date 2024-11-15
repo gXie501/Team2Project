@@ -4,7 +4,7 @@ import java.awt.event.*;
 import java.io.*;
 import java.net.*;
 
-public class Client {
+public class Client implements ClientInterface {
     private static final String SERVER_ADDRESS = "localhost";
     private static final int SERVER_PORT = 1234;
 
@@ -36,7 +36,7 @@ public class Client {
                 System.out.println("Connected to the server.");
 
                 // Create the login panel
-                welcomePanel();
+                showMainScreen();
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -274,6 +274,17 @@ public class Client {
             JPanel mainPanel = new JPanel();
             mainPanel.setLayout(new BorderLayout());
             mainPanel.add(new JLabel("Welcome to the Main Screen", SwingConstants.CENTER), BorderLayout.CENTER);
+
+            JPanel panel = new JPanel();
+            JTextField searchField = new JTextField(10);
+            panel.add(searchField);
+            
+            JButton search = new JButton("Search");
+            panel.add(search);
+
+            mainPanel.add(panel);
+
+            
 
             // You can add more components to the main screen here, such as buttons, menus, etc.
             JButton logoutButton = new JButton("Logout");

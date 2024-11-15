@@ -3,7 +3,7 @@ import java.net.*;
 
 import Database.UserDatabase;
 
-public class Server {
+public class Server implements ServerInterface {
     public static void main(String[] args) {
         try {
             // Initialize UserDatabase instance
