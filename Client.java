@@ -36,7 +36,7 @@ public class Client implements ClientInterface {
                 System.out.println("Connected to the server.");
 
                 // Create the login panel
-                welcomePanel();
+                showMainScreen();
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -193,6 +193,17 @@ public class Client implements ClientInterface {
             JPanel mainPanel = new JPanel();
             mainPanel.setLayout(new BorderLayout());
             mainPanel.add(new JLabel("Welcome to the Main Screen", SwingConstants.CENTER), BorderLayout.CENTER);
+
+            JPanel panel = new JPanel();
+            JTextField searchField = new JTextField(10);
+            panel.add(searchField);
+            
+            JButton search = new JButton("Search");
+            panel.add(search);
+
+            mainPanel.add(panel);
+
+            
 
             // You can add more components to the main screen here, such as buttons, menus, etc.
             JButton logoutButton = new JButton("Logout");
