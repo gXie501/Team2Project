@@ -114,7 +114,6 @@ public class ClientHandler implements Runnable {
                             writer.println(messages);
                         }
                         writer.flush();
-                        userDatabase.createUser(username, password, null, false); //INCLUDE PROFILEPIC IN FUTURE IMPLEMENTATION
                     }
                 } else if (message.equals("restrict messages")) {
                     String restricted = reader.readLine();
@@ -122,11 +121,17 @@ public class ClientHandler implements Runnable {
                         userDatabase.restrictUser(username, true);
                     } else {
                         userDatabase.restrictUser(username, false);
+                    }     
+                } else if (message.equals("retrieveMessages")){
+                    ArrayList<String> pastMessages = messageDatabase.retrieveMessages(username, reader.readLine(), "testFile.txt");
+                    String messages = "";
+                    for (String m : pastMessages) {
+                        messages += m + "ENDOFMESSAGE";
                     }
-                
-                    
+                    writer.write(messages);
+                    writer.flush();
 
-                } else if (message.equals("exit")) {
+                }else if (message.equals("exit")) {
                     // Handle client disconnection
                     System.out.println("Client requested disconnection.");
                     break;
