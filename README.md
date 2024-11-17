@@ -220,3 +220,32 @@ The `UserDatabase` class is a component of a social media application that manag
 - blockUser: The blockUser method was checked by first creating 2 User and making one of the user block another user. Then an ArrayList<User> was created with the blocked user as an element, and the method was called, and an assertEquals was used to check that the ArrayList<User> was equal to the first User's (blocker) getBlocked() which was an ArrayList of Users that they have blocked.
 - friendUser: The friendUser method was checked by first creating 2 User and making one of the user friend another user. Then an ArrayList<User> was created with the friend user as an element, and the method was called, and an assertEquals was used to check that the ArrayList<User> was equal to the first User's (friender) getFriends() which was an ArrayList of Users that they have friended.
 - returnUser: The returnUser method was tested by first creating an user in the database, then an assertEquals method was used to check that the user that returnUser returned was equal to the user created. Another assertEquals was used to check that when inputing an user that did not exist it returned null.
+
+# Test Case for Client/Server
+## Creating a User/Login
+### Quitting the Program
+- Start the program, User should be able to quit with the “x” button.
+### Successfully Creating an User
+- Start the program again, click the create new user button
+- Enter a username that is unique. (First attempt should be able to create user)
+- Enter in a password. Users should be created.
+- A pane should be displayed upon Successful User Creation
+- User should be taken to a “Home Screen”
+### Failing to Create User
+- In another terminal, run the Client program again.
+- Click the create new user button.
+- Enter the same Username and password as before.
+- A pane should display that User Already Exist.
+- User should be able to change their desired Username and password and attempt to create a new user again.
+- Quit the program with the “x” button and move back to the previous program that successfully created an User.
+### Login Failure/Success
+- Click the logout button on the program, User should be taken back to the Create User/Login Screen.
+- Click on the login button, and enter in random username and password that do not exist.
+- A pane should display to the user Invalid Username or Password.
+- User should be able to change their username and password in another attempt to login.
+- Correctly input the username and password made before, and user should be taken to the "Home Screen".
+
+
+
+
+
