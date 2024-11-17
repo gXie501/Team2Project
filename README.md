@@ -268,15 +268,17 @@ The `Server` class is the entry point for a simple server application that handl
 - Enter the same Username and password as before.
 - A pane should display that User Already Exist.
 - User should be able to change their desired Username and password and attempt to create a new user again.
-- Quit the program with the “x” button and move back to the previous program that successfully created an User.
+- Enter in another unique Username and Password to create another User.
 ### Login Failure/Success
 - Click the logout button on the program, User should be taken back to the Create User/Login Screen.
 - Click on the login button, and enter in random username and password that do not exist.
 - A pane should display to the user Invalid Username or Password.
 - User should be able to change their username and password in another attempt to login.
-- Correctly input the username and password made before, and user should be taken to the "Home Screen".
-
-
-
+- Correctly input the username and password made before, and user should be taken to the "Home Screen" again.
+### Search User Success/Failure
+- Enter in an invalid User that does not exist, and hit the Search Button.
+- A pane should display an Error that User was not found.
+- Enter in a valid Username (User that was first created).
+- A pane should display that the User was found, and asks the User whether they want to add, block, or send a message to the Searched User.
 
 
