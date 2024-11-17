@@ -19,13 +19,14 @@ java RunLocalTest.java
 - Gengjie Xie: Test cases
 - Neha Pudota: Message Database
 - Mithun Mahesh: Image implementation and debugging
-- Leia Lynette Maduakolam: User class
 
 
 ## Version History
 
 * 0.1
     * Database Structure
+* 0.2
+   * Server and Client implementation
 
 ## Classes & interfaces, outline
   # MessageDatabase
@@ -208,6 +209,36 @@ The `UserDatabase` class is a component of a social media application that manag
 - **Parameters**:
   - `username`: The username of the user to find.
 - **Returns**: A `User` object if found; `null` otherwise.
+
+# Server Class - README
+
+## Overview
+The `Server` class is the entry point for a simple server application that handles client connections and manages user and message data. It listens for incoming client connections on a specified port and delegates the handling of each client to a separate thread using a `ClientHandler`.
+
+---
+
+## Features
+- **Multi-threaded Client Handling:** Each client connection is handled in its own thread for scalability.
+- **User Management:** Utilizes a `UserDatabase` class to manage user-related operations.
+- **Message Management:** Uses a `MessageDatabase` class to store and manage messages sent by clients.
+
+---
+
+## Prerequisites
+- **Java Development Kit (JDK):** Ensure JDK 8 or later is installed.
+- **Dependencies:** 
+  - `Database.UserDatabase` and `Database.MessageDatabase` must be implemented and included in the project.
+  - `ClientHandler` class must be defined and capable of handling a socket connection.
+
+---
+
+## Usage Instructions
+
+1. **Compilation:**
+   Compile the project files using the following command:
+   ```bash
+   javac -d . Server.java
+
 
 ## Test Case for UserDatabase Class
 ### UserDatabase Class
