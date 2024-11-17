@@ -229,8 +229,9 @@ The `UserDatabase` class is a component of a social media application that manag
 - Start the program again, click the create new user button
 - Enter a username that is unique. (First attempt should be able to create user)
 - Enter in a password. Users should be created.
-- A pane should be displayed upon Successful User Creation
-- User should be taken to a “Home Screen”
+- A pane should be displayed upon Successful User Creation asking whether user wants to receive messages from all Users.
+- After Selecting "Yes" or "No", User should be taken to a “Home Screen”.
+- If User clicks the "x" button and does not make a selection, it will default to "No".
 ### Failing to Create User
 - In another terminal, run the Client program again.
 - Click the create new user button.
