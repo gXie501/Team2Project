@@ -14,7 +14,9 @@ import Database.UserInterface;
 import Database.UserObjectInterface;
 
 import java.lang.reflect.*;
+import java.net.Socket;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 /**
  * Team Project -- Run Local Test for Social Media App
@@ -436,5 +438,14 @@ public class RunLocalTest {
             Assert.assertEquals("Ensure that ClientHandler implements ClientHandler Interface!",
                     ClientHandlerInterface.class, superinterfaces[1]);
         }
+		@Test
+		public void ClientHandlerConstructorTest() {
+			try {
+				Class<?> clazz = ClientHandler.class;
+				Constructor<?> constructor = clazz.getConstructor(Socket.class, UserDatabase.class, MessageDatabase.class);
+			} catch (NoSuchMethodException e) {
+				Assert.fail("Constructor with a Socket, UserDatabase, and MessageDatabase does not exist or is not public");
+			}
+		}
     }
 }
