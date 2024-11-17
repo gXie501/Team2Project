@@ -210,9 +210,8 @@ The `UserDatabase` class is a component of a social media application that manag
   - `username`: The username of the user to find.
 - **Returns**: A `User` object if found; `null` otherwise.
 
-# Server Class - README
+# Server Class 
 
-## Overview
 The `Server` class is the entry point for a simple server application that handles client connections and manages user and message data. It listens for incoming client connections on a specified port and delegates the handling of each client to a separate thread using a `ClientHandler`.
 
 ---
