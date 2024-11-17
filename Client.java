@@ -241,7 +241,7 @@ public class Client implements ClientInterface {
             if (loginStatus.equals("New User Created")) {
                 writer.println("restrict messages");
                 writer.flush();
-                int result = JOptionPane.showConfirmDialog(frame,"Would you like to receive messages from all users? If not, you will only receive messages from friends.", "Swing Tester",
+                int result = JOptionPane.showConfirmDialog(frame,"Would you like to receive messages from all users? If not, you will only receive messages from friends.", "Restrict Messages",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
                 if (result == JOptionPane.YES_OPTION){
