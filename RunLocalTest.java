@@ -350,5 +350,86 @@ public class RunLocalTest {
             Assert.assertEquals("User has not been added to the blocked ArrayList", expectedArrayList,
                     blocker.getBlocked());
         }
+        @Test(timeout = 1000)
+        public void ClientDeclarationTest() {
+            Class<?> clazz;
+            int modifiers;
+            Class<?> superclass;
+            Class<?>[] superinterfaces;
+
+            clazz = Client.class;
+
+            modifiers = clazz.getModifiers();
+
+            superclass = clazz.getSuperclass();
+
+            superinterfaces = clazz.getInterfaces();
+
+            Assert.assertTrue("Ensure that Client is public!",
+                    Modifier.isPublic(modifiers));
+            Assert.assertFalse("Ensure that Client is NOT abstract!",
+                    Modifier.isAbstract(modifiers));
+
+            Assert.assertEquals("Ensure that Client does not extend any class!",
+                    Object.class, superclass); // before we were checking if exception extended messageDatabase
+            Assert.assertEquals("Ensure that Client implements 1 interfaces!",
+                    1, superinterfaces.length);
+            Assert.assertEquals("Ensure that Client implements Client Interface!",
+                    ClientInterface.class, superinterfaces[0]);
+        }
+        @Test(timeout = 1000)
+        public void ServerDeclarationTest() {
+            Class<?> clazz;
+            int modifiers;
+            Class<?> superclass;
+            Class<?>[] superinterfaces;
+
+            clazz = Server.class;
+
+            modifiers = clazz.getModifiers();
+
+            superclass = clazz.getSuperclass();
+
+            superinterfaces = clazz.getInterfaces();
+
+            Assert.assertTrue("Ensure that Server is public!",
+                    Modifier.isPublic(modifiers));
+            Assert.assertFalse("Ensure that Server is NOT abstract!",
+                    Modifier.isAbstract(modifiers));
+
+            Assert.assertEquals("Ensure that Server does not extend any class!",
+                    Object.class, superclass); // before we were checking if exception extended messageDatabase
+            Assert.assertEquals("Ensure that Server implements 1 interfaces!",
+                    1, superinterfaces.length);
+            Assert.assertEquals("Ensure that Server implements Server Interface!",
+                    ServerInterface.class, superinterfaces[0]);
+        }
+        @Test(timeout = 1000)
+        public void ClientHandlerDeclarationTest() {
+            Class<?> clazz;
+            int modifiers;
+            Class<?> superclass;
+            Class<?>[] superinterfaces;
+
+            clazz = ClientHandler.class;
+
+            modifiers = clazz.getModifiers();
+
+            superclass = clazz.getSuperclass();
+
+            superinterfaces = clazz.getInterfaces();
+
+            Assert.assertTrue("Ensure that ClientHandler is public!",
+                    Modifier.isPublic(modifiers));
+            Assert.assertFalse("Ensure that ClientHandler is NOT abstract!",
+                    Modifier.isAbstract(modifiers));
+
+            Assert.assertEquals("Ensure that ClientHandler does not extend any class!",
+                    Object.class, superclass); // before we were checking if exception extended messageDatabase
+            Assert.assertEquals("Ensure that ClientHandler implements 1 interfaces!",
+                    1, superinterfaces.length);
+            Assert.assertEquals("Ensure that ClientHandler implements Runnable Interface!",
+                    Runnable.class, superinterfaces[0]);
+        }
     }
 }
