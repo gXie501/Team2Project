@@ -17,7 +17,8 @@ public class Client implements ClientInterface {
     private JFrame frame;
 
     public void run() {
-        // Start client communication in a separate thread to avoid blocking the UI thread
+        // Start client communication in a separate thread to avoid blocking the UI
+        // thread
         new Thread(new ClientRunnable()).start();
     }
 
@@ -36,7 +37,7 @@ public class Client implements ClientInterface {
                 System.out.println("Connected to the server.");
 
                 // Create the login panel
-                showMainScreen();
+                welcomePanel();
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -78,8 +79,6 @@ public class Client implements ClientInterface {
             frame.getContentPane().add(welcomeMessage, BorderLayout.NORTH); 
             frame.getContentPane().add(panel, BorderLayout.CENTER);         
             frame.setVisible(true);
-
-
 
         }
         // Creates the login frame
@@ -153,25 +152,18 @@ public class Client implements ClientInterface {
 
         // Handle server's login response and transition to a new screen
         private void handleLoginResponse(String loginStatus) {
-            // Remove the login panel
-            frame.getContentPane().removeAll();
-
-            JPanel loginResults = new JPanel();
-            JLabel results = new JLabel();
-
             if (loginStatus.equals("Login successful")) {
-                results.setText("Login successful");
+                JOptionPane.showMessageDialog(frame, "Login Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
                 // Transition to the next screen (e.g., a home panel)
                 showMainScreen();  // Show the main screen after successful login
             } else if (loginStatus.equals("Invalid password")) {
-                results.setText("Invalid password");
+                JOptionPane.showMessageDialog(frame, "Invalid Password, please try again", "Error", JOptionPane.ERROR_MESSAGE);
+
             } else if (loginStatus.equals("User does not exist")) {
-                results.setText("User does not exist");
+                JOptionPane.showMessageDialog(frame, "User does not exist, please try again", "Error", JOptionPane.ERROR_MESSAGE);
             }
 
-            // Add the results panel and refresh the frame
-            loginResults.add(results);
-            frame.getContentPane().add(loginResults, BorderLayout.CENTER);
+            //refresh the frame
             frame.revalidate();
             frame.repaint();
         }
@@ -245,72 +237,92 @@ public class Client implements ClientInterface {
 
         private void handleNewUserResponse(String loginStatus) {
             if (loginStatus.equals("New User Created")) {
+                writer.println("restrict messages");
+                writer.flush();
+                int result = JOptionPane.showConfirmDialog(frame,"Would you like to receive messages from all users? If not, you will only receive messages from friends.", "Swing Tester",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+                if (result == JOptionPane.YES_OPTION){
+                    try {
+                        writer.println("yes");
+                        writer.flush();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else if (result == JOptionPane.NO_OPTION){
+                    try {
+                        writer.println("no");
+                        writer.flush();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+         }
                 JOptionPane.showMessageDialog(frame, "User successfully created", "Success", JOptionPane.INFORMATION_MESSAGE);
                 // Transition to the next screen (e.g., a home panel)
                 // Remove the login panel
                 frame.getContentPane().removeAll();
                 showMainScreen();  // Show the main screen after successful login
             } else if (loginStatus.equals("User Already Exists")) {
-                JOptionPane.showMessageDialog(frame, "User Already exists", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(frame, "Username is taken, please choose another one.", "Error", JOptionPane.ERROR_MESSAGE);
             }
             frame.revalidate();
             frame.repaint();
         }
 
-        // Show main screen or new panel after successful login
-        private void showMainScreen() {
-            // Remove the login result panel and show the main screen
-            //uncomment this code during integration
-            //frame.getContentPane().removeAll();
+    // Show main screen or new panel after successful login
+    private void showMainScreen() {
+        // Remove the login result panel and show the main screen
+        // uncomment this code during integration
+        // frame.getContentPane().removeAll();
 
-            //delete this during integration
-            frame = new JFrame("Messaging App");
-            frame.setSize(600, 400);
-            frame.setLocationRelativeTo(null);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // delete this during integration
+        frame = new JFrame("Messaging App");
+        frame.setSize(600, 400);
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        // Create a panel for the main screen
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.add(new JLabel("Welcome to the Main Screen", SwingConstants.CENTER), BorderLayout.CENTER);
 
-            // Create a panel for the main screen
-            JPanel mainPanel = new JPanel();
-            mainPanel.setLayout(new BorderLayout());
-            mainPanel.add(new JLabel("Welcome to the Main Screen", SwingConstants.CENTER), BorderLayout.CENTER);
+        JPanel panel = new JPanel();
+        JTextField searchField = new JTextField(10);
+        panel.add(searchField);
 
-            JPanel panel = new JPanel();
-            JTextField searchField = new JTextField(10);
-            panel.add(searchField);
-            
-            JButton search = new JButton("Search");
-            panel.add(search);
+        JButton search = new JButton("Search");
+        panel.add(search);
 
-            mainPanel.add(panel);
+        mainPanel.add(panel);
 
-            
+        // You can add more components to the main screen here, such as buttons, menus,
+        // etc.
+        JButton logoutButton = new JButton("Logout");
+        mainPanel.add(logoutButton, BorderLayout.SOUTH);
 
-            // You can add more components to the main screen here, such as buttons, menus, etc.
-            JButton logoutButton = new JButton("Logout");
-            mainPanel.add(logoutButton, BorderLayout.SOUTH);
+        // Define logout button action
+        logoutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Handle logout - reset and go back to the login screen. uncomment this during
+                // integration
+                // frame.getContentPane().removeAll();
+                // createLoginPanel(); // Show the login panel again
+                // frame.revalidate();
+                // frame.repaint();
+            }
+        });
 
-            // Define logout button action
-            logoutButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    // Handle logout - reset and go back to the login screen. uncomment this during integration
-                    // frame.getContentPane().removeAll();
-                    // createLoginPanel();  // Show the login panel again
-                    // frame.revalidate();
-                    // frame.repaint();
-                }
-            });
+        // Update the frame to show the main screen
+        // uncomment these during integration
+        // frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
+        // frame.revalidate();
+        // frame.repaint();
 
-            // Update the frame to show the main screen
-            //uncomment these during integration
-            //frame.getContentPane().add(mainPanel, BorderLayout.CENTER); 
-            //frame.revalidate();
-            //frame.repaint();
+        frame.add(mainPanel);
+        frame.setVisible(true);
+    }
 
-            frame.add(mainPanel);
-            frame.setVisible(true);
-        }
     }
 
     public static void main(String[] args) {
