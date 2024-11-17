@@ -6,8 +6,9 @@ import javax.swing.JOptionPane;
 
 import Database.UserDatabase;
 import Database.MessageDatabase;
+import Database.User;
 
-public class ClientHandler implements Runnable, ClientHandlerInterface {
+public class ClientHandler implements Runnable {
     private Socket clientSocket;
     private UserDatabase userDatabase;  // This will store the reference to the UserDatabase instance
     private MessageDatabase messageDatabase;
@@ -74,8 +75,24 @@ public class ClientHandler implements Runnable, ClientHandlerInterface {
                         userDatabase.createUser(username, password, "123", false); //INCLUDE PROFILEPIC
 
                         // TESTING:
-                        userDatabase.createUser("user2", "randomPass", "123", false);
+                        // userDatabase.createUser("user2", "randomPass", "123", false);
                     }
+                } else if (message.equals("sendMessage")) {
+                    // sends receiver
+                    // sends user
+                    // sends message
+                    User receiver = userDatabase.returnUser(reader.readLine());
+                    System.out.println("Received the receiving user " + receiver + " from client");
+                    User currentUser = userDatabase.returnUser(reader.readLine());
+                    System.out.println("Received current user " + currentUser + " from client");
+                    String sendWhat = reader.readLine();
+                    System.out.println("Received and sending message  '" + sendWhat + "'");
+
+                
+                    
+                    messageDatabase.sendMessage(currentUser, receiver, sendWhat, "testFile.txt");
+                    System.out.println("Sent message from " + currentUser.getUsername() + " to " + receiver.getUsername());
+                    
                 } else if (message.equals("searchUser")) {
                     String searcher = reader.readLine();
                     System.out.println("Received user client intends to search: " + searcher);

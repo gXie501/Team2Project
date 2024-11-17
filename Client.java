@@ -325,7 +325,6 @@ public class Client implements ClientInterface {
         // frame.repaint();
 
             search.addActionListener(new ActionListener() {
-                
                 public void actionPerformed(ActionEvent e) {
                     String searchText = searchField.getText();
                     if (searchText.isEmpty()) {
@@ -345,18 +344,63 @@ public class Client implements ClientInterface {
                             String response = reader.readLine();
                             System.out.println("Server response: " + response);
             
-                            // Display appropriate message to the user
                             SwingUtilities.invokeLater(() -> {
                                 if (response.equals("User found")) {
-                                    JOptionPane.showMessageDialog(frame, "User " + searchText + " found!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                                    int option = JOptionPane.showConfirmDialog(frame,
+                                            "User " + searchText + " found! Would you like to send a message?",
+                                            "Success", JOptionPane.YES_NO_OPTION);
+                                    if (option == JOptionPane.YES_OPTION) {
+                                        // Clear the center panel
+                                        mainPanel.removeAll();
+            
+                                        // Create a new panel for sending a message
+                                        JPanel messagePanel = new JPanel();
+                                        messagePanel.setLayout(new BorderLayout());
+            
+                                        JLabel messageLabel = new JLabel("What message would you like to send?", SwingConstants.CENTER);
+                                        messagePanel.add(messageLabel, BorderLayout.NORTH);
+            
+                                        JTextField messageField = new JTextField(20);
+                                        messagePanel.add(messageField, BorderLayout.CENTER);
+            
+                                        JButton sendMessageButton = new JButton("Send Message");
+                                        messagePanel.add(sendMessageButton, BorderLayout.SOUTH);
+            
+                                        sendMessageButton.addActionListener(new ActionListener() {
+                                            @Override
+                                            public void actionPerformed(ActionEvent e) {
+                                                String message = messageField.getText();
+                                                if (message.isEmpty()) {
+                                                    JOptionPane.showMessageDialog(frame, "Please enter a message.", "Error", JOptionPane.ERROR_MESSAGE);
+                                                } else {
+                                                    writer.println("sendMessage");
+                                                    writer.flush();
+                                                    writer.println(searchText);
+                                                    writer.flush();
+                                                    writer.println(username);
+                                                    writer.flush();
+                                                    writer.println(message);
+                                                    writer.flush();
+                                                    JOptionPane.showMessageDialog(frame, "Message sent successfully to " + searchText + "!");
+                                                }
+                                            }
+                                        });
+            
+                                        // Add the new message panel to the main screen
+                                        mainPanel.add(messagePanel, BorderLayout.CENTER);
+            
+                                        // Refresh the frame
+                                        frame.revalidate();
+                                        frame.repaint();
+                                    }
                                 } else if (response.equals("User Not Found")) {
                                     JOptionPane.showMessageDialog(frame, "User " + searchText + " does not exist.", "Error", JOptionPane.ERROR_MESSAGE);
                                 } else {
-                                    JOptionPane.showMessageDialog(frame, "Unexpected response from the server.", "Error", JOptionPane.ERROR_MESSAGE);
+                                    JOptionPane.showMessageDialog(frame, "User not found.", "Error", JOptionPane.ERROR_MESSAGE);
                                 }
                             });
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
+                        } catch (IOException f) {
+                            f.printStackTrace();
                             JOptionPane.showMessageDialog(frame, "An error occurred while communicating with the server.", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     }
