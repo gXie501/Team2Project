@@ -284,7 +284,7 @@ The `Server` class is the entry point for a simple server application that handl
 - Click the block button for the User.
 - A pane should be displayed for the User to confirm that they want to block the Searched User.
 - After confirmation, if the Searched User is in the friend list of the User, they will be automatically unfriended.
-- ### Friend User
+### Friend User
 - Search the same User again, and click the add button for the User.
 - A pane should be displayed for the User to confirm that they want to friend the Searched User.
 - After confirmation, if the User originally blocked the Searched User, they will be automatically unblocked.
