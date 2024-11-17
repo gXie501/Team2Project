@@ -116,6 +116,21 @@ public class ClientHandler implements Runnable {
                         writer.flush();
                         userDatabase.createUser(username, password, null, false); //INCLUDE PROFILEPIC IN FUTURE IMPLEMENTATION
                     }
+                } else if (message.equals("blockUser")) {
+                    // sends current user
+                    User username = userDatabase.returnUser(reader.readLine());
+                    User blocked = userDatabase.returnUser(reader.readLine());
+                    userDatabase.blockUser(username, blocked);
+                    
+                    // sends usersBlocked to check if added to array
+                    ArrayList<User> usersBlocked = username.getBlocked();
+                    String users = "";
+                    for (User user : usersBlocked) {
+                        users  += user.getUsername() + " ";
+                    }
+                    writer.println(users);
+                    writer.flush();
+                
                 } else if (message.equals("restrict messages")) {
                     String restricted = reader.readLine();
                     if (restricted.equals("yes")) {
