@@ -358,6 +358,8 @@ public class Client implements ClientInterface {
                                                     writer.flush();
                                                     writer.println(searchText);
                                                     writer.flush();
+                                                    writer.println(username);
+                                                    writer.flush();
                                                     writer.println(message);
                                                     writer.flush();
                                                     JOptionPane.showMessageDialog(frame, "Message sent successfully to " + searchText + "!");
