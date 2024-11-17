@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.*;
 
+import Database.MessageDatabase;
 import Database.UserDatabase;
 
 public class Server implements ServerInterface {
@@ -8,6 +9,7 @@ public class Server implements ServerInterface {
         try {
             // Initialize UserDatabase instance
             UserDatabase userDatabase = new UserDatabase(); // Ensure it's not null
+            MessageDatabase messageDatabase = new MessageDatabase();
 
             // Create the server socket and start listening for connections
             ServerSocket serverSocket = new ServerSocket(1234);
@@ -19,7 +21,7 @@ public class Server implements ServerInterface {
                 System.out.println("Client connected: " + clientSocket.getInetAddress().getHostAddress());
 
                 // Pass the UserDatabase to the ClientHandler
-                ClientHandler clientHandler = new ClientHandler(clientSocket, userDatabase);
+                ClientHandler clientHandler = new ClientHandler(clientSocket, userDatabase, messageDatabase);
 
                 // Handle each client connection in a new thread
                 new Thread(clientHandler).start();

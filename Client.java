@@ -4,6 +4,8 @@ import java.awt.event.*;
 import java.io.*;
 import java.net.*;
 
+
+
 public class Client implements ClientInterface {
     private static final String SERVER_ADDRESS = "localhost";
     private static final int SERVER_PORT = 1234;
@@ -281,14 +283,17 @@ public class Client implements ClientInterface {
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+
         // Create a panel for the main screen
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
-        mainPanel.add(new JLabel("Welcome to the Main Screen", SwingConstants.CENTER), BorderLayout.CENTER);
+        JLabel welcomeText = new JLabel("Welcome to the Main Screen", SwingConstants.CENTER);
+        mainPanel.add(welcomeText, BorderLayout.CENTER);
 
         JPanel panel = new JPanel();
         JTextField searchField = new JTextField(10);
         panel.add(searchField);
+
 
         JButton search = new JButton("Search");
         panel.add(search);
@@ -319,9 +324,55 @@ public class Client implements ClientInterface {
         // frame.revalidate();
         // frame.repaint();
 
+            search.addActionListener(new ActionListener() {
+                
+                public void actionPerformed(ActionEvent e) {
+                    String searchText = searchField.getText();
+                    if (searchText.isEmpty()) {
+                        JOptionPane.showMessageDialog(frame, "Please enter a username.", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        try {
+                            writer.println("searchUser");
+                            writer.flush();
+                            System.out.println("Sent search command to the server.");
+            
+                            // Send the username to search
+                            writer.println(searchText);
+                            writer.flush();
+                            System.out.println("Searching for user: " + searchText);
+            
+                            // Read server's response
+                            String response = reader.readLine();
+                            System.out.println("Server response: " + response);
+            
+                            // Display appropriate message to the user
+                            SwingUtilities.invokeLater(() -> {
+                                if (response.equals("User found")) {
+                                    JOptionPane.showMessageDialog(frame, "User " + searchText + " found!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                                } else if (response.equals("User Not Found")) {
+                                    JOptionPane.showMessageDialog(frame, "User " + searchText + " does not exist.", "Error", JOptionPane.ERROR_MESSAGE);
+                                } else {
+                                    JOptionPane.showMessageDialog(frame, "Unexpected response from the server.", "Error", JOptionPane.ERROR_MESSAGE);
+                                }
+                            });
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                            JOptionPane.showMessageDialog(frame, "An error occurred while communicating with the server.", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                }
+            });
+
+            // Update the frame to show the main screen
+            //uncomment these during integration
+            //frame.getContentPane().add(mainPanel, BorderLayout.CENTER); 
+            //frame.revalidate();
+            //frame.repaint();
+
         frame.add(mainPanel);
         frame.setVisible(true);
     }
+
 
     }
 
