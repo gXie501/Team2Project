@@ -31,7 +31,9 @@ public class User implements UserObjectInterface {
             ArrayList<User> blocked) {
         this.username = username;
         this.password = password;
-        setPfp(pfp);
+        if (pfp != null) {
+            setPfp(pfp);
+        } 
         this.restrictMessages = restrictMessages;
         this.friends = friends;
         this.blocked = blocked;
