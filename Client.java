@@ -154,7 +154,11 @@ public class Client implements ClientInterface {
             if (loginStatus.equals("Login successful")) {
                 JOptionPane.showMessageDialog(frame, "Login Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
                 // Transition to the next screen (e.g., a home panel)
+
+                frame.getContentPane().removeAll(); // Clear the existing content
                 showMainScreen(); // Show the main screen after successful login
+                return;
+
             } else if (loginStatus.equals("Invalid password")) {
                 JOptionPane.showMessageDialog(frame, "Invalid Password, please try again", "Error",
                         JOptionPane.ERROR_MESSAGE);
@@ -277,14 +281,8 @@ public class Client implements ClientInterface {
         // Show main screen or new panel after successful login
         private void showMainScreen() {
             // Remove the login result panel and show the main screen
-            // uncomment this code during integration
-            // frame.getContentPane().removeAll();
 
-            // delete this during integration
-            frame = new JFrame("Messaging App");
-            frame.setSize(600, 400);
-            frame.setLocationRelativeTo(null);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.getContentPane().removeAll();
 
             // Create a panel for the main screen
             JPanel mainPanel = new JPanel();
@@ -311,11 +309,15 @@ public class Client implements ClientInterface {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     // Handle logout - reset and go back to the login screen. uncomment this during
-                    // integration
-                    // frame.getContentPane().removeAll();
-                    // createLoginPanel(); // Show the login panel again
-                    // frame.revalidate();
-                    // frame.repaint();
+
+
+                    frame.getContentPane().removeAll();
+                    username = "";
+                    password = "";
+                    welcomePanel(); // Show the login panel again
+                    frame.revalidate();
+                    frame.repaint();
+
                 }
             });
 
@@ -348,18 +350,22 @@ public class Client implements ClientInterface {
 
                             SwingUtilities.invokeLater(() -> {
                                 if (response.equals("User found")) {
+
                                     String[] options = { "Send or Delete Message", "Block User", "Add Friend", "Cancel" };
+
 
                                     int choice = JOptionPane.showOptionDialog(frame, "User " +
                                             searchText + " found! What would you like to do?",
                                             "User Options", JOptionPane.DEFAULT_OPTION,
                                             JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
+
                                     if (choice == 0) { // search for USER
                                         
                                         mainPanel.removeAll();
 
                                         // create a new panel for sending a message
+
                                         JPanel messagePanel = new JPanel();
                                         messagePanel.setLayout(new BorderLayout());
 
@@ -448,7 +454,8 @@ public class Client implements ClientInterface {
                                         
                                     }
 
-                                } else if (response.equals("User not found")) {
+                                } else if (response.equals("User Not Found")) {
+
                                     JOptionPane.showMessageDialog(frame, "User " + searchText + " does not exist.",
                                             "Error", JOptionPane.ERROR_MESSAGE);
                                 } else {
