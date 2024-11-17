@@ -53,6 +53,23 @@ public class UserDatabase implements UserInterface {
         }
     }
 
+    public void restrictUser(String username, boolean restrict) {
+        synchronized (userGatekeeper) {
+            // go through each user
+                for (int i = 0; i < users.size(); i++) {
+                // check to see if we have the right user
+                    if (users.get(i).getUsername().equals(username)) {
+                        // get the user from the user array
+                        User updatedUser = users.get(i);
+                        // update the restrict status
+                        updatedUser.setRestrictMessages(restrict);
+                        // set the user in users array to be the updated user
+                        users.set(i, updatedUser);
+                    }
+                }
+            }
+    }
+
    // username, pfp, pw, restrictMessages, friends, blocked
     public boolean blockUser(User user, User blockUser) {
         synchronized (userGatekeeper) {

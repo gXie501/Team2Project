@@ -12,6 +12,8 @@ public class ClientHandler implements Runnable {
     private Socket clientSocket;
     private UserDatabase userDatabase;  // This will store the reference to the UserDatabase instance
     private MessageDatabase messageDatabase;
+    String username;
+    String password;
 
     // Constructor that accepts the socket and the UserDatabase instance
     public ClientHandler(Socket socket, UserDatabase userDatabase, MessageDatabase messageDatabase) {
@@ -32,8 +34,8 @@ public class ClientHandler implements Runnable {
                 if (message.equals("login")) {
                     String login = reader.readLine();
                     String[] loginInfo = login.split(",");
-                    String username = loginInfo[0];
-                    String password = loginInfo[1];
+                    username = loginInfo[0];
+                    password = loginInfo[1];
 
                     System.out.println("Received login info from client: " + username + ", " + password);
 
@@ -112,6 +114,14 @@ public class ClientHandler implements Runnable {
                             writer.println(messages);
                         }
                         writer.flush();
+                        userDatabase.createUser(username, password, null, false); //INCLUDE PROFILEPIC IN FUTURE IMPLEMENTATION
+                    }
+                } else if (message.equals("restrict messages")) {
+                    String restricted = reader.readLine();
+                    if (restricted.equals("yes")) {
+                        userDatabase.restrictUser(username, true);
+                    } else {
+                        userDatabase.restrictUser(username, false);
                     }
                 
                     
