@@ -1,16 +1,22 @@
 import java.io.*;
 import java.net.*;
 
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 import Database.UserDatabase;
+import Database.MessageDatabase;
 
 public class ClientHandler implements Runnable {
     private Socket clientSocket;
     private UserDatabase userDatabase;  // This will store the reference to the UserDatabase instance
+    private MessageDatabase messageDatabase;
 
     // Constructor that accepts the socket and the UserDatabase instance
-    public ClientHandler(Socket socket, UserDatabase userDatabase) {
+    public ClientHandler(Socket socket, UserDatabase userDatabase, MessageDatabase messageDatabase) {
         this.clientSocket = socket;
         this.userDatabase = userDatabase;  // Store the reference to the UserDatabase
+        this.messageDatabase = messageDatabase;
     }
 
     @Override
@@ -48,6 +54,7 @@ public class ClientHandler implements Runnable {
                         System.out.println("User does not exist: " + username);
                     }
                 } else if (message.equals("createUser")) {
+                
                     String login = reader.readLine();
                     String[] loginInfo = login.split(",");
                     String username = loginInfo[0];
@@ -63,7 +70,35 @@ public class ClientHandler implements Runnable {
                         writer.println("New User Created");
                         System.out.println("New user created: " + username);
                         userDatabase.createUser(username, password, "123", false); //INCLUDE PROFILEPIC
+
+                        // TESTING:
+                        userDatabase.createUser("user2", "randomPass", "123", false);
                     }
+                } else if (message.equals("searchUser")) {
+                    String searcher = reader.readLine();
+                    System.out.println("Received user client intends to search: " + searcher);
+                
+                    if (userDatabase.returnUser(searcher) == null) {
+                        writer.println("User not found");
+                        writer.flush();
+                    } else {
+                        writer.println("User found");
+                        writer.flush();
+                        
+                        // Handle retrieving messages
+                        String currUser = reader.readLine(); // Current user making the request
+                        ArrayList<String> messages = messageDatabase.retrieveMessages(currUser, searcher, "testFile.txt");
+                        
+                        if (messages == null || messages.isEmpty()) {
+                            writer.println("No messages found");
+                        } else {
+                            writer.println(messages);
+                        }
+                        writer.flush();
+                    }
+                
+                    
+
                 } else if (message.equals("exit")) {
                     // Handle client disconnection
                     System.out.println("Client requested disconnection.");
