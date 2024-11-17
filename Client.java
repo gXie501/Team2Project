@@ -159,14 +159,10 @@ public class Client implements ClientInterface {
             } else if (loginStatus.equals("Invalid password")) {
                 JOptionPane.showMessageDialog(frame, "Invalid Password, please try again", "Error",
                         JOptionPane.ERROR_MESSAGE);
-                frame.getContentPane().removeAll();
-                showLoginPanel(); // Show the main screen after successful login
 
             } else if (loginStatus.equals("User does not exist")) {
                 JOptionPane.showMessageDialog(frame, "User does not exist, please try again", "Error",
                         JOptionPane.ERROR_MESSAGE);
-                frame.getContentPane().removeAll();
-                showLoginPanel(); // Show the main screen after successful login
             }
 
             // refresh the frame
@@ -274,8 +270,6 @@ public class Client implements ClientInterface {
             } else if (loginStatus.equals("User Already Exists")) {
                 JOptionPane.showMessageDialog(frame, "Username is taken, please choose another one.", "Error",
                         JOptionPane.ERROR_MESSAGE);
-                frame.getContentPane().removeAll();
-                showLoginPanel(); // Show the main screen after successful login
             }
             frame.revalidate();
             frame.repaint();
