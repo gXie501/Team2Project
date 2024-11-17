@@ -154,18 +154,19 @@ public class Client implements ClientInterface {
             if (loginStatus.equals("Login successful")) {
                 JOptionPane.showMessageDialog(frame, "Login Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
                 // Transition to the next screen (e.g., a home panel)
-
-                frame.getContentPane().removeAll(); // Clear the existing content
+                frame.getContentPane().removeAll();
                 showMainScreen(); // Show the main screen after successful login
-                return;
-
             } else if (loginStatus.equals("Invalid password")) {
                 JOptionPane.showMessageDialog(frame, "Invalid Password, please try again", "Error",
                         JOptionPane.ERROR_MESSAGE);
+                frame.getContentPane().removeAll();
+                showLoginPanel(); // Show the main screen after successful login
 
             } else if (loginStatus.equals("User does not exist")) {
                 JOptionPane.showMessageDialog(frame, "User does not exist, please try again", "Error",
                         JOptionPane.ERROR_MESSAGE);
+                frame.getContentPane().removeAll();
+                showLoginPanel(); // Show the main screen after successful login
             }
 
             // refresh the frame
@@ -273,6 +274,8 @@ public class Client implements ClientInterface {
             } else if (loginStatus.equals("User Already Exists")) {
                 JOptionPane.showMessageDialog(frame, "Username is taken, please choose another one.", "Error",
                         JOptionPane.ERROR_MESSAGE);
+                frame.getContentPane().removeAll();
+                showLoginPanel(); // Show the main screen after successful login
             }
             frame.revalidate();
             frame.repaint();
@@ -281,8 +284,7 @@ public class Client implements ClientInterface {
         // Show main screen or new panel after successful login
         private void showMainScreen() {
             // Remove the login result panel and show the main screen
-
-            frame.getContentPane().removeAll();
+            
 
             // Create a panel for the main screen
             JPanel mainPanel = new JPanel();
@@ -309,15 +311,11 @@ public class Client implements ClientInterface {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     // Handle logout - reset and go back to the login screen. uncomment this during
-
-
+                    // integration
                     frame.getContentPane().removeAll();
-                    username = "";
-                    password = "";
                     welcomePanel(); // Show the login panel again
                     frame.revalidate();
                     frame.repaint();
-
                 }
             });
 
@@ -350,101 +348,18 @@ public class Client implements ClientInterface {
 
                             SwingUtilities.invokeLater(() -> {
                                 if (response.equals("User found")) {
-
                                     String[] options = { "Send or Delete Message", "Block User", "Add Friend", "Cancel" };
-
 
                                     int choice = JOptionPane.showOptionDialog(frame, "User " +
                                             searchText + " found! What would you like to do?",
                                             "User Options", JOptionPane.DEFAULT_OPTION,
                                             JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
-
-                                    if (choice == 0) { // search for USER
-                                        
-                                        mainPanel.removeAll();
-
-                                        // create a new panel for sending a message
-
-                                        JPanel messagePanel = new JPanel();
-                                        messagePanel.setLayout(new BorderLayout());
-
-                                        JLabel messageLabel = new JLabel("What message would you like to send?",
-                                                SwingConstants.CENTER);
-                                        messagePanel.add(messageLabel, BorderLayout.NORTH);
-
-                                        JTextField messageField = new JTextField(20);
-                                        messagePanel.add(messageField, BorderLayout.CENTER);
-
-                                        JButton sendMessageButton = new JButton("Send Message");
-                                        messagePanel.add(sendMessageButton, BorderLayout.SOUTH);
-
-                                        sendMessageButton.addActionListener(new ActionListener() {
-                                            @Override
-                                            public void actionPerformed(ActionEvent e) {
-                                                String message = messageField.getText();
-                                                if (message.isEmpty()) {
-                                                    JOptionPane.showMessageDialog(frame, "Please enter a message.",
-                                                            "Error", JOptionPane.ERROR_MESSAGE);
-                                                } else {
-                                                    writer.println("sendMessage");
-                                                    writer.flush();
-                                                    writer.println(searchText);
-                                                    writer.flush();
-                                                    writer.println(username);
-                                                    writer.flush();
-                                                    writer.println(message);
-                                                    writer.flush();
-                                                    JOptionPane.showMessageDialog(frame,
-                                                            "Message sent successfully to " + searchText + "!");
-                                                }
-                                            }
-                                        });
-
-                                        // Add the new message panel to the main screen
-                                        mainPanel.add(messagePanel, BorderLayout.CENTER);
-
-                                        // Refresh the frame
-                                        frame.revalidate();
-                                        frame.repaint();
+                                    if (choice == 0) { // send Message
+                                        System.out.println("Sending/ Deleting message");
+                                        sendMessagetoUser(searchText);
                                     } else if (choice == 1) { // BLOCK USER
-                                        // implementation for block user
-                                        writer.println("blockUser");
-                                        writer.flush();
-                                        writer.println(username); // sends current user
-                                        writer.flush();
-                                        writer.println(searchText);
-                                        writer.flush();
-
-                                        try {
-                                            mainPanel.removeAll(); // Clear the mainPanel
-
-                                            JPanel panelNew = new JPanel();
-                                            panelNew.setLayout(new BoxLayout(panelNew, BoxLayout.Y_AXIS)); // Set a vertical layout for labels
-                                            
-
-                                            String users = reader.readLine();
-                                            // users.trim();
-                                            String[] usersB = users.split(" ");
-                                            for (String user : usersB) {
-                                                panelNew.add(new JLabel(user));
-                                            }
-
-                                            mainPanel.add(panelNew, BorderLayout.CENTER);
-                                            
-
-                                            JButton backButton = new JButton("Back");
-                                            backButton.addActionListener(h -> showMainScreen());
-                                            panelNew.add(backButton);
-
-                                            frame.revalidate();
-                                            frame.repaint();
-
-                                            
-                                        } catch (IOException e1) {
-                                            // TODO Auto-generated catch block
-                                            e1.printStackTrace();
-                                        }
+                                        showBlockedUsers(searchText);
 
                                         
 
@@ -454,8 +369,7 @@ public class Client implements ClientInterface {
                                         
                                     }
 
-                                } else if (response.equals("User Not Found")) {
-
+                                } else if (response.equals("User not found")) {
                                     JOptionPane.showMessageDialog(frame, "User " + searchText + " does not exist.",
                                             "Error", JOptionPane.ERROR_MESSAGE);
                                 } else {
@@ -481,6 +395,114 @@ public class Client implements ClientInterface {
 
             frame.add(mainPanel);
             frame.setVisible(true);
+        }
+
+        public void showBlockedUsers(String blocked) {
+            //removes all current content
+            frame.getContentPane().removeAll();
+
+            frame = new JFrame("Messaging App - Blocking");
+            frame.setSize(600, 400);
+            frame.setLocationRelativeTo(null);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            // implementation for block user
+            writer.println("blockUser");
+            writer.flush();
+            writer.println(username); // sends current user
+            writer.flush();
+            writer.println(blocked);
+            writer.flush();
+
+            try {
+                 // Clear the mainPanel
+
+                JPanel panelNew = new JPanel();
+                panelNew.setLayout(new BoxLayout(panelNew, BoxLayout.Y_AXIS)); // Set a vertical layout for labels
+                
+
+                String users = reader.readLine();
+                users.trim();
+                String[] usersB = users.split(" ");
+                for (String user : usersB) {
+                    panelNew.add(new JLabel(user));
+                }
+
+                
+                
+
+                JButton backButton = new JButton("Back");
+                backButton.addActionListener(h -> showMainScreen());
+                panelNew.add(backButton);
+
+                frame.add(panelNew);
+                frame.setVisible(true);
+
+                frame.revalidate();
+                frame.repaint();
+
+                
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+
+        }
+
+        public void sendMessagetoUser(String receiver) {
+            // create a new panel for sending a message
+
+            //removes all current content
+            frame.getContentPane().removeAll();
+
+            frame = new JFrame("Messaging App - Sending Message");
+            frame.setSize(600, 400);
+            frame.setLocationRelativeTo(null);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+
+            JPanel messagePanel = new JPanel();
+            messagePanel.setLayout(new BorderLayout());
+
+            JLabel messageLabel = new JLabel("What message would you like to send?",
+                    SwingConstants.CENTER);
+            messagePanel.add(messageLabel, BorderLayout.NORTH);
+
+            JTextField messageField = new JTextField(20);
+            messagePanel.add(messageField, BorderLayout.CENTER);
+
+            JButton sendMessageButton = new JButton("Send Message");
+            messagePanel.add(sendMessageButton, BorderLayout.SOUTH);
+
+            sendMessageButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String message = messageField.getText();
+                    if (message.isEmpty()) {
+                        JOptionPane.showMessageDialog(frame, "Please enter a message.",
+                                "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        writer.println("sendMessage");
+                        writer.flush();
+                        writer.println(receiver);
+                        writer.flush();
+                        writer.println(username);
+                        writer.flush();
+                        writer.println(message);
+                        writer.flush();
+                        JOptionPane.showMessageDialog(frame,
+                                "Message sent successfully to " + receiver + "!");
+                    }
+                }
+            });
+
+            // Add the new message panel to the main screen
+            frame.add(messagePanel);
+
+            // Refresh the frame
+            frame.setVisible(true);
+            frame.revalidate();
+            frame.repaint();
         }
 
     }
