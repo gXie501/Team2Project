@@ -275,10 +275,21 @@ The `Server` class is the entry point for a simple server application that handl
 - A pane should display to the user Invalid Username or Password.
 - User should be able to change their username and password in another attempt to login.
 - Correctly input the username and password made before, and user should be taken to the "Home Screen" again.
-### Search User Success/Failure
+## Search User Success/Failure
 - Enter in an invalid User that does not exist, and hit the Search Button.
 - A pane should display an Error that User was not found.
 - Enter in a valid Username (User that was first created).
 - A pane should display that the User was found, and asks the User whether they want to add, block, or send a message to the Searched User.
-
-
+### Block User
+- Click the block button for the User.
+- A pane should be displayed for the User to confirm that they want to block the Searched User.
+- After confirmation, if the Searched User is in the friend list of the User, they will be automatically unfriended.
+- ### Friend User
+- Search the same User again, and click the add button for the User.
+- A pane should be displayed for the User to confirm that they want to friend the Searched User.
+- After confirmation, if the User originally blocked the Searched User, they will be automatically unblocked.
+### Send Message
+- Search the same user again, and click the Message Button
+- User should be displayed all past messages, and a text field to input in the message they want to send.
+- After inputting some message to the text field, click the Send Button.
+- Message should be send to the user and displayed. Message should also be stored in a file.
