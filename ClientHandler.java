@@ -70,7 +70,7 @@ public class ClientHandler implements Runnable, ClientHandlerInterface {
                         writer.flush();
                     } else {
                         writer.println("New User Created");
-                        System.out.println("New user created: " + username);n
+                        System.out.println("New user created: " + username);
                         userDatabase.createUser(username, password, "123", false); //INCLUDE PROFILEPIC
 
                         // TESTING:
