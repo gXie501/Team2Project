@@ -4,8 +4,6 @@ import java.awt.event.*;
 import java.io.*;
 import java.net.*;
 
-
-
 public class Client implements ClientInterface {
     private static final String SERVER_ADDRESS = "localhost";
     private static final int SERVER_PORT = 1234;
@@ -45,10 +43,10 @@ public class Client implements ClientInterface {
                 e.printStackTrace();
             }
         }
-       
-        //welcome panel
+
+        // welcome panel
         private void welcomePanel() {
-            //create buttons
+            // create buttons
             JButton loginOption = new JButton("Login");
             JButton createUserOption = new JButton("Create new user");
 
@@ -77,12 +75,13 @@ public class Client implements ClientInterface {
             JPanel welcomeMessage = new JPanel();
             welcomeMessage.add(new JLabel("Welcome to the messaging app! Would you like to login or create new user?"));
 
-            //add panels to frame
-            frame.getContentPane().add(welcomeMessage, BorderLayout.NORTH); 
-            frame.getContentPane().add(panel, BorderLayout.CENTER);         
+            // add panels to frame
+            frame.getContentPane().add(welcomeMessage, BorderLayout.NORTH);
+            frame.getContentPane().add(panel, BorderLayout.CENTER);
             frame.setVisible(true);
 
         }
+
         // Creates the login frame
         private void showLoginPanel() {
             // Create the GUI components
@@ -106,8 +105,6 @@ public class Client implements ClientInterface {
             // Add panel to frame
             frame.getContentPane().add(panel, BorderLayout.NORTH);
             frame.setVisible(true);
-
-            
 
             // Define button action
             loginButton.addActionListener(new ActionListener() {
@@ -157,19 +154,22 @@ public class Client implements ClientInterface {
             if (loginStatus.equals("Login successful")) {
                 JOptionPane.showMessageDialog(frame, "Login Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
                 // Transition to the next screen (e.g., a home panel)
-                showMainScreen();  // Show the main screen after successful login
+                showMainScreen(); // Show the main screen after successful login
             } else if (loginStatus.equals("Invalid password")) {
-                JOptionPane.showMessageDialog(frame, "Invalid Password, please try again", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(frame, "Invalid Password, please try again", "Error",
+                        JOptionPane.ERROR_MESSAGE);
 
             } else if (loginStatus.equals("User does not exist")) {
-                JOptionPane.showMessageDialog(frame, "User does not exist, please try again", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(frame, "User does not exist, please try again", "Error",
+                        JOptionPane.ERROR_MESSAGE);
             }
 
-            //refresh the frame
+            // refresh the frame
             frame.revalidate();
             frame.repaint();
         }
-        //creates the new user frame
+
+        // creates the new user frame
         private void showNewUser() {
             // Create the GUI components
             frame = new JFrame("Messaging App");
@@ -234,149 +234,152 @@ public class Client implements ClientInterface {
             frame.getContentPane().add(panel, BorderLayout.NORTH);
             frame.setVisible(true);
 
-            
         }
 
         private void handleNewUserResponse(String loginStatus) {
             if (loginStatus.equals("New User Created")) {
                 writer.println("restrict messages");
                 writer.flush();
-                int result = JOptionPane.showConfirmDialog(frame,"Would you like to receive messages from all users? If not, you will only receive messages from friends.", "Swing Tester",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE);
-                if (result == JOptionPane.YES_OPTION){
+                int result = JOptionPane.showConfirmDialog(frame,
+                        "Would you like to receive messages from all users? If not, you will only receive messages from friends.",
+                        "Swing Tester",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+                if (result == JOptionPane.YES_OPTION) {
                     try {
                         writer.println("yes");
                         writer.flush();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                } else if (result == JOptionPane.NO_OPTION){
+                } else if (result == JOptionPane.NO_OPTION) {
                     try {
                         writer.println("no");
                         writer.flush();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-         }
-                JOptionPane.showMessageDialog(frame, "User successfully created", "Success", JOptionPane.INFORMATION_MESSAGE);
+                }
+                JOptionPane.showMessageDialog(frame, "User successfully created", "Success",
+                        JOptionPane.INFORMATION_MESSAGE);
                 // Transition to the next screen (e.g., a home panel)
                 // Remove the login panel
                 frame.getContentPane().removeAll();
-                showMainScreen();  // Show the main screen after successful login
+                showMainScreen(); // Show the main screen after successful login
             } else if (loginStatus.equals("User Already Exists")) {
-                JOptionPane.showMessageDialog(frame, "Username is taken, please choose another one.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(frame, "Username is taken, please choose another one.", "Error",
+                        JOptionPane.ERROR_MESSAGE);
             }
             frame.revalidate();
             frame.repaint();
         }
 
-    // Show main screen or new panel after successful login
-    private void showMainScreen() {
-        // Remove the login result panel and show the main screen
-        // uncomment this code during integration
-        // frame.getContentPane().removeAll();
+        // Show main screen or new panel after successful login
+        private void showMainScreen() {
+            // Remove the login result panel and show the main screen
+            // uncomment this code during integration
+            // frame.getContentPane().removeAll();
 
-        // delete this during integration
-        frame = new JFrame("Messaging App");
-        frame.setSize(600, 400);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            // delete this during integration
+            frame = new JFrame("Messaging App");
+            frame.setSize(600, 400);
+            frame.setLocationRelativeTo(null);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+            // Create a panel for the main screen
+            JPanel mainPanel = new JPanel();
+            mainPanel.setLayout(new BorderLayout());
+            JLabel welcomeText = new JLabel("Welcome to the Main Screen", SwingConstants.CENTER);
+            mainPanel.add(welcomeText, BorderLayout.CENTER);
 
-        // Create a panel for the main screen
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BorderLayout());
-        JLabel welcomeText = new JLabel("Welcome to the Main Screen", SwingConstants.CENTER);
-        mainPanel.add(welcomeText, BorderLayout.CENTER);
+            JPanel panel = new JPanel();
+            JTextField searchField = new JTextField(10);
+            panel.add(searchField);
 
-        JPanel panel = new JPanel();
-        JTextField searchField = new JTextField(10);
-        panel.add(searchField);
+            JButton search = new JButton("Search");
+            panel.add(search);
 
+            mainPanel.add(panel);
 
-        JButton search = new JButton("Search");
-        panel.add(search);
+            // You can add more components to the main screen here, such as buttons, menus,
+            // etc.
+            JButton logoutButton = new JButton("Logout");
+            mainPanel.add(logoutButton, BorderLayout.SOUTH);
 
-        mainPanel.add(panel);
+            // Define logout button action
+            logoutButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Handle logout - reset and go back to the login screen. uncomment this during
+                    // integration
+                    // frame.getContentPane().removeAll();
+                    // createLoginPanel(); // Show the login panel again
+                    // frame.revalidate();
+                    // frame.repaint();
+                }
+            });
 
-        // You can add more components to the main screen here, such as buttons, menus,
-        // etc.
-        JButton logoutButton = new JButton("Logout");
-        mainPanel.add(logoutButton, BorderLayout.SOUTH);
-
-        // Define logout button action
-        logoutButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Handle logout - reset and go back to the login screen. uncomment this during
-                // integration
-                // frame.getContentPane().removeAll();
-                // createLoginPanel(); // Show the login panel again
-                // frame.revalidate();
-                // frame.repaint();
-            }
-        });
-
-        // Update the frame to show the main screen
-        // uncomment these during integration
-        // frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
-        // frame.revalidate();
-        // frame.repaint();
+            // Update the frame to show the main screen
+            // uncomment these during integration
+            // frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
+            // frame.revalidate();
+            // frame.repaint();
 
             search.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     String searchText = searchField.getText();
                     if (searchText.isEmpty()) {
-                        JOptionPane.showMessageDialog(frame, "Please enter a username.", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(frame, "Please enter a username.", "Error",
+                                JOptionPane.ERROR_MESSAGE);
                     } else {
                         try {
                             writer.println("searchUser");
                             writer.flush();
                             System.out.println("Sent search command to the server.");
-            
+
                             // Send the username to search
                             writer.println(searchText);
                             writer.flush();
                             System.out.println("Searching for user: " + searchText);
-            
+
                             // Read server's response
                             String response = reader.readLine();
                             System.out.println("Server response: " + response);
-            
+
                             SwingUtilities.invokeLater(() -> {
                                 if (response.equals("User found")) {
-                                    String[] options = {"Send Message", "Block User", "Add Friend", "Cancel"};
+                                    String[] options = { "Send or Delete Message", "Block User", "Add Friend", "Cancel" };
 
-                                    int choice = JOptionPane.showOptionDialog(frame, "User " + 
-                                    searchText + " found! What would you like to do?", 
-                                    "User Options", JOptionPane.DEFAULT_OPTION, 
-                                    JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+                                    int choice = JOptionPane.showOptionDialog(frame, "User " +
+                                            searchText + " found! What would you like to do?",
+                                            "User Options", JOptionPane.DEFAULT_OPTION,
+                                            JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
-                                    
-                                    if (choice == 0) {
-                                        // Clear the center panel
+                                    if (choice == 0) { // search for USER
+                                        
                                         mainPanel.removeAll();
-            
-                                        // Create a new panel for sending a message
+
+                                        // create a new panel for sending a message
                                         JPanel messagePanel = new JPanel();
                                         messagePanel.setLayout(new BorderLayout());
-            
-                                        JLabel messageLabel = new JLabel("What message would you like to send?", SwingConstants.CENTER);
+
+                                        JLabel messageLabel = new JLabel("What message would you like to send?",
+                                                SwingConstants.CENTER);
                                         messagePanel.add(messageLabel, BorderLayout.NORTH);
-            
+
                                         JTextField messageField = new JTextField(20);
                                         messagePanel.add(messageField, BorderLayout.CENTER);
-            
+
                                         JButton sendMessageButton = new JButton("Send Message");
                                         messagePanel.add(sendMessageButton, BorderLayout.SOUTH);
-            
+
                                         sendMessageButton.addActionListener(new ActionListener() {
                                             @Override
                                             public void actionPerformed(ActionEvent e) {
                                                 String message = messageField.getText();
                                                 if (message.isEmpty()) {
-                                                    JOptionPane.showMessageDialog(frame, "Please enter a message.", "Error", JOptionPane.ERROR_MESSAGE);
+                                                    JOptionPane.showMessageDialog(frame, "Please enter a message.",
+                                                            "Error", JOptionPane.ERROR_MESSAGE);
                                                 } else {
                                                     writer.println("sendMessage");
                                                     writer.flush();
@@ -386,44 +389,92 @@ public class Client implements ClientInterface {
                                                     writer.flush();
                                                     writer.println(message);
                                                     writer.flush();
-                                                    JOptionPane.showMessageDialog(frame, "Message sent successfully to " + searchText + "!");
+                                                    JOptionPane.showMessageDialog(frame,
+                                                            "Message sent successfully to " + searchText + "!");
                                                 }
                                             }
                                         });
-            
+
                                         // Add the new message panel to the main screen
                                         mainPanel.add(messagePanel, BorderLayout.CENTER);
-            
+
                                         // Refresh the frame
                                         frame.revalidate();
                                         frame.repaint();
+                                    } else if (choice == 1) { // BLOCK USER
+                                        // implementation for block user
+                                        writer.println("blockUser");
+                                        writer.flush();
+                                        writer.println(username); // sends current user
+                                        writer.flush();
+                                        writer.println(searchText);
+                                        writer.flush();
+
+                                        try {
+                                            mainPanel.removeAll(); // Clear the mainPanel
+
+                                            JPanel panelNew = new JPanel();
+                                            panelNew.setLayout(new BoxLayout(panelNew, BoxLayout.Y_AXIS)); // Set a vertical layout for labels
+                                            
+
+                                            String users = reader.readLine();
+                                            // users.trim();
+                                            String[] usersB = users.split(" ");
+                                            for (String user : usersB) {
+                                                panelNew.add(new JLabel(user));
+                                            }
+
+                                            mainPanel.add(panelNew, BorderLayout.CENTER);
+                                            
+
+                                            JButton backButton = new JButton("Back");
+                                            backButton.addActionListener(h -> showMainScreen());
+                                            panelNew.add(backButton);
+
+                                            frame.revalidate();
+                                            frame.repaint();
+
+                                            
+                                        } catch (IOException e1) {
+                                            // TODO Auto-generated catch block
+                                            e1.printStackTrace();
+                                        }
+
+                                        
+
+                                    } else if (choice == 2) { // ADD FRIEND
+                                        // implementation for add friend
+                                    } else { // CANCEL
+                                        
                                     }
 
-                                    
-                                } else if (response.equals("User Not Found")) {
-                                    JOptionPane.showMessageDialog(frame, "User " + searchText + " does not exist.", "Error", JOptionPane.ERROR_MESSAGE);
+                                } else if (response.equals("User not found")) {
+                                    JOptionPane.showMessageDialog(frame, "User " + searchText + " does not exist.",
+                                            "Error", JOptionPane.ERROR_MESSAGE);
                                 } else {
-                                    JOptionPane.showMessageDialog(frame, "User not found.", "Error", JOptionPane.ERROR_MESSAGE);
+                                    JOptionPane.showMessageDialog(frame, "User not found.", "Error",
+                                            JOptionPane.ERROR_MESSAGE);
                                 }
                             });
                         } catch (IOException f) {
                             f.printStackTrace();
-                            JOptionPane.showMessageDialog(frame, "An error occurred while communicating with the server.", "Error", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(frame,
+                                    "An error occurred while communicating with the server.", "Error",
+                                    JOptionPane.ERROR_MESSAGE);
                         }
                     }
                 }
             });
 
             // Update the frame to show the main screen
-            //uncomment these during integration
-            //frame.getContentPane().add(mainPanel, BorderLayout.CENTER); 
-            //frame.revalidate();
-            //frame.repaint();
+            // uncomment these during integration
+            // frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
+            // frame.revalidate();
+            // frame.repaint();
 
-        frame.add(mainPanel);
-        frame.setVisible(true);
-    }
-
+            frame.add(mainPanel);
+            frame.setVisible(true);
+        }
 
     }
 
