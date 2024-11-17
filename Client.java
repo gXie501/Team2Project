@@ -346,10 +346,15 @@ public class Client implements ClientInterface {
             
                             SwingUtilities.invokeLater(() -> {
                                 if (response.equals("User found")) {
-                                    int option = JOptionPane.showConfirmDialog(frame,
-                                            "User " + searchText + " found! Would you like to send a message?",
-                                            "Success", JOptionPane.YES_NO_OPTION);
-                                    if (option == JOptionPane.YES_OPTION) {
+                                    String[] options = {"Send Message", "Block User", "Add Friend", "Cancel"};
+
+                                    int choice = JOptionPane.showOptionDialog(frame, "User " + 
+                                    searchText + " found! What would you like to do?", 
+                                    "User Options", JOptionPane.DEFAULT_OPTION, 
+                                    JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
+                                    
+                                    if (choice == 0) {
                                         // Clear the center panel
                                         mainPanel.removeAll();
             
@@ -393,6 +398,8 @@ public class Client implements ClientInterface {
                                         frame.revalidate();
                                         frame.repaint();
                                     }
+
+                                    
                                 } else if (response.equals("User Not Found")) {
                                     JOptionPane.showMessageDialog(frame, "User " + searchText + " does not exist.", "Error", JOptionPane.ERROR_MESSAGE);
                                 } else {
