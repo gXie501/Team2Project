@@ -210,6 +210,18 @@ The `UserDatabase` class is a component of a social media application that manag
   - `username`: The username of the user to find.
 - **Returns**: A `User` object if found; `null` otherwise.
 
+## Test Case for UserDatabase Class
+### UserDatabase Class
+- The UserDatabase was checked that it implements 1 interface, and that it implements the UserInterface by checking UserDatabase is an instanceof UserInterface.
+### Constructor
+- Since there is no explicit constructor for this class, it was checked that there is an default constructor for the class.
+### Methods
+- createUser: createUser method was tested by calling the method to create an User, then an User object was created with the same fields. Then the ArrayList of Users in the database was gotten using the getter for the ArrayList. The ArrayList was then iterated through and checked whether there was an User in the ArrayList that was the same as the User Object created using the equals method. Then it was assertTrue on whether the object was created, where created was an boolean variable that was true if the User exist in the ArrayList, and an assertFalse was used to check that the method returned false when the User with same Username and password already existed.
+- login: The login method was checked using an assertTrue with calling the login method with an user that already existed. If login method returned false, the test case failed because the user should exist and can be logged into.
+- blockUser: The blockUser method was checked by first creating 2 User and making one of the user block another user. Then an ArrayList<User> was created with the blocked user as an element, and the method was called, and an assertEquals was used to check that the ArrayList<User> was equal to the first User's (blocker) getBlocked() which was an ArrayList of Users that they have blocked.
+- friendUser: The friendUser method was checked by first creating 2 User and making one of the user friend another user. Then an ArrayList<User> was created with the friend user as an element, and the method was called, and an assertEquals was used to check that the ArrayList<User> was equal to the first User's (friender) getFriends() which was an ArrayList of Users that they have friended.
+- returnUser: The returnUser method was tested by first creating an user in the database, then an assertEquals method was used to check that the user that returnUser returned was equal to the user created. Another assertEquals was used to check that when inputing an user that did not exist it returned null.
+
 # Server Class 
 
 The `Server` class is the entry point for a simple server application that handles client connections and manages user and message data. It listens for incoming client connections on a specified port and delegates the handling of each client to a separate thread using a `ClientHandler`.
@@ -237,19 +249,6 @@ The `Server` class is the entry point for a simple server application that handl
    Compile the project files using the following command:
    ```bash
    javac -d . Server.java
-
-
-## Test Case for UserDatabase Class
-### UserDatabase Class
-- The UserDatabase was checked that it implements 1 interface, and that it implements the UserInterface by checking UserDatabase is an instanceof UserInterface.
-### Constructor
-- Since there is no explicit constructor for this class, it was checked that there is an default constructor for the class.
-### Methods
-- createUser: createUser method was tested by calling the method to create an User, then an User object was created with the same fields. Then the ArrayList of Users in the database was gotten using the getter for the ArrayList. The ArrayList was then iterated through and checked whether there was an User in the ArrayList that was the same as the User Object created using the equals method. Then it was assertTrue on whether the object was created, where created was an boolean variable that was true if the User exist in the ArrayList, and an assertFalse was used to check that the method returned false when the User with same Username and password already existed.
-- login: The login method was checked using an assertTrue with calling the login method with an user that already existed. If login method returned false, the test case failed because the user should exist and can be logged into.
-- blockUser: The blockUser method was checked by first creating 2 User and making one of the user block another user. Then an ArrayList<User> was created with the blocked user as an element, and the method was called, and an assertEquals was used to check that the ArrayList<User> was equal to the first User's (blocker) getBlocked() which was an ArrayList of Users that they have blocked.
-- friendUser: The friendUser method was checked by first creating 2 User and making one of the user friend another user. Then an ArrayList<User> was created with the friend user as an element, and the method was called, and an assertEquals was used to check that the ArrayList<User> was equal to the first User's (friender) getFriends() which was an ArrayList of Users that they have friended.
-- returnUser: The returnUser method was tested by first creating an user in the database, then an assertEquals method was used to check that the user that returnUser returned was equal to the user created. Another assertEquals was used to check that when inputing an user that did not exist it returned null.
 
 # Test Case for Client/Server
 ## Creating a User/Login
