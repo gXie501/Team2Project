@@ -35,8 +35,19 @@ public class Client implements ClientInterface {
     // All network communication is handled in the background thread
     // (ClientRunnable). This avoids blocking the Event Dispatch Thread (EDT),
     // which is responsible for the GUI.
+    /**
+    * Team Project -- Client Side of the program that takes in all User inputs
+    * 
+    * Takes in all of the user's inputs from GUI.
+    * 
+    * @author Team 2, Lab 19
+    * 
+    * @version Nov. 17, 2024
+    */
     private class ClientRunnable implements Runnable {
+       
         @Override
+       
         public void run() {
             try {
                 // Establish socket connection with the server
@@ -254,7 +265,9 @@ public class Client implements ClientInterface {
                 writer.println("restrict messages");
                 writer.flush();
                 int result = JOptionPane.showConfirmDialog(frame,
-                        "Would you like to receive messages from all users? If not, you will only receive messages from friends.",
+                                                           
+                        "Would you like to receive messages from all users?" 
+                                                           + " If not, you will only receive messages from friends.",
                         "Swing Tester",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE);
@@ -354,7 +367,10 @@ public class Client implements ClientInterface {
 
                             SwingUtilities.invokeLater(() -> {
                                 if (response.equals("User found")) {
-                                    String[] options = { "Send or Delete Message", "Block User", "Add Friend", "Cancel" };
+                                    String[] options = { "Send or Delete Message",
+                                                        
+                                                         "Block User", "Add Friend",
+                                                         "Cancel" };
 
                                     int choice = JOptionPane.showOptionDialog(frame, "User " +
                                             searchText + " found! What would you like to do?",
@@ -441,7 +457,6 @@ public class Client implements ClientInterface {
 
                 
             } catch (IOException e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
 
@@ -489,7 +504,7 @@ public class Client implements ClientInterface {
 
                 
             } catch (IOException e1) {
-                // TODO Auto-generated catch block
+               
                 e1.printStackTrace();
             }
 
@@ -613,3 +628,4 @@ public class Client implements ClientInterface {
         });
     }
 }
+
