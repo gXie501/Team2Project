@@ -353,6 +353,14 @@ public class RunLocalTest {
 					blocker.getBlocked());
 		}
 
+		@Test
+		public void runRestrictUserTest() {
+			UserDatabase ud = new UserDatabase();
+			ud.createUser("Tester", "123456", "w28RK.png", false);
+			ud.restrictUser("Tester", true);
+			Assert.assertTrue("User Restriction was not changed", ud.returnUser("Tester").getRestrictMessages());
+		}
+
 		@Test(timeout = 1000)
 		public void ClientDeclarationTest() {
 			Class<?> clazz;
