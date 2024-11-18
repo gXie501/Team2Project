@@ -356,7 +356,7 @@ public class Client implements ClientInterface {
                                     } else if (choice == 1) { // BLOCK USER
                                         showBlockedUsers(searchText);
 
-                    
+                                        
                                     } else if (choice == 2) { // ADD FRIEND
                                         showFriendUsers(searchText);
                                     } else { // CANCEL
@@ -495,7 +495,7 @@ public class Client implements ClientInterface {
             //removes all current content
             frame.getContentPane().removeAll();
 
-            frame = new JFrame("Messaging App - Sending Message");
+            frame = new JFrame("Messaging App - Sending or Deleting Message");
             frame.setSize(600, 400);
             frame.setLocationRelativeTo(null);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -504,9 +504,7 @@ public class Client implements ClientInterface {
             JPanel messagePanel = new JPanel();
             messagePanel.setLayout(new BorderLayout());
 
-            JLabel messageLabel = new JLabel("What message would you like to send?",
-                    SwingConstants.CENTER);
-            messagePanel.add(messageLabel, BorderLayout.NORTH);
+            
 
             
 
@@ -529,7 +527,7 @@ public class Client implements ClientInterface {
             messagePanel.add(buttonPanel, BorderLayout.SOUTH);
 
 
-            
+
 
             
 
