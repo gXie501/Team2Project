@@ -281,6 +281,7 @@ The `ClientHandler` class implements the `Runnable` interface, allowing it to ru
 ## Constructor
 ```java
 public ClientHandler(Socket socket, UserDatabase userDatabase, MessageDatabase messageDatabase)
+``
 
 
 
