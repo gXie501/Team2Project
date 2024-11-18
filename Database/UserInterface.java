@@ -17,4 +17,6 @@ public interface UserInterface {
     public boolean blockUser(User user, User blockUser);
 
     public boolean friendUser(User user, User friendUser);
+
+    public void restrictUser(String username, boolean restrict);
 }
