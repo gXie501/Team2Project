@@ -358,7 +358,9 @@ public class RunLocalTest {
 			UserDatabase ud = new UserDatabase();
 			ud.createUser("Tester", "123456", "w28RK.png", false);
 			ud.restrictUser("Tester", true);
-			Assert.assertTrue("User Restriction was not changed", ud.returnUser("Tester").getRestrictMessages());
+			Assert.assertTrue("User Restriction was not changed: Expected: True, Actual: False", ud.returnUser("Tester").getRestrictMessages());
+			ud.restrictUser("Tester", false);
+			Assert.assertFalse("User Restriction was not changed: Expected: False, Actual: True", ud.returnUser("Tester").getRestrictMessages());
 		}
 
 		@Test(timeout = 1000)
