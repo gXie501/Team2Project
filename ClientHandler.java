@@ -8,6 +8,16 @@ import Database.UserDatabase;
 import Database.MessageDatabase;
 import Database.User;
 
+/**
+ * Team Project -- Client Handler for the program that processes all the information from the Client
+ * 
+ * Processes all of the information from the Client with the run method that will be ran on a Thread made in Server class.
+ * 
+ * @author Team 2, Lab 19
+ * 
+ * @version Nov. 17, 2024
+ */
+
 public class ClientHandler implements Runnable, ClientHandlerInterface {
     private Socket clientSocket;
     private UserDatabase userDatabase;  // This will store the reference to the UserDatabase instance
@@ -106,7 +116,7 @@ public class ClientHandler implements Runnable, ClientHandlerInterface {
                     
                 } else if (message.equals("searchUser")) {
                     String searcher = reader.readLine();
-                    System.out.println("Received user client intends to search: " + searcher);
+                    System.out.println("User client intends to search: " + searcher);
                 
                     if (userDatabase.returnUser(searcher) == null) {
                         writer.println("User not found");
@@ -114,9 +124,23 @@ public class ClientHandler implements Runnable, ClientHandlerInterface {
                     } else {
                         writer.println("User found");
                         writer.flush();
-                        
-
                     }
+                    System.out.println("done with search user");
+                } else if (message.equals("receive message")) {
+                    System.out.println("attempting to retrieve a message");
+                    String receiver = reader.readLine();
+                    System.out.println("Receiver is: " + receiver);
+                    ArrayList<String> messageLogs = messageDatabase.retrieveMessages(username, receiver, "testFile.txt");
+
+                    String messages = "";
+                    for (String m : messageLogs) {
+                        messages += m;
+                    }
+
+                    System.out.println("sending message to client");
+                    writer.println(messages);
+                    writer.flush();
+
                 } else if (message.equals("blockUser")) {
 
 
