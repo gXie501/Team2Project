@@ -289,7 +289,7 @@ The `ClientHandler` class implements the `Runnable` interface, allowing it to ru
 - Enter a username that is unique. (First attempt should be able to create user)
 - Enter in a password. Users should be created.
 - A pane should be displayed upon Successful User Creation asking whether user wants to receive messages from all Users.
-- After Selecting "Yes" or "No", User should be taken to a “Home Screen”.
+- After Selecting "Yes" or "No", pane will display user successfully created, and User should be taken to a “Home Screen”.
 - If User clicks the "x" button and does not make a selection, it will default to "No".
 ### Failing to Create User
 - In another terminal, run the Client program again.
@@ -300,7 +300,7 @@ The `ClientHandler` class implements the `Runnable` interface, allowing it to ru
 - Enter in another unique Username and Password to create another User.
 ### Login Failure/Success
 - Click the logout button on the program, User should be taken back to the Create User/Login Screen.
-- Click on the login button, and enter in random username and password that do not exist.
+- Click on the login button, and enter in random username and password that does not exist.
 - A pane should display to the user Invalid Username or Password.
 - User should be able to change their username and password in another attempt to login.
 - Correctly input the username and password made before, and user should be taken to the "Home Screen" again.
@@ -315,10 +315,13 @@ The `ClientHandler` class implements the `Runnable` interface, allowing it to ru
 - Click the Back Button to get back to the "Home Screen".
 - If the Searched User is in the friend list of the User, they will be automatically unfriended.
 ### Friend User
-- Search the same User again, and click the add button for the User.
+- Search the same User again, and click the add friend button for the User.
 - User will be displayed another frame displaying all Users friended.
 - Click the Back Button to get back to the "Home Screen".
 - If the User originally blocked the Searched User, they will be automatically unblocked.
+
+- Note: Go back and forth using the same user and friending/blocking it. The frame should only display the user once. No Duplicates.
+
 ### Send/Delete Message
 - Search the same user again, and click the Message Button.
 - WAIT!!! This button may take some time to load.
@@ -327,4 +330,4 @@ The `ClientHandler` class implements the `Runnable` interface, allowing it to ru
 - Check the testFile.txt file to see that the message was sent and saved. (Note: Past Message displayed to the User will not refresh. GUI to be implemented in Phase 3).
 - Then input the same text, and click the delete message button.
 - Check the testFile.txt file to see that the message was deleted. (Note: Past Message displayed to the User will not refresh. GUI to be implemented in Phase 3).
-- Click the back button, User should be taken back to the "Home Screen".
+- Close the Program with the "x" button. Click as many times as need, there may be stacked panels.
