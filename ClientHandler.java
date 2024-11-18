@@ -89,6 +89,20 @@ public class ClientHandler implements Runnable, ClientHandlerInterface {
                     
                     messageDatabase.sendMessage(currentUser, receiver, sendWhat, "testFile.txt");
                     System.out.println("Sent message from " + currentUser.getUsername() + " to " + receiver.getUsername());
+                } else if (message.equals("deleteMessage")) {
+
+                    User receiver = userDatabase.returnUser(reader.readLine());
+                    System.out.println("Received the receiving user " + receiver + " from client");
+                    User currentUser = userDatabase.returnUser(reader.readLine());
+                    System.out.println("Received current user " + currentUser + " from client");
+                    String sendWhat = reader.readLine();
+                    System.out.println("Received and deleting message  '" + sendWhat + "'");
+
+                
+                    
+                    messageDatabase.deleteMessage(currentUser, receiver, sendWhat, "testFile.txt");
+
+
                     
                 } else if (message.equals("searchUser")) {
                     String searcher = reader.readLine();
@@ -101,7 +115,7 @@ public class ClientHandler implements Runnable, ClientHandlerInterface {
                         writer.println("User found");
                         writer.flush();
                         
-                        
+
                     }
                 } else if (message.equals("blockUser")) {
 

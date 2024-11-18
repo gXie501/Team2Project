@@ -291,6 +291,6 @@ The `Server` class is the entry point for a simple server application that handl
 - Search the same user again, and click the Message Button
 - User should be displayed all past messages, and a text field to input in the message they want to send.
 - After inputting some message to the text field, click the Send Button.
-- Check the testFile.txt file to see that the message was sent and saved.
+- Check the testFile.txt file to see that the message was sent and saved. (Note: Past Message displayed to the User will not refresh. To be implemented in Phase 3).
 - Then input the same text, and click the delete message button.
-- Check the testFile.txt file to see that the message was deleted.
+- Check the testFile.txt file to see that the message was deleted. (Note: Past Message displayed to the User will not refresh. To be implemented in Phase 3).
