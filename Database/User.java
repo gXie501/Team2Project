@@ -60,7 +60,7 @@ public class User implements UserObjectInterface {
     }
 
     public void setPfp(String pfp) {
-        /*try {
+        try {
             BufferedImage image = ImageIO.read(new File(pfp)); // Read the image from the specified path
             if (image == null) {
                 throw new IOException("Image file could not be found!");
@@ -71,8 +71,8 @@ public class User implements UserObjectInterface {
             this.pfp = profilePicturePath;
         } catch (IOException e) {
             e.getMessage();
-        }*/
-        try{
+        }
+        /*try{
         Socket socket = new Socket("localhost", 1234);
         OutputStream os = socket.getOutputStream();
 
@@ -90,7 +90,7 @@ public class User implements UserObjectInterface {
         socket.close();
         }catch(IOException e){
             e.printStackTrace();
-        }
+        }*/
     }
 
     public String getUsername() {
