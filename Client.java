@@ -82,66 +82,46 @@ public class Client implements ClientInterface {
 
         }
 
-        // Creates the login frame
         private void showLoginPanel() {
-            // Create the GUI components
-            frame = new JFrame("Messaging App");
-            frame.setSize(600, 400);
-            frame.setLocationRelativeTo(null);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-            // Create panel components
+            frame.getContentPane().removeAll(); // Clear previous components
+        
             JTextField usernameTextField = new JTextField(10);
             JTextField passwordTextField = new JTextField(10);
             loginButton = new JButton("Login");
-
+        
             JPanel panel = new JPanel();
             panel.add(new JLabel("Username:"));
             panel.add(usernameTextField);
             panel.add(new JLabel("Password:"));
             panel.add(passwordTextField);
             panel.add(loginButton);
-
-            // Add panel to frame
+        
             frame.getContentPane().add(panel, BorderLayout.NORTH);
-            frame.setVisible(true);
-
-            // Define button action
+            frame.revalidate();
+            frame.repaint();
+            
+            // Define loginButton action listener
             loginButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     username = usernameTextField.getText();
                     password = passwordTextField.getText();
-
+        
                     if (username.isEmpty() || password.isEmpty()) {
                         JOptionPane.showMessageDialog(frame, "Username or password cannot be empty.");
                         return;
                     }
-
+        
                     String loginInfo = username + "," + password;
-
+        
                     try {
-                        // Send login command and login info to server
                         writer.println("login");
                         writer.flush();
-                        System.out.println("Sent login command to server.");
-
                         writer.println(loginInfo);
                         writer.flush();
-                        System.out.println("Sent login info to server: " + loginInfo);
-
-                        // Wait for and handle the server's response
+        
                         String loginStatus = reader.readLine();
-                        System.out.println("Server response: " + loginStatus);
-
-                        // Process the server's response
-                        SwingUtilities.invokeLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                handleLoginResponse(loginStatus);
-                            }
-                        });
-
+                        SwingUtilities.invokeLater(() -> handleLoginResponse(loginStatus));
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
@@ -170,71 +150,51 @@ public class Client implements ClientInterface {
             frame.repaint();
         }
 
-        // creates the new user frame
         private void showNewUser() {
-            // Create the GUI components
-            frame = new JFrame("Messaging App");
-            frame.setSize(600, 400);
-            frame.setLocationRelativeTo(null);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-            // Create panel components
+            frame.getContentPane().removeAll(); // Clear previous components
+        
             JTextField usernameTextField = new JTextField(10);
             JTextField passwordTextField = new JTextField(10);
             JButton createUserButton = new JButton("Create User");
-
+        
             JPanel panel = new JPanel();
             panel.add(new JLabel("Username:"));
             panel.add(usernameTextField);
             panel.add(new JLabel("Password:"));
             panel.add(passwordTextField);
             panel.add(createUserButton);
-
+        
+            frame.getContentPane().add(panel, BorderLayout.NORTH);
+            frame.revalidate();
+            frame.repaint();
+        
+            // Define createUserButton action listener
             createUserButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     username = usernameTextField.getText();
                     password = passwordTextField.getText();
-
+        
                     if (username.isEmpty() || password.isEmpty()) {
                         JOptionPane.showMessageDialog(frame, "Username or password cannot be empty.");
                         return;
                     }
-
+        
                     String loginInfo = username + "," + password;
-
+        
                     try {
-                        // Send login command and login info to server
                         writer.println("createUser");
                         writer.flush();
-                        System.out.println("Sent create new user command to server.");
-
                         writer.println(loginInfo);
                         writer.flush();
-                        System.out.println("Sent new user info to server: " + loginInfo);
-
-                        // Wait for and handle the server's response
+        
                         String loginStatus = reader.readLine();
-                        System.out.println("Server response: " + loginStatus);
-
-                        // Process the server's response
-                        SwingUtilities.invokeLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                handleNewUserResponse(loginStatus);
-                            }
-                        });
-
+                        SwingUtilities.invokeLater(() -> handleNewUserResponse(loginStatus));
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
                 }
             });
-
-            // Add panel to frame
-            frame.getContentPane().add(panel, BorderLayout.NORTH);
-            frame.setVisible(true);
-
         }
 
         private void handleNewUserResponse(String loginStatus) {
@@ -243,7 +203,7 @@ public class Client implements ClientInterface {
                 writer.flush();
                 int result = JOptionPane.showConfirmDialog(frame,
                         "Would you like to receive messages from all users? If not, you will only receive messages from friends.",
-                        "Swing Tester",
+                        "Restrict Messages",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE);
                 if (result == JOptionPane.YES_OPTION) {
@@ -270,6 +230,7 @@ public class Client implements ClientInterface {
             } else if (loginStatus.equals("User Already Exists")) {
                 JOptionPane.showMessageDialog(frame, "Username is taken, please choose another one.", "Error",
                         JOptionPane.ERROR_MESSAGE);
+                showNewUser();
             }
             frame.revalidate();
             frame.repaint();
