@@ -278,11 +278,6 @@ The `ClientHandler` class implements the `Runnable` interface, allowing it to ru
 - Retrieves messages from the message database
 - Supports user searches and message restrictions
 
-## Constructor
-```java
-public ClientHandler(Socket socket, UserDatabase userDatabase, MessageDatabase messageDatabase)
-``
-
 
 
 # Test Case for Client/Server
