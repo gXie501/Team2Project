@@ -8,6 +8,16 @@ import Database.UserDatabase;
 import Database.MessageDatabase;
 import Database.User;
 
+/**
+ * Team Project -- Client Handler for the program that processes all the information from the Client
+ * 
+ * Processes all of the information from the Client with the run method that will be ran on a Thread made in Server class.
+ * 
+ * @author Team 2, Lab 19
+ * 
+ * @version Nov. 17, 2024
+ */
+
 public class ClientHandler implements Runnable, ClientHandlerInterface {
     private Socket clientSocket;
     private UserDatabase userDatabase;  // This will store the reference to the UserDatabase instance

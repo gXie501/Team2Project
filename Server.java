@@ -4,6 +4,17 @@ import java.net.*;
 import Database.MessageDatabase;
 import Database.UserDatabase;
 
+/**
+ * Team Project -- Server side of the program that creates a thread to run the processing.
+ * 
+ * Opens a serverSocket, and creates a new Thread for every user connecting to the server and each Thread
+ * will run the run method of the ClientHandler which processes Client input and interaction between Sockets.
+ * 
+ * @author Team 2, Lab 19
+ * 
+ * @version Nov. 17, 2024
+ */
+
 public class Server implements ServerInterface {
     public static void main(String[] args) {
         try {

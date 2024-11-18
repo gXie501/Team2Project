@@ -4,6 +4,16 @@ import java.awt.event.*;
 import java.io.*;
 import java.net.*;
 
+/**
+ * Team Project -- Client Side of the program that takes in all User inputs
+ * 
+ * Takes in all of the user's inputs from GUI.
+ * 
+ * @author Team 2, Lab 19
+ * 
+ * @version Nov. 17, 2024
+ */
+
 public class Client implements ClientInterface {
     private static final String SERVER_ADDRESS = "localhost";
     private static final int SERVER_PORT = 1234;
