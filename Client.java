@@ -451,7 +451,7 @@ public class Client implements ClientInterface {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             // implementation for block user
-            writer.println("blockUser");
+            writer.println("friendUser");
             writer.flush();
             writer.println(username); // sends current user
             writer.flush();
