@@ -250,6 +250,36 @@ The `Server` class is the entry point for a simple server application that handl
    ```bash
    javac -d . Server.java
 
+# Messaging App Client
+
+This is a Java-based client application for a messaging app that interacts with a server to handle user authentication and management. The application features a graphical user interface (GUI) built with Swing.
+
+## Features
+- User login and registration
+- GUI for user input
+- Handles communication with a server via sockets
+- Displays appropriate messages based on server responses
+
+## Requirements
+- Java Development Kit (JDK) 8 or higher
+- An active server running to handle client requests
+
+# ClientHandler Class
+
+The `ClientHandler` class processes all interactions between the server and clients in the messaging application. It manages user authentication, message handling, and various user-related operations.
+
+## Overview
+The `ClientHandler` class implements the `Runnable` interface, allowing it to run on a separate thread to handle multiple client connections concurrently. It processes commands sent by the client, such as login, user creation, sending messages, and blocking users.
+
+## Features
+- Handles user login and registration
+- Sends and receives messages between users
+- Manages user relationships (friends and blocked users)
+- Retrieves messages from the message database
+- Supports user searches and message restrictions
+
+
+
 # Test Case for Client/Server
 ## Creating a User/Login
 ### Quitting the Program
@@ -289,6 +319,7 @@ The `Server` class is the entry point for a simple server application that handl
 - After confirmation, if the User originally blocked the Searched User, they will be automatically unblocked.
 ### Send/Delete Message
 - Search the same user again, and click the Message Button
+- WAIT!!! This button may take some time to load.
 - User should be displayed all past messages, and a text field to input in the message they want to send.
 - After inputting some message to the text field, click the Send Button.
 - Check the testFile.txt file to see that the message was sent and saved. (Note: Past Message displayed to the User will not refresh. To be implemented in Phase 3).
