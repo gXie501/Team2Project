@@ -92,6 +92,20 @@ public class ClientHandler implements Runnable {
                     
                     messageDatabase.sendMessage(currentUser, receiver, sendWhat, "testFile.txt");
                     System.out.println("Sent message from " + currentUser.getUsername() + " to " + receiver.getUsername());
+                } else if (message.equals("deleteMessage")) {
+
+                    User receiver = userDatabase.returnUser(reader.readLine());
+                    System.out.println("Received the receiving user " + receiver + " from client");
+                    User currentUser = userDatabase.returnUser(reader.readLine());
+                    System.out.println("Received current user " + currentUser + " from client");
+                    String sendWhat = reader.readLine();
+                    System.out.println("Received and deleting message  '" + sendWhat + "'");
+
+                
+                    
+                    messageDatabase.deleteMessage(currentUser, receiver, sendWhat, "testFile.txt");
+
+
                     
                 } else if (message.equals("searchUser")) {
                     String searcher = reader.readLine();
@@ -104,17 +118,6 @@ public class ClientHandler implements Runnable {
                         writer.println("User found");
                         writer.flush();
                         
-                        // Handle retrieving messages
-                        String currUser = reader.readLine(); // Current user making the request
-                        ArrayList<String> messages = messageDatabase.retrieveMessages(currUser, searcher, "testFile.txt");
-                        
-                        if (messages == null || messages.isEmpty()) {
-                            writer.println("No messages found");
-                        } else {
-                            writer.println(messages);
-                        }
-                        writer.flush();
-                        userDatabase.createUser(username, password, null, false); //INCLUDE PROFILEPIC IN FUTURE IMPLEMENTATION
                     }
                 } else if (message.equals("blockUser")) {
                     // sends current user
