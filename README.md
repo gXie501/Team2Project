@@ -319,6 +319,9 @@ The `ClientHandler` class implements the `Runnable` interface, allowing it to ru
 - User will be displayed another frame displaying all Users friended.
 - Click the Back Button to get back to the "Home Screen".
 - If the User originally blocked the Searched User, they will be automatically unblocked.
+
+- Note: Go back and forth using the same user and friending/blocking it. The frame should only display the user once. No Duplicates.
+
 ### Send/Delete Message
 - Search the same user again, and click the Message Button.
 - WAIT!!! This button may take some time to load.
@@ -327,4 +330,3 @@ The `ClientHandler` class implements the `Runnable` interface, allowing it to ru
 - Check the testFile.txt file to see that the message was sent and saved. (Note: Past Message displayed to the User will not refresh. GUI to be implemented in Phase 3).
 - Then input the same text, and click the delete message button.
 - Check the testFile.txt file to see that the message was deleted. (Note: Past Message displayed to the User will not refresh. GUI to be implemented in Phase 3).
-- Click the back button, User should be taken back to the "Home Screen".
