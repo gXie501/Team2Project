@@ -107,9 +107,17 @@ public class ClientHandler implements Runnable, ClientHandlerInterface {
                         
                     }
                 } else if (message.equals("blockUser")) {
+
+
                     // sends current user
                     User username = userDatabase.returnUser(reader.readLine());
                     User blocked = userDatabase.returnUser(reader.readLine());
+
+                    if(username.getFriends().contains(blocked)){
+                        ArrayList<User> test = username.getFriends();
+                        test.remove(blocked);
+                        username.setFriends(test);
+                    }
                     userDatabase.blockUser(username, blocked);
                     
                     // sends usersBlocked to check if added to array
@@ -122,12 +130,18 @@ public class ClientHandler implements Runnable, ClientHandlerInterface {
                     writer.flush();
                 } else if(message.equals("friendUser"))
                 {
+                    
                     // sends current user
                     User username = userDatabase.returnUser(reader.readLine());
                     User friend = userDatabase.returnUser(reader.readLine());
+                    if(username.getBlocked().contains(friend)){
+                        ArrayList<User> test = username.getBlocked();
+                        test.remove(friend);
+                        username.setBlocked(test);
+                    }
                     userDatabase.friendUser(username, friend);
                     
-                    // sends usersBlocked to check if added to array
+                    // sends userFriend to check if added to array
                     ArrayList<User> userFriend = username.getFriends();
                     String users = "";
                     for (User user : userFriend) {
