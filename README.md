@@ -311,12 +311,12 @@ The `ClientHandler` class implements the `Runnable` interface, allowing it to ru
 - A pane should display that the User was found, and asks the User whether they want to add, block, or send a message to the Searched User.
 ### Block User
 - Click the block button for the User.
-- User will be displayed another frame displaying all Users friended.
+- User will be displayed another frame displaying all Users blocked.
 - Click the Back Button to get back to the "Home Screen".
 - If the Searched User is in the friend list of the User, they will be automatically unfriended.
 ### Friend User
 - Search the same User again, and click the add button for the User.
-- User will be displayed another frame displaying all Users blocked.
+- User will be displayed another frame displaying all Users friended.
 - Click the Back Button to get back to the "Home Screen".
 - If the User originally blocked the Searched User, they will be automatically unblocked.
 ### Send/Delete Message
