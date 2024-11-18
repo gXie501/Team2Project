@@ -73,9 +73,6 @@ public class ClientHandler implements Runnable, ClientHandlerInterface {
                         writer.println("New User Created");
                         System.out.println("New user created: " + username);
                         userDatabase.createUser(username, password, "123", false); //INCLUDE PROFILEPIC
-
-                        // TESTING:
-                        // userDatabase.createUser("user2", "randomPass", "123", false);
                     }
                 } else if (message.equals("sendMessage")) {
                     // sends receiver
