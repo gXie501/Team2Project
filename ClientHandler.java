@@ -11,7 +11,9 @@ import Database.User;
 /**
  * Team Project -- Client Handler for the program that processes all the information from the Client
  * 
- * Processes all of the information from the Client with the run method that will be ran on a Thread made in Server class.
+ * Processes all of the information from the 
+ * Client with the run method that will be ran on a 
+ * Thread made in Server class.
  * 
  * @author Team 2, Lab 19
  * 
@@ -70,8 +72,8 @@ public class ClientHandler implements Runnable, ClientHandlerInterface {
                 
                     String login = reader.readLine();
                     String[] loginInfo = login.split(",");
-                    String username = loginInfo[0];
-                    String password = loginInfo[1];
+                    username = loginInfo[0];
+                    password = loginInfo[1];
 
                     System.out.println("Received new user information from client: " + username + ", " + password);
 
@@ -98,7 +100,9 @@ public class ClientHandler implements Runnable, ClientHandlerInterface {
                 
                     
                     messageDatabase.sendMessage(currentUser, receiver, sendWhat, "testFile.txt");
-                    System.out.println("Sent message from " + currentUser.getUsername() + " to " + receiver.getUsername());
+                    System.out.println("Sent message from " + 
+                                       currentUser.getUsername() + " to " + 
+                                       receiver.getUsername());
                 } else if (message.equals("deleteMessage")) {
 
                     User receiver = userDatabase.returnUser(reader.readLine());
@@ -130,7 +134,10 @@ public class ClientHandler implements Runnable, ClientHandlerInterface {
                     System.out.println("attempting to retrieve a message");
                     String receiver = reader.readLine();
                     System.out.println("Receiver is: " + receiver);
-                    ArrayList<String> messageLogs = messageDatabase.retrieveMessages(username, receiver, "testFile.txt");
+                    ArrayList<String> messageLogs = 
+                        messageDatabase.retrieveMessages(username, 
+                                                         receiver, 
+                                                         "testFile.txt");
 
                     String messages = "";
                     for (String m : messageLogs) {
@@ -145,48 +152,48 @@ public class ClientHandler implements Runnable, ClientHandlerInterface {
 
 
                     // sends current user
-                    User username = userDatabase.returnUser(reader.readLine());
+                    User un = userDatabase.returnUser(reader.readLine());
                     User blocked = userDatabase.returnUser(reader.readLine());
                     // prevents user from blocking same user twice
-                    if(!username.getBlocked().contains(blocked)){
-                    if(username.getFriends().contains(blocked)){
-                        ArrayList<User> test = username.getFriends();
-                        test.remove(blocked);
-                        username.setFriends(test);
+                    if (!un.getBlocked().contains(blocked)) {
+                        if (un.getFriends().contains(blocked)) {
+                            ArrayList<User> test = un.getFriends();
+                            test.remove(blocked);
+                            un.setFriends(test);
+                        }
+                        userDatabase.blockUser(un, blocked);
+
+                        // sends usersBlocked to check if added to array
+                        ArrayList<User> usersBlocked = un.getBlocked();
+                        String users = "";
+                        for (User user : usersBlocked) {
+                            users  += user.getUsername() + " ";
+                        }
+                        writer.println(users);
+                        writer.flush();
                     }
-                    userDatabase.blockUser(username, blocked);
-                    
-                    // sends usersBlocked to check if added to array
-                    ArrayList<User> usersBlocked = username.getBlocked();
-                    String users = "";
-                    for (User user : usersBlocked) {
-                        users  += user.getUsername() + " ";
-                    }
-                    writer.println(users);
-                    writer.flush();
-                }
-                } else if(message.equals("friendUser")) {
+                } else if (message.equals("friendUser")) {
                     
                     // sends current user
-                    User username = userDatabase.returnUser(reader.readLine());
+                    User un = userDatabase.returnUser(reader.readLine());
                     User friend = userDatabase.returnUser(reader.readLine());
                     // prevents user from adding the same friend twice
-                    if(!username.getFriends().contains(friend)){
-                    if(username.getBlocked().contains(friend)){
-                        ArrayList<User> test = username.getBlocked();
-                        test.remove(friend);
-                        username.setBlocked(test);
-                    }
-                    userDatabase.friendUser(username, friend);
-                    
-                    // sends userFriend to check if added to array
-                    ArrayList<User> userFriend = username.getFriends();
-                    String users = "";
-                    for (User user : userFriend) {
-                        users  += user.getUsername() + " ";
-                    }
-                    writer.println(users);
-                    writer.flush();
+                    if (!un.getFriends().contains(friend)) {
+                        if (un.getBlocked().contains(friend)) {
+                            ArrayList<User> test = un.getBlocked();
+                            test.remove(friend);
+                            un.setBlocked(test);
+                        }
+                        userDatabase.friendUser(un, friend);
+
+                        // sends userFriend to check if added to array
+                        ArrayList<User> userFriend = un.getFriends();
+                        String users = "";
+                        for (User user : userFriend) {
+                            users  += user.getUsername() + " ";
+                        }
+                        writer.println(users);
+                        writer.flush();
                     }
                 } else if (message.equals("restrict messages")) {
                     String restricted = reader.readLine();
