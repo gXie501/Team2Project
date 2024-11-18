@@ -356,10 +356,9 @@ public class Client implements ClientInterface {
                                     } else if (choice == 1) { // BLOCK USER
                                         showBlockedUsers(searchText);
 
-                                        
-
+                    
                                     } else if (choice == 2) { // ADD FRIEND
-                                        // implementation for add friend
+                                        showFriendUsers(searchText);
                                     } else { // CANCEL
                                         frame.getContentPane().removeAll();
                                         showMainScreen();
@@ -424,10 +423,54 @@ public class Client implements ClientInterface {
                 for (String user : usersB) {
                     panelNew.add(new JLabel(user));
                 }
+                JButton backButton = new JButton("Back");
+                backButton.addActionListener(h -> showMainScreen());
+                panelNew.add(backButton);
+
+                frame.add(panelNew);
+                frame.setVisible(true);
+
+                frame.revalidate();
+                frame.repaint();
 
                 
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+
+        }
+
+        public void showFriendUsers(String friend) {
+            //removes all current content
+            frame.getContentPane().removeAll();
+
+            frame = new JFrame("Messaging App - Blocking");
+            frame.setSize(600, 400);
+            frame.setLocationRelativeTo(null);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            // implementation for block user
+            writer.println("blockUser");
+            writer.flush();
+            writer.println(username); // sends current user
+            writer.flush();
+            writer.println(friend);
+            writer.flush();
+
+            try {
+                 // Clear the mainPanel
+
+                JPanel panelNew = new JPanel();
+                panelNew.setLayout(new BoxLayout(panelNew, BoxLayout.Y_AXIS)); // Set a vertical layout for labels
                 
 
+                String users = reader.readLine();
+                users.trim();
+                String[] usersB = users.split(" ");
+                for (String user : usersB) {
+                    panelNew.add(new JLabel(user));
+                }
                 JButton backButton = new JButton("Back");
                 backButton.addActionListener(h -> showMainScreen());
                 panelNew.add(backButton);

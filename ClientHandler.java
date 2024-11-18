@@ -8,7 +8,7 @@ import Database.UserDatabase;
 import Database.MessageDatabase;
 import Database.User;
 
-public class ClientHandler implements Runnable {
+public class ClientHandler implements Runnable, ClientHandlerInterface {
     private Socket clientSocket;
     private UserDatabase userDatabase;  // This will store the reference to the UserDatabase instance
     private MessageDatabase messageDatabase;
@@ -73,9 +73,6 @@ public class ClientHandler implements Runnable {
                         writer.println("New User Created");
                         System.out.println("New user created: " + username);
                         userDatabase.createUser(username, password, "123", false); //INCLUDE PROFILEPIC
-
-                        // TESTING:
-                        // userDatabase.createUser("user2", "randomPass", "123", false);
                     }
                 } else if (message.equals("sendMessage")) {
                     // sends receiver
@@ -118,11 +115,20 @@ public class ClientHandler implements Runnable {
                         writer.println("User found");
                         writer.flush();
                         
+
                     }
                 } else if (message.equals("blockUser")) {
+
+
                     // sends current user
                     User username = userDatabase.returnUser(reader.readLine());
                     User blocked = userDatabase.returnUser(reader.readLine());
+
+                    if(username.getFriends().contains(blocked)){
+                        ArrayList<User> test = username.getFriends();
+                        test.remove(blocked);
+                        username.setFriends(test);
+                    }
                     userDatabase.blockUser(username, blocked);
                     
                     // sends usersBlocked to check if added to array
@@ -133,7 +139,27 @@ public class ClientHandler implements Runnable {
                     }
                     writer.println(users);
                     writer.flush();
-                
+                } else if(message.equals("friendUser"))
+                {
+                    
+                    // sends current user
+                    User username = userDatabase.returnUser(reader.readLine());
+                    User friend = userDatabase.returnUser(reader.readLine());
+                    if(username.getBlocked().contains(friend)){
+                        ArrayList<User> test = username.getBlocked();
+                        test.remove(friend);
+                        username.setBlocked(test);
+                    }
+                    userDatabase.friendUser(username, friend);
+                    
+                    // sends userFriend to check if added to array
+                    ArrayList<User> userFriend = username.getFriends();
+                    String users = "";
+                    for (User user : userFriend) {
+                        users  += user.getUsername() + " ";
+                    }
+                    writer.println(users);
+                    writer.flush();
                 } else if (message.equals("restrict messages")) {
                     String restricted = reader.readLine();
                     if (restricted.equals("yes")) {
