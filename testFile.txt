@@ -1,5 +1,0 @@
-user1;user2;user2 new message
-user1;user2;user2 new messages
-user2;user1;hi this is my message
-2;1;asdfl;hjf
-2;1;awerfsd

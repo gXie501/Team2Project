@@ -147,7 +147,8 @@ public class ClientHandler implements Runnable, ClientHandlerInterface {
                     // sends current user
                     User username = userDatabase.returnUser(reader.readLine());
                     User blocked = userDatabase.returnUser(reader.readLine());
-
+                    // prevents user from blocking same user twice
+                    if(!username.getBlocked().contains(blocked)){
                     if(username.getFriends().contains(blocked)){
                         ArrayList<User> test = username.getFriends();
                         test.remove(blocked);
@@ -163,11 +164,14 @@ public class ClientHandler implements Runnable, ClientHandlerInterface {
                     }
                     writer.println(users);
                     writer.flush();
+                }
                 } else if(message.equals("friendUser")) {
                     
                     // sends current user
                     User username = userDatabase.returnUser(reader.readLine());
                     User friend = userDatabase.returnUser(reader.readLine());
+                    // prevents user from adding the same friend twice
+                    if(!username.getFriends().contains(friend)){
                     if(username.getBlocked().contains(friend)){
                         ArrayList<User> test = username.getBlocked();
                         test.remove(friend);
@@ -183,6 +187,7 @@ public class ClientHandler implements Runnable, ClientHandlerInterface {
                     }
                     writer.println(users);
                     writer.flush();
+                    }
                 } else if (message.equals("restrict messages")) {
                     String restricted = reader.readLine();
                     if (restricted.equals("yes")) {
