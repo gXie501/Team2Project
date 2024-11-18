@@ -351,6 +351,7 @@ public class Client implements ClientInterface {
 
                                     if (choice == 0) { // send Message
                                         System.out.println("Sending/ Deleting message");
+
                                         sendMessagetoUser(searchText);
                                     } else if (choice == 1) { // BLOCK USER
                                         showBlockedUsers(searchText);
@@ -359,6 +360,8 @@ public class Client implements ClientInterface {
                                     } else if (choice == 2) { // ADD FRIEND
                                         showFriendUsers(searchText);
                                     } else { // CANCEL
+                                        frame.getContentPane().removeAll();
+                                        showMainScreen();
                                         
                                     }
 
@@ -390,7 +393,7 @@ public class Client implements ClientInterface {
             frame.setVisible(true);
         }
 
-        public void showBlockedUsers(String blocked) {
+        private void showBlockedUsers(String blocked) {
             //removes all current content
             frame.getContentPane().removeAll();
 
@@ -486,7 +489,7 @@ public class Client implements ClientInterface {
 
         }
 
-        public void sendMessagetoUser(String receiver) {
+        private void sendMessagetoUser(String receiver) {
             // create a new panel for sending a message
 
             //removes all current content
@@ -505,11 +508,30 @@ public class Client implements ClientInterface {
                     SwingConstants.CENTER);
             messagePanel.add(messageLabel, BorderLayout.NORTH);
 
-            JTextField messageField = new JTextField(20);
-            messagePanel.add(messageField, BorderLayout.CENTER);
+            
 
+            // panel for SEND and DELETE button
+            JPanel buttonPanel = new JPanel();
+            buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+
+            JTextField messageField = new JTextField(10);
+            buttonPanel.add(messageField);
+        
             JButton sendMessageButton = new JButton("Send Message");
-            messagePanel.add(sendMessageButton, BorderLayout.SOUTH);
+            buttonPanel.add(sendMessageButton);
+        
+            JButton deleteMessageButton = new JButton("Delete Message");
+            buttonPanel.add(deleteMessageButton);
+
+            
+        
+            // ADD button panel to the message panel
+            messagePanel.add(buttonPanel, BorderLayout.SOUTH);
+
+
+            
+
+            
 
             sendMessageButton.addActionListener(new ActionListener() {
                 @Override
@@ -529,6 +551,28 @@ public class Client implements ClientInterface {
                         writer.flush();
                         JOptionPane.showMessageDialog(frame,
                                 "Message sent successfully to " + receiver + "!");
+                    }
+                }
+            });
+
+            deleteMessageButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String message = messageField.getText();
+                    if (message.isEmpty()) {
+                        JOptionPane.showMessageDialog(frame, "Please enter a message.",
+                                "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        writer.println("deleteMessage");
+                        writer.flush();
+                        writer.println(receiver);
+                        writer.flush();
+                        writer.println(username);
+                        writer.flush();
+                        writer.println(message);
+                        writer.flush();
+                        JOptionPane.showMessageDialog(frame,
+                                "Message deleted successfully to " + receiver + ".");
                     }
                 }
             });
