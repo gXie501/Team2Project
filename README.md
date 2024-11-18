@@ -294,3 +294,4 @@ The `Server` class is the entry point for a simple server application that handl
 - Check the testFile.txt file to see that the message was sent and saved. (Note: Past Message displayed to the User will not refresh. To be implemented in Phase 3).
 - Then input the same text, and click the delete message button.
 - Check the testFile.txt file to see that the message was deleted. (Note: Past Message displayed to the User will not refresh. To be implemented in Phase 3).
+- Click the back button, User should be taken back to the "Home Screen".

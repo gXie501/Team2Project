@@ -4,6 +4,16 @@ import java.awt.event.*;
 import java.io.*;
 import java.net.*;
 
+/**
+ * Team Project -- Client Side of the program that takes in all User inputs
+ * 
+ * Takes in all of the user's inputs from GUI.
+ * 
+ * @author Team 2, Lab 19
+ * 
+ * @version Nov. 17, 2024
+ */
+
 public class Client implements ClientInterface {
     private static final String SERVER_ADDRESS = "localhost";
     private static final int SERVER_PORT = 1234;
@@ -54,8 +64,10 @@ public class Client implements ClientInterface {
                 public void actionPerformed(ActionEvent e) {
                     Object source = e.getSource();
                     if (source == loginOption) {
+                        frame.getContentPane().removeAll();
                         showLoginPanel();
                     } else if (source == createUserOption) {
+                        frame.getContentPane().removeAll();
                         showNewUser();
                     }
                 }
@@ -383,12 +395,6 @@ public class Client implements ClientInterface {
                 }
             });
 
-            // Update the frame to show the main screen
-            // uncomment these during integration
-            // frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
-            // frame.revalidate();
-            // frame.repaint();
-
             frame.add(mainPanel);
             frame.setVisible(true);
         }
@@ -504,8 +510,21 @@ public class Client implements ClientInterface {
             JPanel messagePanel = new JPanel();
             messagePanel.setLayout(new BorderLayout());
 
-            
-
+            String messageLog = "";
+            //retrive past messages
+            try {
+                System.out.println("attempting to retrieve past messages");
+                writer.println("receive message");
+                writer.flush();
+                writer.println(receiver);
+                writer.flush();
+                System.out.println("sent receiver to clientHandler");
+                messageLog = reader.readLine();
+                System.out.println("received message from server");
+            } catch (Exception e) {
+                System.out.println("an error occured while trying to retrieve messages");
+                e.printStackTrace();
+            }
             
 
             // panel for SEND and DELETE button
@@ -523,13 +542,12 @@ public class Client implements ClientInterface {
 
             
         
-            // ADD button panel to the message panel
+            // add button panel to the message panel
             messagePanel.add(buttonPanel, BorderLayout.SOUTH);
 
 
-
-
-            
+            // add past messages to the message panel
+            messagePanel.add(new JLabel(messageLog), BorderLayout.CENTER);
 
             sendMessageButton.addActionListener(new ActionListener() {
                 @Override
