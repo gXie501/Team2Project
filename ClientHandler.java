@@ -104,17 +104,7 @@ public class ClientHandler implements Runnable, ClientHandlerInterface {
                         writer.println("User found");
                         writer.flush();
                         
-                        // Handle retrieving messages
-                        String currUser = reader.readLine(); // Current user making the request
-                        ArrayList<String> messages = messageDatabase.retrieveMessages(currUser, searcher, "testFile.txt");
                         
-                        if (messages == null || messages.isEmpty()) {
-                            writer.println("No messages found");
-                        } else {
-                            writer.println(messages);
-                        }
-                        writer.flush();
-                        userDatabase.createUser(username, password, null, false); //INCLUDE PROFILEPIC IN FUTURE IMPLEMENTATION
                     }
                 } else if (message.equals("blockUser")) {
                     // sends current user
@@ -130,7 +120,21 @@ public class ClientHandler implements Runnable, ClientHandlerInterface {
                     }
                     writer.println(users);
                     writer.flush();
-                
+                } else if(message.equals("friendUser"))
+                {
+                    // sends current user
+                    User username = userDatabase.returnUser(reader.readLine());
+                    User friend = userDatabase.returnUser(reader.readLine());
+                    userDatabase.friendUser(username, friend);
+                    
+                    // sends usersBlocked to check if added to array
+                    ArrayList<User> userFriend = username.getFriends();
+                    String users = "";
+                    for (User user : userFriend) {
+                        users  += user.getUsername() + " ";
+                    }
+                    writer.println(users);
+                    writer.flush();
                 } else if (message.equals("restrict messages")) {
                     String restricted = reader.readLine();
                     if (restricted.equals("yes")) {
