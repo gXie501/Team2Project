@@ -64,8 +64,10 @@ public class Client implements ClientInterface {
                 public void actionPerformed(ActionEvent e) {
                     Object source = e.getSource();
                     if (source == loginOption) {
+                        frame.getContentPane().removeAll();
                         showLoginPanel();
                     } else if (source == createUserOption) {
+                        frame.getContentPane().removeAll();
                         showNewUser();
                     }
                 }
@@ -511,7 +513,7 @@ public class Client implements ClientInterface {
             //retrive past messages
             try {
                 System.out.println("attempting to retrieve past messages");
-                writer.println("receive message," + receiver);
+                writer.println("receive message");
                 writer.flush();
                 writer.println(receiver);
                 writer.flush();

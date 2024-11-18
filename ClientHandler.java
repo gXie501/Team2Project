@@ -138,7 +138,7 @@ public class ClientHandler implements Runnable, ClientHandlerInterface {
                     }
 
                     System.out.println("sending message to client");
-                    writer.write(messages);
+                    writer.println(messages);
                     writer.flush();
 
                 } else if (message.equals("blockUser")) {
