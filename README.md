@@ -289,6 +289,7 @@ The `Server` class is the entry point for a simple server application that handl
 - After confirmation, if the User originally blocked the Searched User, they will be automatically unblocked.
 ### Send/Delete Message
 - Search the same user again, and click the Message Button
+- WAIT!!! This button takes some time to load.
 - User should be displayed all past messages, and a text field to input in the message they want to send.
 - After inputting some message to the text field, click the Send Button.
 - Check the testFile.txt file to see that the message was sent and saved. (Note: Past Message displayed to the User will not refresh. To be implemented in Phase 3).
