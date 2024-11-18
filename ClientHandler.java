@@ -163,8 +163,7 @@ public class ClientHandler implements Runnable, ClientHandlerInterface {
                     }
                     writer.println(users);
                     writer.flush();
-                } else if(message.equals("friendUser"))
-                {
+                } else if(message.equals("friendUser")) {
                     
                     // sends current user
                     User username = userDatabase.returnUser(reader.readLine());
