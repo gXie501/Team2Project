@@ -8,7 +8,7 @@ import Database.UserDatabase;
 import Database.MessageDatabase;
 import Database.User;
 
-public class ClientHandler implements Runnable {
+public class ClientHandler implements Runnable, ClientHandlerInterface {
     private Socket clientSocket;
     private UserDatabase userDatabase;  // This will store the reference to the UserDatabase instance
     private MessageDatabase messageDatabase;
