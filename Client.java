@@ -383,12 +383,6 @@ public class Client implements ClientInterface {
                 }
             });
 
-            // Update the frame to show the main screen
-            // uncomment these during integration
-            // frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
-            // frame.revalidate();
-            // frame.repaint();
-
             frame.add(mainPanel);
             frame.setVisible(true);
         }
@@ -503,11 +497,21 @@ public class Client implements ClientInterface {
 
             JPanel messagePanel = new JPanel();
             messagePanel.setLayout(new BorderLayout());
-
-            JLabel messageLabel = new JLabel("What message would you like to send?",
-                    SwingConstants.CENTER);
-            messagePanel.add(messageLabel, BorderLayout.NORTH);
-
+            String messageLog = "";
+            //retrive past messages
+            try {
+                System.out.println("attempting to retrieve past messages");
+                writer.println("receive message," + receiver);
+                writer.flush();
+                writer.println(receiver);
+                writer.flush();
+                System.out.println("sent receiver to clientHandler");
+                messageLog = reader.readLine();
+                System.out.println("received message from server");
+            } catch (Exception e) {
+                System.out.println("an error occured while trying to retrieve messages");
+                e.printStackTrace();
+            }
             
 
             // panel for SEND and DELETE button
@@ -525,13 +529,11 @@ public class Client implements ClientInterface {
 
             
         
-            // ADD button panel to the message panel
+            // add button panel to the message panel
             messagePanel.add(buttonPanel, BorderLayout.SOUTH);
 
-
-            
-
-            
+            // add past messages to the message panel
+            messagePanel.add(new JLabel(messageLog), BorderLayout.CENTER);
 
             sendMessageButton.addActionListener(new ActionListener() {
                 @Override
