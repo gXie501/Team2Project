@@ -311,18 +311,31 @@ The `ClientHandler` class implements the `Runnable` interface, allowing it to ru
 - A pane should display that the User was found, and asks the User whether they want to add, block, or send a message to the Searched User.
 ### Block User
 - Click the block button for the User.
-- A pane should be displayed for the User to confirm that they want to block the Searched User.
-- After confirmation, if the Searched User is in the friend list of the User, they will be automatically unfriended.
+- User will be displayed another frame displaying all Users friended.
+- Click the Back Button to get back to the "Home Screen".
+- If the Searched User is in the friend list of the User, they will be automatically unfriended.
 ### Friend User
 - Search the same User again, and click the add button for the User.
-- A pane should be displayed for the User to confirm that they want to friend the Searched User.
-- After confirmation, if the User originally blocked the Searched User, they will be automatically unblocked.
+- User will be displayed another frame displaying all Users blocked.
+- Click the Back Button to get back to the "Home Screen".
+- If the User originally blocked the Searched User, they will be automatically unblocked.
 ### Send/Delete Message
-- Search the same user again, and click the Message Button
+- Search the same user again, and click the Message Button.
 - WAIT!!! This button may take some time to load.
 - User should be displayed all past messages, and a text field to input in the message they want to send.
 - After inputting some message to the text field, click the Send Button.
-- Check the testFile.txt file to see that the message was sent and saved. (Note: Past Message displayed to the User will not refresh. To be implemented in Phase 3).
+- Check the testFile.txt file to see that the message was sent and saved. (Note: Past Message displayed to the User will not refresh. GUI to be implemented in Phase 3).
 - Then input the same text, and click the delete message button.
-- Check the testFile.txt file to see that the message was deleted. (Note: Past Message displayed to the User will not refresh. To be implemented in Phase 3).
+- Check the testFile.txt file to see that the message was deleted. (Note: Past Message displayed to the User will not refresh. GUI to be implemented in Phase 3).
 - Click the back button, User should be taken back to the "Home Screen".
+### Restriction Messaging
+- Run the program again in another terminal.
+- Create another new User and select "No" for receiving message from all Users.
+- Back to the other User and search the newly created User.
+- Click the Send/Delete Message Button.
+- A pane should display that User is not able to send message to the Searched User because of restriction on messaging by the User.
+- Search for the newly created User again.
+- Add the User as a friend
+- Click the Back Button
+- Search the User again, and click the send/delete message button.
+- User should now be able to send message.
