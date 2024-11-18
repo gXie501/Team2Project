@@ -101,22 +101,20 @@ public class ClientHandler implements Runnable, ClientHandlerInterface {
                         writer.println("User found");
                         writer.flush();
                         
-                        // Handle retrieving messages
-                        String currUser = reader.readLine(); // Current user making the request
-                        ArrayList<String> messages = messageDatabase.retrieveMessages(currUser, searcher, "testFile.txt");
                         
-                        if (messages == null || messages.isEmpty()) {
-                            writer.println("No messages found");
-                        } else {
-                            writer.println(messages);
-                        }
-                        writer.flush();
-                        userDatabase.createUser(username, password, null, false); //INCLUDE PROFILEPIC IN FUTURE IMPLEMENTATION
                     }
                 } else if (message.equals("blockUser")) {
+
+
                     // sends current user
                     User username = userDatabase.returnUser(reader.readLine());
                     User blocked = userDatabase.returnUser(reader.readLine());
+
+                    if(username.getFriends().contains(blocked)){
+                        ArrayList<User> test = username.getFriends();
+                        test.remove(blocked);
+                        username.setFriends(test);
+                    }
                     userDatabase.blockUser(username, blocked);
                     
                     // sends usersBlocked to check if added to array
@@ -127,7 +125,27 @@ public class ClientHandler implements Runnable, ClientHandlerInterface {
                     }
                     writer.println(users);
                     writer.flush();
-                
+                } else if(message.equals("friendUser"))
+                {
+                    
+                    // sends current user
+                    User username = userDatabase.returnUser(reader.readLine());
+                    User friend = userDatabase.returnUser(reader.readLine());
+                    if(username.getBlocked().contains(friend)){
+                        ArrayList<User> test = username.getBlocked();
+                        test.remove(friend);
+                        username.setBlocked(test);
+                    }
+                    userDatabase.friendUser(username, friend);
+                    
+                    // sends userFriend to check if added to array
+                    ArrayList<User> userFriend = username.getFriends();
+                    String users = "";
+                    for (User user : userFriend) {
+                        users  += user.getUsername() + " ";
+                    }
+                    writer.println(users);
+                    writer.flush();
                 } else if (message.equals("restrict messages")) {
                     String restricted = reader.readLine();
                     if (restricted.equals("yes")) {
