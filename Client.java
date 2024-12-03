@@ -582,6 +582,7 @@ public class Client implements ClientInterface {
                         writer.flush();
                         JOptionPane.showMessageDialog(frame,
                                 "Message sent successfully to " + receiver + "!");
+                        sendMessagetoUser(receiver);
                     }
                 }
             });
@@ -604,6 +605,7 @@ public class Client implements ClientInterface {
                         writer.flush();
                         JOptionPane.showMessageDialog(frame,
                                 "Message deleted successfully to " + receiver + ".");
+                        sendMessagetoUser(receiver);
                     }
                 }
             });
