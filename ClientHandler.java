@@ -190,7 +190,7 @@ public class ClientHandler implements Runnable, ClientHandlerInterface {
                         ArrayList<User> userFriend = un.getFriends();
                         String users = "";
                         for (User user : userFriend) {
-                            users  += user.getUsername() + " ";
+                            users += user.getUsername() + " ";
                         }
                         writer.println(users);
                         writer.flush();
@@ -205,6 +205,20 @@ public class ClientHandler implements Runnable, ClientHandlerInterface {
                 
                     
 
+                } else if (message.equals("Check restrict messages")) {
+                    User user = userDatabase.returnUser(reader.readLine());
+                    User otherUser = userDatabase.returnUser(reader.readLine()); //User that user is trying to send message to.
+                    //check to see if user is able to send messages
+                    //if getRestrictMessages is true, anyone can send user messages
+                    if (user.getBlocked().contains(otherUser) || otherUser.getBlocked().contains(user)) {
+                        writer.println("false");
+                    } else if (user.getRestrictMessages() && otherUser.getRestrictMessages() || 
+                        !user.getRestrictMessages() && user.getFriends().contains(otherUser) ||
+                        !otherUser.getRestrictMessages() && otherUser.getFriends().contains(user)) {
+                            writer.println("true");
+                    } else {
+                        writer.println("false");
+                    }
                 } else if (message.equals("exit")) {
                     // Handle client disconnection
                     System.out.println("Client requested disconnection.");
