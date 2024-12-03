@@ -1,4 +1,9 @@
 package Database;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.*;
 
 
@@ -23,6 +28,24 @@ public class UserDatabase implements UserInterface {
         }
     }
 
+    // new change
+    public UserDatabase() {
+
+        synchronized (userGatekeeper) {
+            try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("userFile.txt"))) {
+                // Deserialize the list of users from the file
+                users = (ArrayList<User>) in.readObject(); // Read the list of User objects
+                System.out.println("User list deserialized from file.");
+            } catch (IOException e) {
+                // Handle the case where the file does not exist or cannot be read
+                System.out.println("No previous user data found. Starting with an empty list.");
+            } catch (ClassNotFoundException e) {
+                // Handle the case where the class type cannot be found (should not happen if the User class is available)
+                System.out.println("Error deserializing the user list.");
+            }
+        }
+    }
+
     public boolean createUser(String username, String password, String pfp, boolean restrictMessage) {
       // checks if a user object with this username already exists
         synchronized (userGatekeeper) {
@@ -34,6 +57,7 @@ public class UserDatabase implements UserInterface {
                                 ArrayList<User>());
                 // add new user to users arraylist
                 users.add(u);
+                saveUsers();
                 return true;
             }
         }
@@ -65,6 +89,7 @@ public class UserDatabase implements UserInterface {
                         updatedUser.setRestrictMessages(restrict);
                         // set the user in users array to be the updated user
                         users.set(i, updatedUser);
+                        saveUsers();
                     }
                 }
             }
@@ -85,6 +110,7 @@ public class UserDatabase implements UserInterface {
                     updatedUser.setBlocked(updatedBlocked);
                     // set the user in users array to be the updated user
                     users.set(i, updatedUser);
+                    saveUsers();
                     return true;
                 }
             }
@@ -106,6 +132,7 @@ public class UserDatabase implements UserInterface {
                     updatedUser.setFriends(updatedFriends);
                     // set the user in users array to be the updated user
                     users.set(i, updatedUser);
+                    saveUsers();
                     return true;
                 }
             }
@@ -122,6 +149,17 @@ public class UserDatabase implements UserInterface {
                 }
             }
             return null;
+        }
+    }
+
+    public void saveUsers() {
+        synchronized (userGatekeeper) {
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("userFile.txt"))) {
+                out.writeObject(users); // Serialize the updated list of users
+                System.out.println("Updated user list saved to file.");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

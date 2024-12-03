@@ -17,7 +17,8 @@ import java.util.ArrayList;
  * @version Nov. 3, 2024
  * 
  */
-public class User implements UserObjectInterface {
+public class User implements UserObjectInterface, Serializable {
+    private static final long serialVersionUID = 1L; // this will allow the Users to be read into a file
     private String username; // username of the users account
     private String pfp; // profile picture of the users account
     private String password; // password of the users account
