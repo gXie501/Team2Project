@@ -379,8 +379,22 @@ public class Client implements ClientInterface {
 
                                     if (choice == 0) { // send Message
                                         System.out.println("Sending/ Deleting message");
-
-                                        sendMessagetoUser(searchText);
+                                        //CHECK TO SEE IF YOU CAN SEND MESSAGES.
+                                        try {
+                                            writer.println("Check restrict messages");
+                                            writer.println(username);
+                                            writer.println(searchText);
+                                            String canSend = reader.readLine();
+                                            if (canSend.equals("true")) {
+                                                sendMessagetoUser(searchText);
+                                            } else if (canSend.equals("false")) {
+                                                JOptionPane.showMessageDialog(frame, "You cannot send messages to this user. Either user may be blocked or have messages restricted", "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                                                showMainScreen();
+                                            }
+                                        } catch (Exception f) {
+                                            f.printStackTrace();
+                                        } 
                                     } else if (choice == 1) { // BLOCK USER
                                         showBlockedUsers(searchText);
 
@@ -512,6 +526,7 @@ public class Client implements ClientInterface {
 
         private void sendMessagetoUser(String receiver) {
             // create a new panel for sending a message
+            //IMPLEMENT FRIEND USER
 
             //removes all current content
             frame.getContentPane().removeAll();
