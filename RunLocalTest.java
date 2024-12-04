@@ -62,13 +62,15 @@ public class RunLocalTest {
 					Modifier.isPublic(modifiers));
 			Assert.assertFalse("Ensure that User is NOT abstract!",
 					Modifier.isAbstract(modifiers));
-			Assert.assertEquals("Ensure that User implements 1 interfaces!",
-					1, superinterfaces.length);
+			Assert.assertEquals("Ensure that User implements 2 interfaces!",
+					2, superinterfaces.length);
 
 			// Checks that the User class implements the UserObjectInterface
 			User check = new User("temp", "temp", "temp", false, null, null);
 			Assert.assertTrue("The User class does not implement the UserObjectInterface",
 					check instanceof UserObjectInterface);
+			Assert.assertTrue("The User class does not implement the Serializable Interface",
+					check instanceof Serializable);
 		}
 
 		// Test case for the User class (Constructor and Methods(Getters and Setters))
@@ -358,9 +360,11 @@ public class RunLocalTest {
 			UserDatabase ud = new UserDatabase();
 			ud.createUser("Tester", "123456", "w28RK.png", false);
 			ud.restrictUser("Tester", true);
-			Assert.assertTrue("User Restriction was not changed: Expected: True, Actual: False", ud.returnUser("Tester").getRestrictMessages());
+			Assert.assertTrue("User Restriction was not changed: Expected: True, Actual: False",
+					ud.returnUser("Tester").getRestrictMessages());
 			ud.restrictUser("Tester", false);
-			Assert.assertFalse("User Restriction was not changed: Expected: False, Actual: True", ud.returnUser("Tester").getRestrictMessages());
+			Assert.assertFalse("User Restriction was not changed: Expected: False, Actual: True",
+					ud.returnUser("Tester").getRestrictMessages());
 		}
 
 		@Test(timeout = 1000)
@@ -439,15 +443,16 @@ public class RunLocalTest {
 			Assert.assertFalse("Ensure that ClientHandler is NOT abstract!",
 					Modifier.isAbstract(modifiers));
 
-            Assert.assertEquals("Ensure that ClientHandler does not extend any class!",
-                    Object.class, superclass); // before we were checking if exception extended messageDatabase
-            Assert.assertEquals("Ensure that ClientHandler implements 2 interfaces!",
-                    2, superinterfaces.length);
-            Assert.assertEquals("Ensure that ClientHandler implements Runnable Interface!",
-                    Runnable.class, superinterfaces[0]);
-            Assert.assertEquals("Ensure that ClientHandler implements ClientHandler Interface!",
-                    ClientHandlerInterface.class, superinterfaces[1]);
-        }
+			Assert.assertEquals("Ensure that ClientHandler does not extend any class!",
+					Object.class, superclass); // before we were checking if exception extended messageDatabase
+			Assert.assertEquals("Ensure that ClientHandler implements 2 interfaces!",
+					2, superinterfaces.length);
+			Assert.assertEquals("Ensure that ClientHandler implements Runnable Interface!",
+					Runnable.class, superinterfaces[0]);
+			Assert.assertEquals("Ensure that ClientHandler implements ClientHandler Interface!",
+					ClientHandlerInterface.class, superinterfaces[1]);
+		}
+
 		@Test
 		public void ClientHandlerConstructorTest() {
 			try {
