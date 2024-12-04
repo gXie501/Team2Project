@@ -24,7 +24,7 @@ public class Client implements ClientInterface {
     private JButton loginButton;
     private String username;
     private String password;
-    private JFrame frame;
+    private JFrame frame = new JFrame("Messaging App");
 
     public void run() {
         // Start client communication in a separate thread to avoid blocking the UI
@@ -58,6 +58,9 @@ public class Client implements ClientInterface {
                 System.out.println("Connected to the server.");
 
                 // Create the login panel
+                frame.setSize(600, 400);
+                frame.setLocationRelativeTo(null);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 welcomePanel();
 
             } catch (IOException e) {
@@ -67,6 +70,7 @@ public class Client implements ClientInterface {
 
         // welcome panel
         private void welcomePanel() {
+
             // create buttons
             JButton loginOption = new JButton("Login");
             JButton createUserOption = new JButton("Create new user");
@@ -87,16 +91,11 @@ public class Client implements ClientInterface {
                         frame.getContentPane().revalidate(); // Revalidate the layout
                         frame.getContentPane().repaint(); // Repaint to reflect changes
                     }
-                    
+
                 }
             };
             loginOption.addActionListener(welcomeListener);
             createUserOption.addActionListener(welcomeListener);
-
-            frame = new JFrame("Messaging App");
-            frame.setSize(600, 400);
-            frame.setLocationRelativeTo(null);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             JPanel panel = new JPanel();
             panel.add(loginOption);
