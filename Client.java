@@ -74,6 +74,8 @@ public class Client implements ClientInterface {
             ActionListener welcomeListener = new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     Object source = e.getSource();
+                    frame.getContentPane().removeAll(); // Remove all existing components from the frame
+                    frame.getContentPane().invalidate(); // Invalidate the layout to clear
                     if (source == loginOption) {
                         frame.getContentPane().removeAll();
                         showLoginPanel();
@@ -85,6 +87,7 @@ public class Client implements ClientInterface {
                         frame.getContentPane().revalidate(); // Revalidate the layout
                         frame.getContentPane().repaint(); // Repaint to reflect changes
                     }
+                    
                 }
             };
             loginOption.addActionListener(welcomeListener);
@@ -111,12 +114,8 @@ public class Client implements ClientInterface {
 
         // Creates the login frame
         private void showLoginPanel() {
-            // Create the GUI components
-            frame = new JFrame("Messaging App");
-            frame.setSize(600, 400);
-            frame.setLocationRelativeTo(null);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+            frame.getContentPane().removeAll();
             // Create panel components
             JTextField usernameTextField = new JTextField(10);
             JTextField passwordTextField = new JTextField(10);
@@ -199,12 +198,7 @@ public class Client implements ClientInterface {
 
         // creates the new user frame
         private void showNewUser() {
-            // Create the GUI components
-            frame = new JFrame("Messaging App");
-            frame.setSize(600, 400);
-            frame.setLocationRelativeTo(null);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+            frame.getContentPane().removeAll();
             // Create panel components
             JTextField usernameTextField = new JTextField(10);
             JTextField passwordTextField = new JTextField(10);
@@ -460,11 +454,6 @@ public class Client implements ClientInterface {
             // removes all current content
             frame.getContentPane().removeAll();
 
-            frame = new JFrame("Messaging App - Blocking");
-            frame.setSize(600, 400);
-            frame.setLocationRelativeTo(null);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
             // implementation for block user
             writer.println("blockUser");
             writer.flush();
@@ -504,11 +493,6 @@ public class Client implements ClientInterface {
         public void showFriendUsers(String friend) {
             // removes all current content
             frame.getContentPane().removeAll();
-
-            frame = new JFrame("Messaging App - Blocking");
-            frame.setSize(600, 400);
-            frame.setLocationRelativeTo(null);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             // implementation for block user
             writer.println("friendUser");
@@ -554,10 +538,7 @@ public class Client implements ClientInterface {
             // removes all current content
             frame.getContentPane().removeAll();
 
-            frame = new JFrame("Messaging App - Sending or Deleting Message");
-            frame.setSize(600, 400);
-            frame.setLocationRelativeTo(null);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setTitle("Messaging App - Sending or Deleting Message");
 
             JPanel messagePanel = new JPanel();
             messagePanel.setLayout(new BorderLayout());
