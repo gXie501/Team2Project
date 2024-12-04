@@ -223,6 +223,26 @@ public class ClientHandler implements Runnable, ClientHandlerInterface {
                     // Handle client disconnection
                     System.out.println("Client requested disconnection.");
                     break;
+                } else if (message.equals("Get friends and blocked")) {
+                    User user = userDatabase.returnUser(reader.readLine());
+                    ArrayList<User> friends = user.getFriends();
+                    ArrayList<User> blocked = user.getBlocked();
+                    String friendString = "";
+                    String blockedString = "";
+                    for(User u : friends) {
+                        friendString += u.getUsername() + ", ";
+                    }
+                    for(User u : blocked) {
+                        blockedString += u.getUsername() + ", ";
+                    }
+
+                    writer.println(friendString);
+                    writer.println(blockedString);
+                    if (user.getRestrictMessages()) {
+                        writer.println("You are accepting messages from all users");
+                    } else {
+                        writer.println("You are accepting messages from friends only");
+                    }
                 } else {
                     // Echo or process other types of messages
                     writer.println("Server received: " + message);
