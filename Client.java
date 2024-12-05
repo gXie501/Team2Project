@@ -75,6 +75,16 @@ public class Client implements ClientInterface {
             JButton loginOption = new JButton("Login");
             JButton createUserOption = new JButton("Create new user");
 
+            loginOption.setBackground(new Color(30, 144, 255)); // Dodger blue
+            //loginOption.setForeground(Color.WHITE);
+            loginOption.setFont(new Font("Arial", Font.BOLD, 16));
+            loginOption.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+
+            createUserOption.setBackground(new Color(34, 139, 34)); // Forest green
+            //createUserOption.setForeground(Color.WHITE);
+            createUserOption.setFont(new Font("Arial", Font.BOLD, 16));
+            createUserOption.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+
             ActionListener welcomeListener = new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     Object source = e.getSource();
@@ -103,8 +113,10 @@ public class Client implements ClientInterface {
 
             JPanel welcomeMessage = new JPanel();
             welcomeMessage.add(new JLabel("Welcome to the messaging app! Would you like to login or create new user?"));
+            welcomeMessage.setFont(new Font("Serif", Font.BOLD, 24));
+            welcomeMessage.setForeground(new Color(70, 130, 180)); // Steel blue
 
-            // add panels to frame
+            // add panels to frames
             frame.getContentPane().add(welcomeMessage, BorderLayout.NORTH);
             frame.getContentPane().add(panel, BorderLayout.CENTER);
             frame.setVisible(true);
@@ -318,31 +330,31 @@ public class Client implements ClientInterface {
             String friendString = "";
             String blockedString = "";
             String restrictedString = "";
-            try {
-                writer.println("Get friends and blocked");
-                writer.println(username);
-                friendString = reader.readLine();
-                blockedString = reader.readLine();
-                restrictedString = reader.readLine();
+            // try {
+            //     writer.println("Get friends and blocked");
+            //     writer.println(username);
+            //     friendString = reader.readLine();
+            //     blockedString = reader.readLine();
+            //     restrictedString = reader.readLine();
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            // } catch (Exception e) {
+            //     e.printStackTrace();
+            // }
 
-            JLabel friends = new JLabel("Friend Users: " + friendString.substring(0, friendString.length() - 2));
-            JLabel blocked = new JLabel("Blocked Users: " + blockedString.substring(0, blockedString.length() - 2));
-            JLabel restricted = new JLabel(restrictedString);
+            // JLabel friends = new JLabel("Friend Users: " + friendString.substring(0, friendString.length() - 2));
+            // JLabel blocked = new JLabel("Blocked Users: " + blockedString.substring(0, blockedString.length() - 2));
+            // JLabel restricted = new JLabel(restrictedString);
 
-            JPanel userInfo = new JPanel();
-            userInfo.setLayout(new BoxLayout(userInfo, BoxLayout.Y_AXIS));
-            userInfo.add(friends);
-            userInfo.add(blocked);
-            userInfo.add(restricted);
+            // JPanel userInfo = new JPanel();
+            // userInfo.setLayout(new BoxLayout(userInfo, BoxLayout.Y_AXIS));
+            // userInfo.add(friends);
+            // userInfo.add(blocked);
+            // userInfo.add(restricted);
             // You can add more components to the main screen here, such as buttons, menus,
             // etc.
             JButton logoutButton = new JButton("Logout");
             mainPanel.add(logoutButton, BorderLayout.SOUTH);
-            mainPanel.add(userInfo, BorderLayout.CENTER);
+           // mainPanel.add(userInfo, BorderLayout.CENTER);
 
             // Define logout button action
             logoutButton.addActionListener(new ActionListener() {
