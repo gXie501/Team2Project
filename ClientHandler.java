@@ -149,28 +149,21 @@ public class ClientHandler implements Runnable, ClientHandlerInterface {
                     writer.flush();
 
                 } else if (message.equals("blockUser")) {
-
-
                     // sends current user
                     User un = userDatabase.returnUser(reader.readLine());
                     User blocked = userDatabase.returnUser(reader.readLine());
                     // prevents user from blocking same user twice
                     if (!un.getBlocked().contains(blocked)) {
                         if (un.getFriends().contains(blocked)) {
-                            ArrayList<User> test = un.getFriends();
-                            test.remove(blocked);
-                            un.setFriends(test);
+                            //remove friend from their friends
+                            ArrayList<User> temp = un.getFriends();
+                            temp.remove(blocked);
+                            un.setFriends(temp);
                         }
                         userDatabase.blockUser(un, blocked);
-
-                        // sends usersBlocked to check if added to array
-                        ArrayList<User> usersBlocked = un.getBlocked();
-                        String users = "";
-                        for (User user : usersBlocked) {
-                            users  += user.getUsername() + " ";
-                        }
-                        writer.println(users);
-                        writer.flush();
+                        writer.println("User has been successfully blocked");
+                    } else {
+                        writer.println("You already have this user blocked.");
                     }
                 } else if (message.equals("friendUser")) {
                     
@@ -180,21 +173,26 @@ public class ClientHandler implements Runnable, ClientHandlerInterface {
                     // prevents user from adding the same friend twice
                     if (!un.getFriends().contains(friend)) {
                         if (un.getBlocked().contains(friend)) {
-                            ArrayList<User> test = un.getBlocked();
-                            test.remove(friend);
-                            un.setBlocked(test);
+                            //if the user has them blocked, unblock them and add friend
+                            ArrayList<User> temp = un.getBlocked();
+                            temp.remove(friend);
+                            un.setBlocked(temp);
                         }
                         userDatabase.friendUser(un, friend);
+                        userDatabase.friendUser(friend, un);
+                        writer.println("Successfully added friend");
+                    } else {
+                        writer.println("You are already friends with this user");
+                    }
 
                         // sends userFriend to check if added to array
-                        ArrayList<User> userFriend = un.getFriends();
-                        String users = "";
-                        for (User user : userFriend) {
-                            users += user.getUsername() + " ";
-                        }
-                        writer.println(users);
-                        writer.flush();
-                    }
+                        // ArrayList<User> userFriend = un.getFriends();
+                        // String users = "";
+                        // for (User user : userFriend) {
+                        //     users += user.getUsername() + " ";
+                        // }
+                        // writer.println(users);
+                        // writer.flush();
                 } else if (message.equals("restrict messages")) {
                     String restricted = reader.readLine();
                     if (restricted.equals("yes")) {
