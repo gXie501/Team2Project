@@ -6,7 +6,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.*;
 
-
 /**
  * Team Project -- Run Local Test for Social Media App
  * 
@@ -35,13 +34,11 @@ public class UserDatabase implements UserInterface {
             try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("userFile.txt"))) {
                 // Deserialize the list of users from the file
                 users = (ArrayList<User>) in.readObject(); // Read the list of User objects
-                System.out.println("User list deserialized from file.");
             } catch (IOException e) {
                 // Handle the case where the file does not exist or cannot be read
-                System.out.println("No previous user data found. Starting with an empty list.");
             } catch (ClassNotFoundException e) {
                 // Handle the case where the class type cannot be found (should not happen if the User class is available)
-                System.out.println("Error deserializing the user list.");
+                e.printStackTrace();
             }
         }
     }
@@ -156,7 +153,6 @@ public class UserDatabase implements UserInterface {
         synchronized (userGatekeeper) {
             try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("userFile.txt"))) {
                 out.writeObject(users); // Serialize the updated list of users
-                System.out.println("Updated user list saved to file.");
             } catch (IOException e) {
                 e.printStackTrace();
             }
