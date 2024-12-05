@@ -605,6 +605,19 @@ public class Client implements ClientInterface {
             // IMPLEMENT FRIEND USER
 
             // removes all current content
+            try {
+                writer.println("Check to send message");
+                writer.println(username);
+                writer.println(receiver);
+                String canMessage = reader.readLine();
+                if (canMessage.contains("blocked") || canMessage.contains("not")) {
+                    JOptionPane.showMessageDialog(frame, canMessage, "Message", JOptionPane.ERROR_MESSAGE);
+                    showMainScreen();
+                    return;
+                } 
+            } catch (Exception e) {
+
+            }
             frame.getContentPane().removeAll();
 
             frame.setTitle("Messaging App - Sending or Deleting Message");
