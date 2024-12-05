@@ -149,14 +149,17 @@ public class ClientHandler implements Runnable, ClientHandlerInterface {
                                                          receiver, 
                                                          "testFile.txt");
 
-                    String messages = "";
-                    for (String m : messageLogs) {
-                        messages += m;
+                    try {
+                        for (String m : messageLogs) {
+                            writer.println(m); // send each message as sender;receiver;message
+                            writer.flush();
+                        }
+                        writer.println("END"); // end of message list
+                        writer.flush();
+                    } catch (Exception e) {
+                        System.out.println("Error sending messages to client");
+                        e.printStackTrace();
                     }
-
-                    System.out.println("sending message to client");
-                    writer.println(messages);
-                    writer.flush();
 
                 } else if (message.equals("blockUser")) {
                     // sends current user

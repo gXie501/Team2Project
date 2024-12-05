@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 
 /**
  * Team Project -- Client Side of the program that takes in all User inputs
@@ -619,27 +620,66 @@ public class Client implements ClientInterface {
 
             }
             frame.getContentPane().removeAll();
-
             frame.setTitle("Messaging App - Sending or Deleting Message");
-
+        
             JPanel messagePanel = new JPanel();
             messagePanel.setLayout(new BorderLayout());
-
-            String messageLog = "";
-            // retrive past messages
+        
+            ArrayList<String[]> messageLog = new ArrayList<>();
             try {
-                System.out.println("attempting to retrieve past messages");
                 writer.println("receive message");
                 writer.flush();
                 writer.println(receiver);
                 writer.flush();
-                System.out.println("sent receiver to clientHandler");
-                messageLog = reader.readLine();
-                System.out.println("received message from server");
+        
+                String response;
+                while (!(response = reader.readLine()).equals("END")) { // Read until "END"
+                    String[] messageParts = response.split(";");
+                    if (messageParts.length == 3) {
+                        messageLog.add(messageParts); // Store as [sender, receiver, message]
+                    }
+                }
             } catch (Exception e) {
-                System.out.println("an error occured while trying to retrieve messages");
+                System.out.println("Error retrieving messages");
                 e.printStackTrace();
             }
+        
+            // Create a panel for displaying messages
+            JPanel messagesDisplayPanel = new JPanel();
+            messagesDisplayPanel.setLayout(new BoxLayout(messagesDisplayPanel, BoxLayout.Y_AXIS));
+        
+            // Add messages to the display panel
+            for (String[] message : messageLog) {
+                String sender = message[0];
+                String text = message[2];
+
+                JLabel messageLabel = new JLabel(text);
+                messageLabel.setOpaque(true);
+                messageLabel.setBackground(sender.equals(username) ? Color.CYAN : Color.LIGHT_GRAY); // Color coding for differentiation
+                messageLabel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+
+                JPanel messageContainer = new JPanel();
+                messageContainer.setLayout(new BorderLayout());
+
+                if (sender.equals(username)) {
+                    // Align sender's message to the right
+                    messageContainer.add(messageLabel, BorderLayout.EAST);
+                } else {
+                    // Align receiver's message to the left
+                    messageContainer.add(messageLabel, BorderLayout.WEST);
+                }
+
+                messageContainer.setAlignmentX(Component.LEFT_ALIGNMENT);
+                messagesDisplayPanel.add(messageContainer);
+            }
+        
+            // Add a scroll pane to handle long message logs
+            JScrollPane scrollPane = new JScrollPane(messagesDisplayPanel);
+            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+            messagesDisplayPanel.setPreferredSize(null);
+            messagePanel.add(scrollPane, BorderLayout.CENTER);
 
             // panel for SEND and DELETE button
             JPanel buttonPanel = new JPanel();
@@ -660,8 +700,8 @@ public class Client implements ClientInterface {
             // add button panel to the message panel
             messagePanel.add(buttonPanel, BorderLayout.SOUTH);
 
-            // add past messages to the message panel
-            messagePanel.add(new JLabel(messageLog), BorderLayout.CENTER);
+            // // add past messages to the message panel
+            // messagePanel.add(new JLabel(messageLog), BorderLayout.CENTER);
 
             sendMessageButton.addActionListener(new ActionListener() {
                 @Override
