@@ -339,6 +339,12 @@ public class RunLocalTest {
 			User search = ud.returnUser("search");
 			Assert.assertEquals("An User was found when the User does not exist", ud.returnUser("hello"), null);
 			Assert.assertEquals("An User was found when the User does not exist", ud.returnUser("search"), search);
+
+			//Check save users method
+			ud.saveUsers();
+
+			UserDatabase check = new UserDatabase();
+			Assert.assertEquals("Save Users method did not correctly save users", check.getUsers(), check.getUsers());
 		}
 
 		@Test
