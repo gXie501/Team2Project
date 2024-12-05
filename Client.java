@@ -24,7 +24,7 @@ public class Client implements ClientInterface {
     private JButton loginButton;
     private String username;
     private String password;
-    private JFrame frame;
+    private JFrame frame = new JFrame("Messaging App");
 
     public void run() {
         // Start client communication in a separate thread to avoid blocking the UI
@@ -36,18 +36,18 @@ public class Client implements ClientInterface {
     // (ClientRunnable). This avoids blocking the Event Dispatch Thread (EDT),
     // which is responsible for the GUI.
     /**
-    * Team Project -- Client Side of the program that takes in all User inputs
-    * 
-    * Takes in all of the user's inputs from GUI.
-    * 
-    * @author Team 2, Lab 19
-    * 
-    * @version Nov. 17, 2024
-    */
+     * Team Project -- Client Side of the program that takes in all User inputs
+     * 
+     * Takes in all of the user's inputs from GUI.
+     * 
+     * @author Team 2, Lab 19
+     * 
+     * @version Nov. 17, 2024
+     */
     private class ClientRunnable implements Runnable {
-       
+
         @Override
-       
+
         public void run() {
             try {
                 // Establish socket connection with the server
@@ -58,6 +58,9 @@ public class Client implements ClientInterface {
                 System.out.println("Connected to the server.");
 
                 // Create the login panel
+                frame.setSize(600, 400);
+                frame.setLocationRelativeTo(null);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 welcomePanel();
 
             } catch (IOException e) {
@@ -67,6 +70,7 @@ public class Client implements ClientInterface {
 
         // welcome panel
         private void welcomePanel() {
+
             // create buttons
             JButton loginOption = new JButton("Login");
             JButton createUserOption = new JButton("Create new user");
@@ -74,22 +78,24 @@ public class Client implements ClientInterface {
             ActionListener welcomeListener = new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     Object source = e.getSource();
+                    frame.getContentPane().removeAll(); // Remove all existing components from the frame
+                    frame.getContentPane().invalidate(); // Invalidate the layout to clear
                     if (source == loginOption) {
                         frame.getContentPane().removeAll();
                         showLoginPanel();
+                        frame.getContentPane().revalidate(); // Revalidate the layout
+                        frame.getContentPane().repaint(); // Repaint to reflect changes
                     } else if (source == createUserOption) {
                         frame.getContentPane().removeAll();
                         showNewUser();
+                        frame.getContentPane().revalidate(); // Revalidate the layout
+                        frame.getContentPane().repaint(); // Repaint to reflect changes
                     }
+
                 }
             };
             loginOption.addActionListener(welcomeListener);
             createUserOption.addActionListener(welcomeListener);
-
-            frame = new JFrame("Messaging App");
-            frame.setSize(600, 400);
-            frame.setLocationRelativeTo(null);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             JPanel panel = new JPanel();
             panel.add(loginOption);
@@ -107,12 +113,8 @@ public class Client implements ClientInterface {
 
         // Creates the login frame
         private void showLoginPanel() {
-            // Create the GUI components
-            frame = new JFrame("Messaging App");
-            frame.setSize(600, 400);
-            frame.setLocationRelativeTo(null);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+            frame.getContentPane().removeAll();
             // Create panel components
             JTextField usernameTextField = new JTextField(10);
             JTextField passwordTextField = new JTextField(10);
@@ -195,12 +197,7 @@ public class Client implements ClientInterface {
 
         // creates the new user frame
         private void showNewUser() {
-            // Create the GUI components
-            frame = new JFrame("Messaging App");
-            frame.setSize(600, 400);
-            frame.setLocationRelativeTo(null);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+            frame.getContentPane().removeAll();
             // Create panel components
             JTextField usernameTextField = new JTextField(10);
             JTextField passwordTextField = new JTextField(10);
@@ -265,9 +262,9 @@ public class Client implements ClientInterface {
                 writer.println("restrict messages");
                 writer.flush();
                 int result = JOptionPane.showConfirmDialog(frame,
-                                                           
-                        "Would you like to receive messages from all users?" 
-                                                           + " If not, you will only receive messages from friends.",
+
+                        "Would you like to receive messages from all users?"
+                                + " If not, you will only receive messages from friends.",
                         "Swing Tester",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE);
@@ -303,13 +300,11 @@ public class Client implements ClientInterface {
         // Show main screen or new panel after successful login
         private void showMainScreen() {
             // Remove the login result panel and show the main screen
-            
+            frame.getContentPane().removeAll();
 
             // Create a panel for the main screen
             JPanel mainPanel = new JPanel();
             mainPanel.setLayout(new BorderLayout());
-            JLabel welcomeText = new JLabel("Welcome to the Main Screen", SwingConstants.CENTER);
-            mainPanel.add(welcomeText, BorderLayout.CENTER);
 
             JPanel panel = new JPanel();
             JTextField searchField = new JTextField(10);
@@ -318,12 +313,36 @@ public class Client implements ClientInterface {
             JButton search = new JButton("Search");
             panel.add(search);
 
-            mainPanel.add(panel);
+            mainPanel.add(panel, BorderLayout.NORTH);
 
+            String friendString = "";
+            String blockedString = "";
+            String restrictedString = "";
+            try {
+                writer.println("Get friends and blocked");
+                writer.println(username);
+                friendString = reader.readLine();
+                blockedString = reader.readLine();
+                restrictedString = reader.readLine();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            JLabel friends = new JLabel("Friend Users: " + friendString.substring(0, friendString.length() - 2));
+            JLabel blocked = new JLabel("Blocked Users: " + blockedString.substring(0, blockedString.length() - 2));
+            JLabel restricted = new JLabel(restrictedString);
+
+            JPanel userInfo = new JPanel();
+            userInfo.setLayout(new BoxLayout(userInfo, BoxLayout.Y_AXIS));
+            userInfo.add(friends);
+            userInfo.add(blocked);
+            userInfo.add(restricted);
             // You can add more components to the main screen here, such as buttons, menus,
             // etc.
             JButton logoutButton = new JButton("Logout");
             mainPanel.add(logoutButton, BorderLayout.SOUTH);
+            mainPanel.add(userInfo, BorderLayout.CENTER);
 
             // Define logout button action
             logoutButton.addActionListener(new ActionListener() {
@@ -368,9 +387,9 @@ public class Client implements ClientInterface {
                             SwingUtilities.invokeLater(() -> {
                                 if (response.equals("User found")) {
                                     String[] options = { "Send or Delete Message",
-                                                        
-                                                         "Block User", "Add Friend",
-                                                         "Cancel" };
+
+                                            "Block User", "Add Friend",
+                                            "Cancel" };
 
                                     int choice = JOptionPane.showOptionDialog(frame, "User " +
                                             searchText + " found! What would you like to do?",
@@ -379,7 +398,7 @@ public class Client implements ClientInterface {
 
                                     if (choice == 0) { // send Message
                                         System.out.println("Sending/ Deleting message");
-                                        //CHECK TO SEE IF YOU CAN SEND MESSAGES.
+                                        // CHECK TO SEE IF YOU CAN SEND MESSAGES.
                                         try {
                                             writer.println("Check restrict messages");
                                             writer.println(username);
@@ -388,23 +407,24 @@ public class Client implements ClientInterface {
                                             if (canSend.equals("true")) {
                                                 sendMessagetoUser(searchText);
                                             } else if (canSend.equals("false")) {
-                                                JOptionPane.showMessageDialog(frame, "You cannot send messages to this user. Either user may be blocked or have messages restricted", "Error",
-                                JOptionPane.ERROR_MESSAGE);
+                                                JOptionPane.showMessageDialog(frame,
+                                                        "You cannot send messages to this user. Either user may be blocked or have messages restricted",
+                                                        "Error",
+                                                        JOptionPane.ERROR_MESSAGE);
                                                 showMainScreen();
                                             }
                                         } catch (Exception f) {
                                             f.printStackTrace();
-                                        } 
+                                        }
                                     } else if (choice == 1) { // BLOCK USER
                                         showBlockedUsers(searchText);
 
-                                        
                                     } else if (choice == 2) { // ADD FRIEND
                                         showFriendUsers(searchText);
                                     } else { // CANCEL
                                         frame.getContentPane().removeAll();
                                         showMainScreen();
-                                        
+
                                     }
 
                                 } else if (response.equals("User not found")) {
@@ -430,13 +450,8 @@ public class Client implements ClientInterface {
         }
 
         private void showBlockedUsers(String blocked) {
-            //removes all current content
+            // removes all current content
             frame.getContentPane().removeAll();
-
-            frame = new JFrame("Messaging App - Blocking");
-            frame.setSize(600, 400);
-            frame.setLocationRelativeTo(null);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             // implementation for block user
             writer.println("blockUser");
@@ -447,11 +462,10 @@ public class Client implements ClientInterface {
             writer.flush();
 
             try {
-                 // Clear the mainPanel
+                // Clear the mainPanel
 
                 JPanel panelNew = new JPanel();
                 panelNew.setLayout(new BoxLayout(panelNew, BoxLayout.Y_AXIS)); // Set a vertical layout for labels
-                
 
                 String users = reader.readLine();
                 users.trim();
@@ -469,7 +483,6 @@ public class Client implements ClientInterface {
                 frame.revalidate();
                 frame.repaint();
 
-                
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
@@ -477,13 +490,8 @@ public class Client implements ClientInterface {
         }
 
         public void showFriendUsers(String friend) {
-            //removes all current content
+            // removes all current content
             frame.getContentPane().removeAll();
-
-            frame = new JFrame("Messaging App - Blocking");
-            frame.setSize(600, 400);
-            frame.setLocationRelativeTo(null);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             // implementation for block user
             writer.println("friendUser");
@@ -494,11 +502,10 @@ public class Client implements ClientInterface {
             writer.flush();
 
             try {
-                 // Clear the mainPanel
+                // Clear the mainPanel
 
                 JPanel panelNew = new JPanel();
                 panelNew.setLayout(new BoxLayout(panelNew, BoxLayout.Y_AXIS)); // Set a vertical layout for labels
-                
 
                 String users = reader.readLine();
                 users.trim();
@@ -516,9 +523,8 @@ public class Client implements ClientInterface {
                 frame.revalidate();
                 frame.repaint();
 
-                
             } catch (IOException e1) {
-               
+
                 e1.printStackTrace();
             }
 
@@ -526,22 +532,18 @@ public class Client implements ClientInterface {
 
         private void sendMessagetoUser(String receiver) {
             // create a new panel for sending a message
-            //IMPLEMENT FRIEND USER
+            // IMPLEMENT FRIEND USER
 
-            //removes all current content
+            // removes all current content
             frame.getContentPane().removeAll();
 
-            frame = new JFrame("Messaging App - Sending or Deleting Message");
-            frame.setSize(600, 400);
-            frame.setLocationRelativeTo(null);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+            frame.setTitle("Messaging App - Sending or Deleting Message");
 
             JPanel messagePanel = new JPanel();
             messagePanel.setLayout(new BorderLayout());
 
             String messageLog = "";
-            //retrive past messages
+            // retrive past messages
             try {
                 System.out.println("attempting to retrieve past messages");
                 writer.println("receive message");
@@ -555,7 +557,6 @@ public class Client implements ClientInterface {
                 System.out.println("an error occured while trying to retrieve messages");
                 e.printStackTrace();
             }
-            
 
             // panel for SEND and DELETE button
             JPanel buttonPanel = new JPanel();
@@ -563,18 +564,18 @@ public class Client implements ClientInterface {
 
             JTextField messageField = new JTextField(10);
             buttonPanel.add(messageField);
-        
+
             JButton sendMessageButton = new JButton("Send Message");
             buttonPanel.add(sendMessageButton);
-        
+
             JButton deleteMessageButton = new JButton("Delete Message");
             buttonPanel.add(deleteMessageButton);
 
-            
-        
+            JButton backButton = new JButton("Back");
+            buttonPanel.add(backButton);
+
             // add button panel to the message panel
             messagePanel.add(buttonPanel, BorderLayout.SOUTH);
-
 
             // add past messages to the message panel
             messagePanel.add(new JLabel(messageLog), BorderLayout.CENTER);
@@ -625,6 +626,14 @@ public class Client implements ClientInterface {
                 }
             });
 
+            backButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    frame.getContentPane().removeAll();
+                    showMainScreen();
+                }
+            });
+
             // Add the new message panel to the main screen
             frame.add(messagePanel);
 
@@ -645,4 +654,3 @@ public class Client implements ClientInterface {
         });
     }
 }
-
