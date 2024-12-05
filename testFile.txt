@@ -1,3 +1,16 @@
-2;1;2
-1;2;hello!!!
-1;2;hi
+2;1;hello
+2;1;how are you
+2;1;what are you doing
+2;1;how are you
+2;1;no how are you
+2;1;jusgt
+2;1;1
+2;1;1
+2;1;1
+2;1;hell?
+1;2;hiiii!!!
+1;2;how are you
+6;1;helo
+6;1;how are you 
+1;6;im doing well
+1;6;how are you?
