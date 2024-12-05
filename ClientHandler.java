@@ -130,6 +130,16 @@ public class ClientHandler implements Runnable, ClientHandlerInterface {
                         writer.flush();
                     }
                     System.out.println("done with search user");
+                } else if (message.equals("Check to send message")) {
+                    User user = userDatabase.returnUser(reader.readLine());
+                    User receiver = userDatabase.returnUser(reader.readLine());
+                    if (user.getBlocked().contains(receiver)) {
+                        writer.println("You have this user blocked.");
+                    } else if (receiver.getBlocked().contains(user)) {
+                        writer.println("You are not able to send messages to this user.");
+                    } else {
+                        writer.println("User is able to send messages to receiver.");
+                    }
                 } else if (message.equals("receive message")) {
                     System.out.println("attempting to retrieve a message");
                     String receiver = reader.readLine();
