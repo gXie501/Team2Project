@@ -621,6 +621,7 @@ public class Client implements ClientInterface {
             }
             frame.getContentPane().removeAll();
             frame.setTitle("Messaging App - Sending or Deleting Message");
+            frame.setSize(600, 400);
         
             JPanel messagePanel = new JPanel();
             messagePanel.setLayout(new BorderLayout());
