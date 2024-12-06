@@ -602,10 +602,6 @@ public class Client implements ClientInterface {
         }
 
         private void sendMessagetoUser(String receiver) {
-            // create a new panel for sending a message
-            // IMPLEMENT FRIEND USER
-
-            // removes all current content
             try {
                 writer.println("Check to send message");
                 writer.println(username);
@@ -617,14 +613,19 @@ public class Client implements ClientInterface {
                     return;
                 } 
             } catch (Exception e) {
-
+                e.printStackTrace();
             }
+        
             frame.getContentPane().removeAll();
-            frame.setTitle("Messaging App - Sending or Deleting Message");
+            frame.setTitle("Messaging App - Chat with " + receiver);
             frame.setSize(600, 400);
         
             JPanel messagePanel = new JPanel();
             messagePanel.setLayout(new BorderLayout());
+        
+            // Panel for displaying messages
+            JPanel messagesDisplayPanel = new JPanel();
+            messagesDisplayPanel.setLayout(new BoxLayout(messagesDisplayPanel, BoxLayout.Y_AXIS));
         
             ArrayList<String[]> messageLog = new ArrayList<>();
             try {
@@ -637,7 +638,7 @@ public class Client implements ClientInterface {
                 while (!(response = reader.readLine()).equals("END")) { // Read until "END"
                     String[] messageParts = response.split(";");
                     if (messageParts.length == 3) {
-                        messageLog.add(messageParts); // Store as [sender, receiver, message]
+                        messageLog.add(messageParts); // [sender, receiver, message]
                     }
                 }
             } catch (Exception e) {
@@ -645,111 +646,70 @@ public class Client implements ClientInterface {
                 e.printStackTrace();
             }
         
-            // Create a panel for displaying messages
-            JPanel messagesDisplayPanel = new JPanel();
-            messagesDisplayPanel.setLayout(new BoxLayout(messagesDisplayPanel, BoxLayout.Y_AXIS));
-        
             // Add messages to the display panel
             for (String[] message : messageLog) {
                 String sender = message[0];
                 String text = message[2];
-
+        
                 JLabel messageLabel = new JLabel(text);
                 messageLabel.setOpaque(true);
-                messageLabel.setBackground(sender.equals(username) ? Color.CYAN : Color.LIGHT_GRAY); // Color coding for differentiation
-                messageLabel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-
+                messageLabel.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
+                messageLabel.setBackground(sender.equals(username) ? new Color(173, 216, 230) : new Color(240, 240, 240));
+                messageLabel.setForeground(Color.BLACK);
+        
                 JPanel messageContainer = new JPanel();
                 messageContainer.setLayout(new BorderLayout());
-
-                if (sender.equals(username)) {
-                    // Align sender's message to the right
-                    messageContainer.add(messageLabel, BorderLayout.EAST);
-                } else {
-                    // Align receiver's message to the left
-                    messageContainer.add(messageLabel, BorderLayout.WEST);
-                }
-
+                messageContainer.add(messageLabel, sender.equals(username) ? BorderLayout.EAST : BorderLayout.WEST);
                 messageContainer.setAlignmentX(Component.LEFT_ALIGNMENT);
+        
+                // Add spacing between messages
+                messageContainer.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
                 messagesDisplayPanel.add(messageContainer);
             }
         
-            // Add a scroll pane to handle long message logs
             JScrollPane scrollPane = new JScrollPane(messagesDisplayPanel);
             scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
             scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
-            messagesDisplayPanel.setPreferredSize(null);
+        
             messagePanel.add(scrollPane, BorderLayout.CENTER);
-
-            // panel for SEND and DELETE button
-            JPanel buttonPanel = new JPanel();
-            buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-
-            JTextField messageField = new JTextField(10);
-            buttonPanel.add(messageField);
-
-            JButton sendMessageButton = new JButton("Send Message");
-            buttonPanel.add(sendMessageButton);
-
-            JButton deleteMessageButton = new JButton("Delete Message");
-            buttonPanel.add(deleteMessageButton);
-
-            JButton backButton = new JButton("Back");
-            buttonPanel.add(backButton);
-
-            // add button panel to the message panel
-            messagePanel.add(buttonPanel, BorderLayout.SOUTH);
-
-            // // add past messages to the message panel
-            // messagePanel.add(new JLabel(messageLog), BorderLayout.CENTER);
-
+        
+            // Panel for sending messages
+            JPanel inputPanel = new JPanel(new BorderLayout());
+            JTextField messageField = new JTextField();
+            JButton sendMessageButton = new JButton("Send");
+        
+            inputPanel.add(messageField, BorderLayout.CENTER);
+            inputPanel.add(sendMessageButton, BorderLayout.EAST);
+        
+            messagePanel.add(inputPanel, BorderLayout.SOUTH);
+        
             sendMessageButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     String message = messageField.getText();
                     if (message.isEmpty()) {
-                        JOptionPane.showMessageDialog(frame, "Please enter a message.",
-                                "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(frame, "Please enter a message.", "Error", JOptionPane.ERROR_MESSAGE);
                     } else {
-                        writer.println("sendMessage");
-                        writer.flush();
-                        writer.println(receiver);
-                        writer.flush();
-                        writer.println(username);
-                        writer.flush();
-                        writer.println(message);
-                        writer.flush();
-                        JOptionPane.showMessageDialog(frame,
-                                "Message sent successfully to " + receiver + "!");
-                        sendMessagetoUser(receiver);
+                        try {
+                            writer.println("sendMessage");
+                            writer.flush();
+                            writer.println(receiver);
+                            writer.flush();
+                            writer.println(username);
+                            writer.flush();
+                            writer.println(message);
+                            writer.flush();
+                            JOptionPane.showMessageDialog(frame, "Message sent successfully to " + receiver + "!");
+                            sendMessagetoUser(receiver);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
                     }
                 }
             });
-
-            deleteMessageButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    String message = messageField.getText();
-                    if (message.isEmpty()) {
-                        JOptionPane.showMessageDialog(frame, "Please enter a message.",
-                                "Error", JOptionPane.ERROR_MESSAGE);
-                    } else {
-                        writer.println("deleteMessage");
-                        writer.flush();
-                        writer.println(receiver);
-                        writer.flush();
-                        writer.println(username);
-                        writer.flush();
-                        writer.println(message);
-                        writer.flush();
-                        JOptionPane.showMessageDialog(frame,
-                                "Message deleted successfully to " + receiver + ".");
-                        sendMessagetoUser(receiver);
-                    }
-                }
-            });
-
+        
+            // Back button
+            JButton backButton = new JButton("Back");
             backButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -757,18 +717,16 @@ public class Client implements ClientInterface {
                     showMainScreen();
                 }
             });
-
-            // Add the new message panel to the main screen
+        
+            messagePanel.add(backButton, BorderLayout.NORTH);
+        
             frame.add(messagePanel);
-
-            // Refresh the frame
             frame.setVisible(true);
             frame.revalidate();
             frame.repaint();
         }
-
     }
-
+        
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
