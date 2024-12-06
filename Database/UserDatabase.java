@@ -36,6 +36,7 @@ public class UserDatabase implements UserInterface {
                 users = (ArrayList<User>) in.readObject(); // Read the list of User objects
             } catch (IOException e) {
                 // Handle the case where the file does not exist or cannot be read
+                e.printStackTrace();
             } catch (ClassNotFoundException e) {
                 // Handle the case where the class type cannot be found (should not happen if the User class is available)
                 e.printStackTrace();
