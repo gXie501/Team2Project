@@ -677,9 +677,13 @@ public class Client implements ClientInterface {
             JPanel inputPanel = new JPanel(new BorderLayout());
             JTextField messageField = new JTextField();
             JButton sendMessageButton = new JButton("Send");
+            JButton deleteMessageButton = new JButton("Delete");
+            JPanel sendDeleteButton = new JPanel();
+            sendDeleteButton.add(sendMessageButton);
+            sendDeleteButton.add(deleteMessageButton);
         
             inputPanel.add(messageField, BorderLayout.CENTER);
-            inputPanel.add(sendMessageButton, BorderLayout.EAST);
+            inputPanel.add(sendDeleteButton, BorderLayout.EAST);
         
             messagePanel.add(inputPanel, BorderLayout.SOUTH);
         
@@ -715,6 +719,29 @@ public class Client implements ClientInterface {
                 public void actionPerformed(ActionEvent e) {
                     frame.getContentPane().removeAll();
                     showMainScreen();
+                }
+            });
+
+            deleteMessageButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String message = messageField.getText();
+                    if (message.isEmpty()) {
+                        JOptionPane.showMessageDialog(frame, "Please enter a message.",
+                                "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        writer.println("deleteMessage");
+                        writer.flush();
+                        writer.println(receiver);
+                        writer.flush();
+                        writer.println(username);
+                        writer.flush();
+                        writer.println(message);
+                        writer.flush();
+                        JOptionPane.showMessageDialog(frame,
+                                "Message deleted successfully to " + receiver + ".");
+                        sendMessagetoUser(receiver);
+                    }
                 }
             });
         
