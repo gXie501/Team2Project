@@ -137,6 +137,10 @@ public class ClientHandler implements Runnable, ClientHandlerInterface {
                         writer.println("You have this user blocked.");
                     } else if (receiver.getBlocked().contains(user)) {
                         writer.println("You are not able to send messages to this user.");
+                    } else if (!user.getRestrictMessages() && !user.getFriends().contains(receiver)) {
+                        writer.println("You are not able to send messages to this user.");
+                    } else if (!receiver.getRestrictMessages() && !receiver.getFriends().contains(user)) {
+                        writer.println("You are not able to send messages to this user.");
                     } else {
                         writer.println("User is able to send messages to receiver.");
                     }
